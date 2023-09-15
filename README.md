@@ -1,92 +1,123 @@
 # PlanifyPro_SAE-N5
 
+Thomas Dujardin
+Début : 14/09/2023
+
+## Objectif : 
+A la manière de prendreunrendezvous, de Doctolib ou de nombreux sites de prise de rendez-vous mis en place
+durant la crise COVID-19, l’objectif de ce projet consiste à réaliser un site internet de gestion de rendez-vous multi-
+utilisateurs. Le site doit permettre d’une part de montrer aux utilisateurs les créneaux libres, d’autre part de permettre
+aux utilisateurs de saisir et gérer leurs rendez-vous, et évidemment de n’autoriser des rendez-vous que s’ils respectent
+les contraintes souhaitées pour ce site.
+
+Le site doit donc impérativement s’appuyer sur de nombreux paramètres permettant l’expression de contraintes afin
+de pouvoir être adapté à toutes les situations. Par exemple le planning de réservation des créneaux de piscine (avec la
+contrainte “pas plus de 30 personnes par heure”) ou le planning de réservation de créneaux chez le médecin (avec la
+contrainte “pas plus d’1 personne toutes les 15mn”). C’est un framework général : on ne cherche pas un site qui permet
+de créer plusieurs plannings. Si on souhaite faire deux plannings avec des contraintes différentes (par exemple l’un pour
+la piscine, l’autre pour le médecin), on créera 2 sites WEB en changeant à l’initialisation leurs paramètres.
+Ce projet se fait en binôme.
+
+### Répartitions
+Rdv hebdomadaire : le jeudi 13h30
+1sem) création bdd
+2sem) affichage calendrier avec chaque case cliquable avec un cpt dans chaque case pour commencer
+3sem)Authentification + connexion bdd dao JPA
+4sem) PROFIL 
+5sem) MAIL SECURITÉ
+6sem) RENDU 
+
+## Mise en forme : 
+
+- 2 roles : user et pro (admin)
 
 
-## Getting started
+## Cas d'utilisation :
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- En tant que User je dois pouvoir :
+    - voir un calendrier sur un mois avec les crenaux libres et non disponible
+    - prendre un rdv : pouvoir reserver un creneau sur la plage disponible
+    - modifier un rdv
+    - supprimer un rdv
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Add your files
+- En tant que Pro je dois pouvoir :
+    - créer mon calendrier et y definir des paramètres généraux comme la durée d'un rdv et le nombre de personne acceptés
+    - voir ma journée actuelle avec mes rdv, disponibilité et indisponibilité
+    - créer disponibilité : ouvrir la prise de rdv
+    - supprimer disponibilité : fermer la prise de rdv et annuler ceux déja reservé
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
-```
-cd existing_repo
-git remote add origin https://gitlab.univ-lille.fr/thomas.dujardin2.etu/planifypro_sae-n5.git
-git branch -M main
-git push -uf origin main
-```
 
-## Integrate with your tools
+## Ma démarche : 
+1) Est ce que le pro doit indiquer ses disponibilités (crée a chaque fois des dispo) ou ses non disponibilités (crée uniquement ses empechements)
 
-- [ ] [Set up project integrations](https://gitlab.univ-lille.fr/thomas.dujardin2.etu/planifypro_sae-n5/-/settings/integrations)
+-> j'opte pour qu'il indique ses non dispo car il y aura moins de ligne dans la table il sera rarement absent
 
-## Collaborate with your team
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+1.1) Est ce que il indique l'empechement global avec dateheure debut et fin ou alors pour chaque créneau chaque dateheure (si toute la journée, indique 8h, 8h15, ...., 18h)
 
-## Test and Deploy
+-> j'opte pour qu'il indique la dateheure début et dateheure de fin, la durée d'un rdv sera géré en java avec la variable initial (cf ligne 38)
 
-Use the built-in continuous integration in GitLab.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Les tables sql
 
-***
+- Une table client qui contients les infos des clients
 
-# Editing this README
+- Une table professionnels qui contient les infos du professionnel (malgré qu'il n'y ait que 1 pro, il faut quand meme stocker ses données et ses préferences de rendez-vous (à initialiser quand il va créer son agenda))
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+- Une table indisponibilités qui contient des périodes d'indisponibilités du pro avec la date et heure de début et de fin
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+- Une table reservations qui contient l'id client, l'id Pro, et l'heure et la date
 
-## Name
-Choose a self-explaining name for your project.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Mise en pratique
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Quand client selectionne une journée, affiche en vert les créneaux dispo et en rouge les créneaux non dispo.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Si client reserve sur periode libre, = clique sur du vert, insert into reservations.
+Si il reserve sur période non libre (pro qui a mis une indispo) = impossible de cliquer sur du rouge verifie 
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Voir pour la vérif si il peut reserver, tester à l'affichage de la page (et ensuite en js...) ou a chaque tentative de rdv...
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### MCD
+Table : 
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+    Clients
+        idC (Clé primaire)
+        nomC
+        prenomC
+        mailC
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+    Professionnels
+        idP (Clé primaire)
+        nomP
+        prenomP
+        mailP
+        dureeRDV (en minute)
+        nbPersonne
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+    Indisponibilités
+        idP (Clé étrangère vers Professionnel)
+        debutEmpechement
+        finEmpechement
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+    Réservations
+        idC (Clé étrangère vers Client)
+        idP (Clé étrangère vers Professionnel)
+        jourheure (heure du rendez-vous)
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Relations :
 
-## License
-For open source projects, say how it is licensed.
+    Relation entre Client et Réservation :
+        Un client peut effectuer plusieurs réservations.
+        Un client est lié à une réservation par l'intermédiaire de l'attribut idC.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+    Relation entre Professionnel et Réservation :
+        Un professionnel peut avoir plusieurs réservations.
+        Un professionnel est lié à une réservation par l'intermédiaire de l'attribut idP.
+
+    Relation entre Professionnel et Indisponibilité :
+        Un professionnel peut avoir plusieurs indisponibilités.
+        Une indisponibilité est liée à un professionnel par l'intermédiaire de l'attribut idP.
