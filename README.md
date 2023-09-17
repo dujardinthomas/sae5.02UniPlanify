@@ -20,12 +20,13 @@ Ce projet se fait en binôme.
 
 ### Répartitions
 Rdv hebdomadaire : le jeudi 13h30
-1sem) création bdd
-2sem) affichage calendrier avec chaque case cliquable avec un cpt dans chaque case pour commencer
-3sem)Authentification + connexion bdd dao JPA
-4sem) PROFIL 
-5sem) MAIL SECURITÉ
-6sem) RENDU 
+
+    1sem) création bdd
+    2sem) affichage calendrier avec chaque case cliquable avec un cpt dans chaque case pour commencer
+    3sem)Authentification + connexion bdd dao JPA
+    4sem) PROFIL 
+    5sem) MAIL SECURITÉ
+    6sem) RENDU 
 
 ## Mise en forme : 
 
@@ -54,26 +55,79 @@ Rdv hebdomadaire : le jeudi 13h30
 
 -> j'opte pour qu'il indique ses non dispo car il y aura moins de ligne dans la table il sera rarement absent
 
+Mettre par defaut disponible, le pro va indiquer ses indisponibilité, si prise de rdv regarde dans table indispo si n'existe pas
+
 
 1.1) Est ce que il indique l'empechement global avec dateheure debut et fin ou alors pour chaque créneau chaque dateheure (si toute la journée, indique 8h, 8h15, ...., 18h)
 
 -> j'opte pour qu'il indique la dateheure début et dateheure de fin, la durée d'un rdv sera géré en java avec la variable initial (cf ligne 38)
 
 
-### Les tables sql
 
-- Une table client qui contients les infos des clients
+### MCD
 
-- Une table professionnels qui contient les infos du professionnel (malgré qu'il n'y ait que 1 pro, il faut quand meme stocker ses données et ses préferences de rendez-vous (à initialiser quand il va créer son agenda))
 
-- Une table indisponibilités qui contient des périodes d'indisponibilités du pro avec la date et heure de début et de fin
+Légende :
+    #CléPrimaire
+    [CléEtrangère]
 
-- Une table reservations qui contient l'id client, l'id Pro, et l'heure et la date
+
+Table : 
+
+    Clients
+        #idC
+        nomC
+        prenomC
+        mailC
+    
+    0,n
+    Reserve
+    1,1
+
+    Rendez-vous
+        #jour
+        #heure
+        duree
+        status
+   
+    Indisponibilités
+        #debutJour
+        #debutHeure
+        #finJour
+        #finHeure
+
+
+
+### MLD
+
+    Client(#idC, nomC, prenomC, mailC);
+
+    rdv(#jour, #heure, idR, duree, nbPersonneMax, status);
+
+    rdvClient(#idR, #[idC]);
+    
+    Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
+
+
+
+Many-to-many (rendez-vous_client) : Possibilité de prendre un rdv de seul à nbPersonneMax
 
 
 ### Mise en pratique
 
-Quand client selectionne une journée, affiche en vert les créneaux dispo et en rouge les créneaux non dispo.
+Init : 
+new calendrier(durée, nbPersonneMax);
+A chaque insert de rdv, insert durée et nbPersonneMax
+
+
+Quand user selectionne une journée : 
+    - affiche en vert les créneaux dispo  (par défaut)
+    - en rouge les créneaux indispo (si select debutHeure from Indispo where debutJour = now())
+    - en gris les rdv reservés (si select * from rendez-vous where jour = now())
+
+    
+Quand pro selectionne sa journée : 
+    - Lister tous les rdv du jour (select * from Rendez-vous where jour=now())
 
 Si client reserve sur periode libre, = clique sur du vert, insert into reservations.
 Si il reserve sur période non libre (pro qui a mis une indispo) = impossible de cliquer sur du rouge verifie 
@@ -81,43 +135,6 @@ Si il reserve sur période non libre (pro qui a mis une indispo) = impossible de
 Voir pour la vérif si il peut reserver, tester à l'affichage de la page (et ensuite en js...) ou a chaque tentative de rdv...
 
 
-### MCD
-Table : 
-
-    Clients
-        idC (Clé primaire)
-        nomC
-        prenomC
-        mailC
-
-    Professionnels
-        idP (Clé primaire)
-        nomP
-        prenomP
-        mailP
-        dureeRDV (en minute)
-        nbPersonne
-
-    Indisponibilités
-        idP (Clé étrangère vers Professionnel)
-        debutEmpechement
-        finEmpechement
-
-    Réservations
-        idC (Clé étrangère vers Client)
-        idP (Clé étrangère vers Professionnel)
-        jourheure (heure du rendez-vous)
-
-Relations :
-
-    Relation entre Client et Réservation :
-        Un client peut effectuer plusieurs réservations.
-        Un client est lié à une réservation par l'intermédiaire de l'attribut idC.
-
-    Relation entre Professionnel et Réservation :
-        Un professionnel peut avoir plusieurs réservations.
-        Un professionnel est lié à une réservation par l'intermédiaire de l'attribut idP.
-
-    Relation entre Professionnel et Indisponibilité :
-        Un professionnel peut avoir plusieurs indisponibilités.
-        Une indisponibilité est liée à un professionnel par l'intermédiaire de l'attribut idP.
+quand prise de rdv,
+1) insert rdv avec date choisit
+2) insert rdvclient avec idC et date choisit

@@ -1,71 +1,88 @@
-DROP TABLE IF EXISTS reservations;
-DROP TABLE IF EXISTS indisponibilites;
-DROP TABLE IF EXISTS professionnels;
-DROP TABLE IF EXISTS clients;
+DROP TABLE IF EXISTS rdvClient;
+DROP TABLE IF EXISTS rdv;
+DROP TABLE IF EXISTS indisponibilite;
+DROP TABLE IF EXISTS client;
 
-CREATE TABLE clients (
+CREATE TABLE client (
     idC INTEGER,
     nomC text,
     prenomC text,
     mailC text,
-    CONSTRAINT pk_clients PRIMARY KEY (idC)
+    CONSTRAINT pk_client PRIMARY KEY (idC)
 );
 
---table pour y inclure tout les pros: voir si utile comme il y en a que 1
-CREATE TABLE professionnels(
-    idP INTEGER,
-    nomP text,
-    prenomP text,
-    mailP text,
-    --Paramètres Généraux pour les RDV--
-    dureeRDV INTEGER, --en minute (conversion a faire en java pour simplicité du pro)
-    nbPersonne INTEGER,
-    CONSTRAINT pk_professionnels PRIMARY KEY (idP)
-);
+CREATE TABLE rdv(
+    jour date,
+    heure time,
+    duree INTEGER,
+    nbPersonneMax INTEGER,
+    etat varchar(30),
+    CONSTRAINT pk_rdv PRIMARY KEY (jour, heure)
+); 
 
-CREATE TABLE indisponibilites(
-    idP INTEGER,
-    debutEmpechement timestamp,
-    finEmpechement timestamp,
-    CONSTRAINT pk_indisponibilites PRIMARY KEY (idP, debutEmpechement, finEmpechement),
-    CONSTRAINT fk_indisponibilites FOREIGN KEY (idP) REFERENCES professionnels(idP)
-);
-
-CREATE TABLE reservations(
+CREATE TABLE rdvClient(
+    jour date,
+    heure time,
     idC INTEGER,
-    idP INTEGER,
-    jourheure TIMESTAMP,
-    CONSTRAINT pk_reservations PRIMARY KEY (idC, idP, jourheure),
-    CONSTRAINT fk_reservationsC FOREIGN KEY (idC) REFERENCES clients(idC),
-    CONSTRAINT fk_reservationsP FOREIGN KEY (idP) REFERENCES professionnels(idP)
+    CONSTRAINT pk_rdvClient PRIMARY KEY (jour, heure, idC),
+    CONSTRAINT fk_rdvClientJOur FOREIGN KEY (jour, heure) REFERENCES rdv(jour, heure),
+    CONSTRAINT fk_rdvClientclient FOREIGN KEY (idC) REFERENCES client(idC)
 );
 
---Un client
-INSERT INTO clients values (1, 'DUJARDIN', 'Thomas', 'thomas.dujardin2.etu@univ-lille.fr');
+--table externe mais qui sera utilisé avant d'insert un rdv
+CREATE TABLE indisponibilite(
+    debutJour date,
+    debutHeure time,
+    finJour date,
+    finHeure time, 
+    CONSTRAINT pk_indisponibilite PRIMARY KEY (debutJour, debutHeure, finJour, finHeure)
+);
 
--- --Un professionnel
-INSERT INTO professionnels VALUES (1, 'CARISSIMO', 'Patrice', 'patrice.carissimo@gmail.com');
 
--- --Les non disponibilités (indisponibilites) du professionel 1 non dispo de 8h à 10h
-INSERT INTO indisponibilites VALUES (1, '2023-12-15 08:00:00', '2023-12-15 10:00:00');
 
--- --Le client 1 reserve avec le professionnel 1 à 11h
-INSERT INTO reservations VALUES (1, 1, '2023-12-15 11:00:00');
 
--- --Le client 1 veut reserver alors que le professionnel 1 n'est pas disponible
--- BEGIN
---     IF NOT EXISTS (
---         SELECT 1
---         FROM indisponibilites e
---         WHERE e.idP = 1
---         AND e.debutEmpechement <= '2023-12-15 09:00:00'
---         AND e.finEmpechement > '2023-12-15 09:00:00'
---     ) THEN
---         -- Le créneau est disponible, insérer la réservation
---         INSERT INTO reservations (
---         VALUES (1, 1, '2023-12-15 09:00:00');
---     ELSE
---         -- Le créneau est indisponible, renvoyer un message d'erreur
---         RAISE EXCEPTION 'Créneau indisponible pour la réservation.';
---     END IF;
--- END;
+--des client
+INSERT INTO client values (1, 'DUJARDIN', 'Thomas', 'thomas.dujardin2.etu@univ-lille.fr');
+INSERT INTO client values (2, 'NOM2', 'PRENOM2', 'nom2.prenom2.etu@univ-lille.fr');
+
+
+--des rdv
+INSERT INTO rdv VALUES ('2023-12-15', '10:00:00', 15, 1, 'reservé');
+INSERT INTO rdv VALUES ('2023-12-15', '16:00:00', 15, 1, 'reservé');
+
+
+--Association du client 1 et 2 au rendez vous de 10h
+INSERT INTO rdvClient VALUES ('2023-12-15', '10:00:00', 1);
+INSERT INTO rdvClient VALUES ('2023-12-15', '10:00:00', 2);
+
+
+-- --Les non disponibilités (indisponibilites) du professionel non dispo de 8h à 10h
+INSERT INTO indisponibilite VALUES ('2023-12-12', '10:00:00', '2023-12-11', '11:00:00');
+INSERT INTO indisponibilite VALUES ('2023-12-13', '08:00:00', '2023-12-13', '10:00:00');
+
+
+
+
+-- DROP TABLE IF EXISTS semaineTypeTravaille;
+-- DROP TYPE IF EXISTS semaine;
+
+-- --POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
+-- CREATE TYPE semaine AS ENUM (
+--     'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
+-- );
+
+-- CREATE TABLE semaineTypeTravaille(
+--     jour Semaine,
+--     heureDebut time,
+--     heureFin time
+-- );
+
+-- --FAIT DANS ESPACE PRO 
+-- INSERT INTO semaineTypeTravaille VALUES 
+-- ('Lundi', '08:00:00', '18:00:00'),
+-- ('Mardi', '08:00:00', '18:00:00'),
+-- ('Mercredi', '08:00:00', '18:00:00'),
+-- ('Jeudi', '08:00:00', '18:00:00'),
+-- ('Vendredi', '08:00:00', '18:00:00'),
+-- ('Samedi', '08:00:00', '18:00:00'),
+-- ('Dimanche', '00:00:00', '00:00:00');
