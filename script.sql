@@ -3,6 +3,9 @@ DROP TABLE IF EXISTS rdv;
 DROP TABLE IF EXISTS indisponibilite;
 DROP TABLE IF EXISTS client;
 
+DROP TABLE IF EXISTS semaineType;
+DROP TYPE IF EXISTS semaineDay;
+
 CREATE TABLE client (
     idC INTEGER,
     nomC text,
@@ -25,7 +28,7 @@ CREATE TABLE rdvClient(
     heure time,
     idC INTEGER,
     CONSTRAINT pk_rdvClient PRIMARY KEY (jour, heure, idC),
-    CONSTRAINT fk_rdvClientJOur FOREIGN KEY (jour, heure) REFERENCES rdv(jour, heure),
+    CONSTRAINT fk_rdvClientJour FOREIGN KEY (jour, heure) REFERENCES rdv(jour, heure),
     CONSTRAINT fk_rdvClientclient FOREIGN KEY (idC) REFERENCES client(idC)
 );
 
@@ -37,6 +40,34 @@ CREATE TABLE indisponibilite(
     finHeure time, 
     CONSTRAINT pk_indisponibilite PRIMARY KEY (debutJour, debutHeure, finJour, finHeure)
 );
+
+
+
+--POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
+CREATE TYPE semaineDay AS ENUM (
+    'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
+);
+
+
+CREATE TABLE semaineType(
+    jourSemaine semaineDay,
+    heureDebut time,
+    heureFin time,
+    CONSTRAINT pk_semaineType PRIMARY KEY (jourSemaine)
+);
+
+
+--EXEMPLE D'INSERTION
+
+--semaineType du pro
+INSERT INTO semaineType values 
+('Lundi', '08:00:00', '18:00:00'),
+('Mardi', '08:00:00', '18:00:00'),
+('Mercredi', '08:00:00', '18:00:00'),
+('Jeudi', '08:00:00', '18:00:00'),
+('Vendredi', '08:00:00', '18:00:00'),
+('Samedi', '08:00:00', '18:00:00'),
+('Dimanche', '00:00:00', '00:00:00');
 
 
 
@@ -63,19 +94,8 @@ INSERT INTO indisponibilite VALUES ('2023-12-13', '08:00:00', '2023-12-13', '10:
 
 
 
--- DROP TABLE IF EXISTS semaineTypeTravaille;
--- DROP TYPE IF EXISTS semaine;
 
--- --POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
--- CREATE TYPE semaine AS ENUM (
---     'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
--- );
 
--- CREATE TABLE semaineTypeTravaille(
---     jour Semaine,
---     heureDebut time,
---     heureFin time
--- );
 
 -- --FAIT DANS ESPACE PRO 
 -- INSERT INTO semaineTypeTravaille VALUES 

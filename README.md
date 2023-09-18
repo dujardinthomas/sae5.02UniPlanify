@@ -82,13 +82,15 @@ Table :
     
     0,n
     Reserve
-    1,1
+    1,n
 
     Rendez-vous
         #jour
         #heure
         duree
-        status
+        nbPersonneMax
+        etat
+
    
     Indisponibilités
         #debutJour
@@ -97,20 +99,32 @@ Table :
         #finHeure
 
 
+    SemaineType
+        #jourSemaine
+        heureDebut
+        heureFin
+
+
 
 ### MLD
 
     Client(#idC, nomC, prenomC, mailC);
 
-    rdv(#jour, #heure, idR, duree, nbPersonneMax, status);
+    rdv(#jour, #heure, duree, nbPersonneMax, etat);
 
-    rdvClient(#idR, #[idC]);
+    rdvClient([#jour], [#heure] [idC]);
     
     Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
 
+    SemaineType(#jourSemaine, heureDebut, heureFin);
 
 
-Many-to-many (rendez-vous_client) : Possibilité de prendre un rdv de seul à nbPersonneMax
+
+
+Many-to-many (rdvClient) : Possibilité de prendre un rdv avec autant de personne que l'on veut (limite de nbPersonneMax en java)
+
+on identifie un rdv avec son jour et son heure (difficile de mettre un num car faut pas 2 fois le même crénau)
+on definie une semaine type du pro par défaut (ouvert tout les lundi de 8h à 18h)
 
 
 ### Mise en pratique
@@ -121,7 +135,7 @@ A chaque insert de rdv, insert durée et nbPersonneMax
 
 
 Quand user selectionne une journée : 
-    - affiche en vert les créneaux dispo  (par défaut)
+    - affiche en vert les créneaux dispo  (select * from semaineType where jourSemaine = now())
     - en rouge les créneaux indispo (si select debutHeure from Indispo where debutJour = now())
     - en gris les rdv reservés (si select * from rendez-vous where jour = now())
 
