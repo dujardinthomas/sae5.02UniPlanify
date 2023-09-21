@@ -108,7 +108,7 @@ Table :
 
 ### MLD
 
-    Client(#idC, nomC, prenomC, mailC);
+    Client(#idC, nomC, prenomC, mailC, password);
 
     rdv(#jour, #heure, duree, nbPersonneMax, etat);
 
@@ -116,7 +116,7 @@ Table :
     
     Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
 
-    SemaineType(#jourSemaine, heureDebut, heureFin);
+    SemaineTypePro(#jourSemaine, heureDebut, heureFin);
 
 
 
