@@ -1,0 +1,8 @@
+{
+    "java.project.outputPath": "WEB-INF/classes",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "../../lib/postgresql-42.6.0.jar",
+        "../../lib/servlet-api.jar"
+    ]
+}
