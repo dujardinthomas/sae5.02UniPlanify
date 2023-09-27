@@ -3,6 +3,11 @@
 Thomas Dujardin
 Début : 14/09/2023
 
+## Utilisation sur Tomcat 10 (jakarta)
+- récuperer *UniPlanify* et le mettre dans le dossier *webapps* de tomcat
+- Verifier présence de la librairie *postgresql-42.6.0.jar* dans dossier *tomcat/lib*
+- Copier le fichier ***WEB-INF/CopyENweb.xml*** en ***WEB-INF/web.xml*** avec les infos de connexion psql
+
 ## Objectif : 
 A la manière de prendreunrendezvous, de Doctolib ou de nombreux sites de prise de rendez-vous mis en place
 durant la crise COVID-19, l’objectif de ce projet consiste à réaliser un site internet de gestion de rendez-vous multi-
