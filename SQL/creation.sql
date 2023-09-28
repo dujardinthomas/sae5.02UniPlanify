@@ -8,13 +8,17 @@ DROP TABLE IF EXISTS semaineTypePro;
 DROP TYPE IF EXISTS semaineDay;
 
 CREATE TABLE client (
-    idC INTEGER,
+    idC SERIAL PRIMARY KEY,
     nomC varchar(200),
     prenomC varchar(200),
     mailC varchar(200),
     password varchar(200),
-    CONSTRAINT pk_client PRIMARY KEY (idC)
+    pro BOOLEAN DEFAULT false
 );
+
+INSERT INTO client (nomC, prenomC, mailC, password, pro) VALUES ('DUJARDIN', 'Veronique', 'contact@dujardin-neurofeedback-dynamique.fr', 'vero', true);
+INSERT INTO client (nomC, prenomC, mailC, password) VALUES ('DUJARDIN', 'Thomas', 'thomas.dujardin2.etu@univ-lille.fr', 'toto');
+
 
 CREATE TABLE rdv(
     jour date,
@@ -31,7 +35,7 @@ CREATE TABLE rdvClient(
     idC INTEGER,
     CONSTRAINT pk_rdvClient PRIMARY KEY (jour, heure, idC),
     CONSTRAINT fk_rdvClientJour FOREIGN KEY (jour, heure) REFERENCES rdv(jour, heure),
-    CONSTRAINT fk_rdvClientclient FOREIGN KEY (idC) REFERENCES client(idC)
+    CONSTRAINT fk_rdvClientClient FOREIGN KEY (idC) REFERENCES client(idC)
 );
 
 --table externe mais qui sera utilisé avant d'insert un rdv
@@ -57,3 +61,4 @@ CREATE TABLE semaineTypePro(
     heureFin time,
     CONSTRAINT pk_semaineType PRIMARY KEY (jourSemaine)
 );
+

@@ -6,14 +6,16 @@ public class Client {
     String prenomC;
     String mailC;
     String password;
+    Boolean pro;
 
 
-    public Client(String idC, String nomC, String prenomC, String mailC, String password) {
+    public Client(String idC, String nomC, String prenomC, String mailC, String password, boolean pro) {
         this.idC = idC;
         this.nomC = nomC;
         this.prenomC = prenomC;
         this.mailC = mailC;
         this.password = password;
+        this.pro = pro;
     }
 
 
@@ -65,6 +67,18 @@ public class Client {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    public Boolean getPro() {
+        return pro;
+    }
+
+
+    public void setPro(Boolean pro) {
+        this.pro = pro;
+    }
+
+    
 
 
 }

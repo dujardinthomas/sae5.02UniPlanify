@@ -52,10 +52,21 @@ public class Login extends HttpServlet {
                         rs.getString("nomC"),
                         rs.getString("prenomC"),
                         rs.getString("mailC"),
-                        rs.getString("password"));
+                        rs.getString("password"),
+                        rs.getBoolean("pro"));
+
+                System.out.println(c.getPro());
                 HttpSession session = req.getSession(true);
                 session.setAttribute("client", c);
-                res.sendRedirect("Calendrier");
+
+                if(c.getPro() == true){
+                    //C'EST UN PRO
+                    res.sendRedirect("Pro");
+                }else{
+                    res.sendRedirect("Calendrier");
+                }
+
+                
             } else {
                 out.println(
                         "<h1>utilisateur non reconnu !</h1> <br><h2>Assurez vous d'avoir entrer correctement vos informations de connexions !</h2>");

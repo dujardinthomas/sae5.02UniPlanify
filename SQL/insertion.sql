@@ -8,13 +8,14 @@ DROP TABLE IF EXISTS semaineTypePro;
 DROP TYPE IF EXISTS semaineDay;
 
 CREATE TABLE client (
-    idC INTEGER,
+    idC SERIAL PRIMARY KEY,
     nomC varchar(200),
     prenomC varchar(200),
     mailC varchar(200),
     password varchar(200),
-    CONSTRAINT pk_client PRIMARY KEY (idC)
+    pro BOOLEAN DEFAULT false
 );
+
 
 CREATE TABLE rdv(
     jour date,
@@ -31,7 +32,7 @@ CREATE TABLE rdvClient(
     idC INTEGER,
     CONSTRAINT pk_rdvClient PRIMARY KEY (jour, heure, idC),
     CONSTRAINT fk_rdvClientJour FOREIGN KEY (jour, heure) REFERENCES rdv(jour, heure),
-    CONSTRAINT fk_rdvClientclient FOREIGN KEY (idC) REFERENCES client(idC)
+    CONSTRAINT fk_rdvClientClient FOREIGN KEY (idC) REFERENCES client(idC)
 );
 
 --table externe mais qui sera utilisé avant d'insert un rdv
@@ -42,6 +43,7 @@ CREATE TABLE indisponibilite(
     finHeure time, 
     CONSTRAINT pk_indisponibilite PRIMARY KEY (debutJour, debutHeure, finJour, finHeure)
 );
+
 
 
 --POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
@@ -72,10 +74,15 @@ INSERT INTO semaineTypePro values
 
 
 --des client
-INSERT INTO client (idC, nomC, prenomC, mailC, password) 
-VALUES (1, 'DUJARDIN', 'Thomas', 'thomas.dujardin2.etu@univ-lille.fr', 'thomas');
-INSERT INTO client VALUES (2, 'NOM2', 'PRENOM2', 'nom3.prenom3.etu@univ-lille.fr', 'prenom2');
-INSERT INTO client VALUES (3, 'NOM3', 'PRENOM3', 'nom3.prenom3.etu@univ-lille.fr', 'prenom3');
+INSERT INTO client (nomC, prenomC, mailC, password, pro) VALUES ('DUJARDIN', 'Veronique', 'contact@dujardin-neurofeedback-dynamique.fr', 'vero', true);
+INSERT INTO client (nomC, prenomC, mailC, password) VALUES ('DUJARDIN', 'Thomas', 'thomas.dujardin2.etu@univ-lille.fr', 'toto');
+INSERT INTO client (nomC, prenomC, mailC, password) VALUES ('NOM2', 'Prenom2', 'thomas.dujardin2.etu@univ-lille.fr', 'prenom2');
+INSERT INTO client (nomC, prenomC, mailC, password) VALUES ('NOM3', 'Prenom3', 'prenom3.nom3.etu@univ-lille.fr', 'prenom3');
+INSERT INTO client (nomC, prenomC, mailC, password) VALUES ('NOM4', 'Prenom4', 'prenom4.nom4.etu@univ-lille.fr', 'prenom4');
+
+
+
+
 
 
 --des rdv
@@ -88,10 +95,10 @@ INSERT INTO rdv VALUES ('2023-09-22', '16:00:00', 15, 1, 'reservé');
 
 --Association du client 1 et 2 au rendez vous de 10h
 INSERT INTO rdvClient (jour, heure, idC)
-VALUES ('2023-12-15', '09:00:00', 1);
-INSERT INTO rdvClient VALUES ('2023-12-15', '10:00:00', 2);
-INSERT INTO rdvClient VALUES ('2023-12-15', '16:00:00', 3);
-INSERT INTO rdvClient VALUES ('2023-09-22', '16:00:00', 1);
+VALUES ('2023-12-15', '09:00:00', 2);
+INSERT INTO rdvClient VALUES ('2023-12-15', '10:00:00', 3);
+INSERT INTO rdvClient VALUES ('2023-12-15', '16:00:00', 4);
+INSERT INTO rdvClient VALUES ('2023-09-22', '16:00:00', 5);
 
 
 -- --Les non disponibilités (indisponibilites) du professionel non dispo de 8h à 10h
@@ -107,6 +114,7 @@ INSERT INTO indisponibilite VALUES ('2023-12-13', '08:00:00', '2023-12-13', '10:
 SELECT
   rdv.heure,
   client.nomC,
+  client.prenomC,
   rdv.etat
 FROM
   rdv
@@ -119,6 +127,6 @@ AND
 INNER JOIN
   client
 ON
-  rdvClient.idC = client.idC
-WHERE
-  rdv.jour = DATE( NOW());
+  rdvClient.idC = client.idC;
+-- WHERE
+--   rdv.jour = DATE( NOW());
