@@ -21,20 +21,22 @@ public class Pro extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-
-        //  // Authentifie
+        // // Authentifie
         // HttpSession session = req.getSession(true);
         // c = (Client) session.getAttribute("client");
         // if (c == null || c.getPro() == false) {
-        //     res.sendRedirect("Deconnect");
+        // res.sendRedirect("Deconnect");
         // }
-
 
         PrintWriter out = res.getWriter();
         res.setContentType("text/html;");
-        out.println( "<head><title>Espace Pro</title>" );
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Espace Pro</title>");
+        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
+        out.println("</head>");
+        out.println("<body>");
         out.println("<center>");
-        out.println( "<h1>Calendrier</h1>" );
 
         Connection con = null;
         try {
@@ -49,32 +51,8 @@ public class Pro extends HttpServlet {
         }
 
         try {
-            Statement stmt = con.createStatement();
-            String query = "select * from rdv";
-            ResultSet rs = stmt.executeQuery(query);
-            out.println("<table>");
-            while (rs.next()) {
-                out.println("<tr>");
-                out.println("<td>");
-                out.println(rs.getObject("jour"));
-                out.println(rs.getObject("heure"));
-                out.println(rs.getInt("duree"));
-                out.println(rs.getString("nbPersonneMax"));
-                out.println(rs.getString("etat"));
-                out.println("</td>");
-                out.println("</tr>");
-            }
-            out.println("</table>");
-        } catch (Exception e) {
-            // TODO: handle exception
-            System.out.println("erreur de requete sql");
-        }
-
-
-
-        try {
             out.println("<h1> Mes rendez vous du jour</h1>");
-            Statement stmt1 = con.createStatement();
+            Statement stmt = con.createStatement();
             String rdvToday = "SELECT\n" + //
                     "  rdv.heure,\n" + //
                     "  client.nomC,\n" + //
@@ -90,10 +68,9 @@ public class Pro extends HttpServlet {
                     "INNER JOIN\n" + //
                     "  client\n" + //
                     "ON\n" + //
-                   "  rdvClient.idC = client.idC\n" + //
+                    "  rdvClient.idC = client.idC\n" + //
                     "WHERE\n" + //
                     "  rdv.jour = DATE( NOW());";
-
 
             String rdvAll = "SELECT\n" + //
                     "  rdv.jour,\n" + //
@@ -114,19 +91,23 @@ public class Pro extends HttpServlet {
                     "ON\n" + //
                     "  rdvClient.idC = client.idC;";
 
-                    System.out.println(rdvAll);
-
-            ResultSet rs1 = stmt1.executeQuery(rdvAll);
+            ResultSet rs = stmt.executeQuery(rdvAll);
             out.println("<table>");
-            while (rs1.next()) {
                 out.println("<tr>");
-                out.println("<td>");
-                out.println(rs1.getObject("jour"));
-                out.println(rs1.getObject("heure"));
-                out.println(rs1.getObject("nomC"));
-                out.println(rs1.getObject("prenomC"));
-                out.println(rs1.getObject("etat"));
-                out.println("</td>");
+                    out.println("<td>Jour</td>");
+                    out.println("<td>Heure</td>");
+                    out.println("<td>Nom</td>");
+                    out.println("<td>Preom</td>");
+                    out.println("<td>Etat du RDV</td>");
+                out.println("</tr>");
+
+            while (rs.next()) {
+                out.println("<tr>");
+                    out.println("<td>" + rs.getObject("jour") + "</td>");
+                    out.println("<td>" + rs.getObject("heure") + "</td>");
+                    out.println("<td>" + rs.getObject("nomC") + "</td>");
+                    out.println("<td>" + rs.getObject("prenomC") + "</td>");
+                    out.println("<td>" + rs.getObject("etat") + "</td>");
                 out.println("</tr>");
             }
             out.println("</table>");
@@ -135,6 +116,9 @@ public class Pro extends HttpServlet {
             System.out.println("erreur de requete sql");
         }
 
+        out.println("</center>");
+        out.println("</body>");
+        out.println("</html>");
     }
 
 }

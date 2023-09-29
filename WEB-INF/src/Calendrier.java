@@ -16,7 +16,8 @@ public class Calendrier extends HttpServlet {
     int year;
     int month;
 
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
 
         // // VERIFIE AUTENFIFIE
         // HttpSession session = req.getSession(true);
@@ -107,14 +108,12 @@ public class Calendrier extends HttpServlet {
             // Ajouter une cellule pour le jour courant
             calendarHTML.append("<td><div class=\"cellule\">");
 
-            if()
-
             calendarHTML.append("<div class=\"numeroJour\">");
             calendarHTML.append(day);
             calendarHTML.append("</div>");
 
             calendarHTML.append("<div class=\"rdv\">");
-            calendarHTML.append("rdv" +);
+            calendarHTML.append("rdv");
             calendarHTML.append("</div>");
             calendarHTML.append("</div></td>");
 
