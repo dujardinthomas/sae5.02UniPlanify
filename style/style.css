@@ -1,12 +1,57 @@
-table, th, td {
-    border: 1px solid;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.calendar {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid #ccc;
+    padding: 0px;
+    text-align: center;
 }
 
 .cellule{
+    background-color: #a25e5e;
+    padding: 10px;
+}
+
+.dayNumber {
+    padding: 10px;
+    font-weight: bold;
+}
+
+.event {
+    /* Personnalisez le style de votre texte centré ici */
+    padding: 10px;
+}
+
+
+.settingsCalendar{
+    position: fixed;
+    bottom: 30;
+    background-color: #a25e5e;
+    width: 90%;
+    text-align: center;
+    padding: 10px;
 
 }
 
-.numeroJour{
 
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
 }
+
+
 

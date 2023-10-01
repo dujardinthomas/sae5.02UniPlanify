@@ -29,10 +29,10 @@ public class Pro extends HttpServlet {
         // }
 
         PrintWriter out = res.getWriter();
-        res.setContentType("text/html;");
+        res.setContentType("text/html; charset=UTF-8");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>Espace Pro</title>");
+        out.println("<meta charset=\"UTF-8\"><title>Espace Pro</title>");
         out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
         out.println("</head>");
         out.println("<body>");
@@ -118,6 +118,7 @@ public class Pro extends HttpServlet {
 
         out.println("</center>");
         out.println("</body>");
+        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
         out.println("</html>");
     }
 

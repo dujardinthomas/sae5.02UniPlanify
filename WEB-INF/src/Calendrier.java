@@ -6,7 +6,9 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import Login.Client;
 
@@ -14,7 +16,7 @@ import Login.Client;
 public class Calendrier extends HttpServlet {
 
     int year;
-    int month;
+    int month; 
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -26,7 +28,29 @@ public class Calendrier extends HttpServlet {
         // res.sendRedirect("Deconnect");
         // }
 
-        res.setContentType("text/html");
+
+        HttpSession session = req.getSession(true);
+        Map<String, Integer> counters = (Map<String, Integer>) session.getAttribute("counters");
+
+        if (counters == null) {
+            counters = new HashMap<>();
+            session.setAttribute("counters", counters);
+        }
+
+
+        String day = req.getParameter("day");
+        if (day != null) {
+            Integer counter = counters.get(day);
+            if (counter == null) {
+                counter = 1;
+            } else {
+                counter++;
+            }
+            counters.put(day, counter);
+        }
+
+
+        res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
 
         LocalDate dateActuelle = LocalDate.now();
@@ -39,11 +63,11 @@ public class Calendrier extends HttpServlet {
             month = dateActuelle.getMonthValue();
         }
 
-        String calendarHTML = generateCalendarManuel(year, month);
+        String calendarHTML = generateCalendarManuel(year, month, counters);
 
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>Calendrier</title>");
+        out.println("<meta charset=\"UTF-8\"><title>Calendrier</title>");
         out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
         out.println("</head>");
         out.println("<body>");
@@ -65,16 +89,21 @@ public class Calendrier extends HttpServlet {
             nextYear++;
         }
 
-        out.println("<a href=\"?year=" + previousYear + "&month=" + (previousMonth) + "\">Mois précedent</a>");
-        out.println("<a href=\"?year=" + dateActuelle.getYear() + "&month=" + (dateActuelle.getMonth().getValue()) + "\">Aujourd'hui</a>");
-        out.println("<a href=\"?year=" + nextYear + "&month=" + (nextMonth) + "\">Mois suivant</a>");
+
+        out.println("<div class=\"settingsCalendar\">");
+        out.println("<a href=\"?year=" + previousYear + "&month=" + previousMonth + "\">Mois précedent</a>");
+        out.println("<a href=\"?year=" + dateActuelle.getYear() + "&month=" + dateActuelle.getMonth().getValue() + "\">Aujourd'hui</a>");
+        out.println("<a href=\"?year=" + nextYear + "&month=" + nextMonth + "\">Mois suivant</a>");
+        out.println("</div>");
         out.println("</body>");
+
+        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
         out.println("</html>");
     }
 
 
-
-    private String generateCalendarManuel(int year, int month) {
+ 
+    private String generateCalendarManuel(int year, int month, Map<String, Integer> counters) {
 
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
         int daysInMonth = firstDayOfMonth.lengthOfMonth();
@@ -82,7 +111,7 @@ public class Calendrier extends HttpServlet {
         String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.getDefault());
 
         StringBuilder calendarHTML = new StringBuilder();
-        calendarHTML.append("<table>");
+        calendarHTML.append("<table class=\"calendar\">");
         calendarHTML.append("<h1>" + monthName + " " + year + "</h1>");
         // Ajouter l'en-tête du calendrier avec les jours de la semaine
         calendarHTML.append("<tr>");
@@ -108,12 +137,16 @@ public class Calendrier extends HttpServlet {
             // Ajouter une cellule pour le jour courant
             calendarHTML.append("<td><div class=\"cellule\">");
 
-            calendarHTML.append("<div class=\"numeroJour\">");
+            calendarHTML.append("<div class=\"dayNumber\">");
             calendarHTML.append(day);
             calendarHTML.append("</div>");
 
-            calendarHTML.append("<div class=\"rdv\">");
-            calendarHTML.append("rdv");
+            String dayStr = String.valueOf(day);
+            Integer counter = counters.get(dayStr);
+            counter = (counter == null) ? 0 : counter;
+
+            calendarHTML.append("<div class=\"event\">");
+            calendarHTML.append("<a href=\"?year=" + year + "&month=" + month + "&day=").append(dayStr).append("\">" + counter +"</a>");
             calendarHTML.append("</div>");
             calendarHTML.append("</div></td>");
 
