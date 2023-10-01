@@ -29,12 +29,14 @@ public class Calendrier extends HttpServlet {
         // }
 
 
+        String nameSession = "counters" + year + month; 
+
         HttpSession session = req.getSession(true);
-        Map<String, Integer> counters = (Map<String, Integer>) session.getAttribute("counters");
+        Map<String, Integer> counters = (Map<String, Integer>) session.getAttribute(nameSession);
 
         if (counters == null) {
             counters = new HashMap<>();
-            session.setAttribute("counters", counters);
+            session.setAttribute(nameSession, counters);
         }
 
 

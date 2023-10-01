@@ -19,6 +19,15 @@ public class Client {
     }
 
 
+    public Client(String nomC, String prenomC, String mailC, String password, boolean pro) {
+        this.nomC = nomC;
+        this.prenomC = prenomC;
+        this.mailC = mailC;
+        this.password = password;
+        this.pro = pro;
+    }
+
+
     public String getIdC() {
         return idC;
     }
