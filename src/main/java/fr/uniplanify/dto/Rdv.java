@@ -2,7 +2,7 @@ package fr.uniplanify.dto;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Rdv {
     Date jour;
@@ -10,9 +10,9 @@ public class Rdv {
     int duree;
     int nbPersonneMax;
     char etat;
-    ArrayList<Client> clients;
+    List<Client> clients;
 
-    public Rdv(Date jour, Time heure, int duree, int nbPersonneMax, char etat, ArrayList<Client> clients) {
+    public Rdv(Date jour, Time heure, int duree, int nbPersonneMax, char etat, List<Client> clients) {
         this.jour = jour;
         this.heure = heure;
         this.duree = duree;
@@ -61,11 +61,11 @@ public class Rdv {
         this.etat = etat;
     }
 
-    public ArrayList<Client> getClients() {
+    public List<Client> getClients() {
         return clients;
     }
 
-    public void setClients(ArrayList<Client> clients) {
+    public void setClients(List<Client> clients) {
         this.clients = clients;
     }
 

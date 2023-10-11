@@ -15,7 +15,7 @@ public class RdvDAO {
     private DS ds = new DS();
 	private Connection con;
 
-
+	RdvClientDAO rdvClient = new RdvClientDAO();
 
 	private Rdv getRDVByDateAndHeure(Date date, Time heure) throws SQLException{
 		Rdv rdv = null;
@@ -24,13 +24,14 @@ public class RdvDAO {
 		String query = "select * from rdv where date=" + date + " and heure =" + heure;
 		ResultSet rs = stmt.executeQuery(query);
 		if(rs.next()){
-			int duree = rs.getInt("duree")
+			int duree = rs.getInt("duree");
 			String pate = rs.getString("pate");
-			double prixBaseP = rs.getDouble("prixBaseP");
-			rdv = new Rdv(date, heure, pate, prixBaseP, pizza_ingrDAO.getAllPizzaIngredient(idP));
+			int nbPersonneMax = rs.getInt("nbPersonneMax");
+			char etat = (char) rs.getObject("etat");
+			rdv = new Rdv(date, heure, duree, nbPersonneMax, etat, rdvClient.getAllClientsInRDV(date, heure));
 		}
 		try {con.close();} catch(Exception e2) {}
-		return pizz;
+		return rdv;
 	}
 
 
