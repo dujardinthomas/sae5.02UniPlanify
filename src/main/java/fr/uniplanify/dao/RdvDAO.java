@@ -24,11 +24,10 @@ public class RdvDAO {
 		String query = "select * from rdv where date=" + date + " and heure =" + heure;
 		ResultSet rs = stmt.executeQuery(query);
 		if(rs.next()){
-			Date jour = rs.getDate("jour");
-			Time heure = rs.getTime("heure");
+			int duree = rs.getInt("duree")
 			String pate = rs.getString("pate");
 			double prixBaseP = rs.getDouble("prixBaseP");
-			rdv = new Rdv(idP, nomP, pate, prixBaseP, pizza_ingrDAO.getAllPizzaIngredient(idP));
+			rdv = new Rdv(date, heure, pate, prixBaseP, pizza_ingrDAO.getAllPizzaIngredient(idP));
 		}
 		try {con.close();} catch(Exception e2) {}
 		return pizz;
