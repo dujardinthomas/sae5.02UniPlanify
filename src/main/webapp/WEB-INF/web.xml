@@ -1,7 +1,11 @@
-<!-- FICHIER DE CONFIGURATION LOCAL NON IMPORTE SUR GIT -->
-<web-app>
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-    <context-param>
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <context-param>
         <param-name>driver</param-name>
         <param-value>org.postgresql.Driver</param-value>
     </context-param>
@@ -9,25 +13,23 @@
     <context-param>
         <param-name>url</param-name>
         <!--  URL DE VOTRE BASE SQL -->
-        <param-value>jdbc:postgresql://localhost/uniplanify</param-value>
+        <param-value>jdbc:postgresql://psqlserv/but3</param-value>
     </context-param>
 
     <context-param>
         <param-name>login</param-name>
         <!--  LOGIN DE VOTRE BASE SQL -->
-        <param-value>thoma</param-value>
+        <param-value>thomasdujardin2etu</param-value>
     </context-param>
 
     <context-param>
         <param-name>password</param-name>
         <!--  PASSWORD DE VOTRE BASE SQL -->
-        <param-value>thoma</param-value>
+        <param-value>moi</param-value>
     </context-param>
 
 
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
     </welcome-file-list>
-
-
 </web-app>

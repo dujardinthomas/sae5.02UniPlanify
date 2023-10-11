@@ -1,3 +1,5 @@
+package fr.uniplanify;
+
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -10,7 +12,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import Login.Client;
 
 @WebServlet("/Calendrier")
 public class Calendrier extends HttpServlet {

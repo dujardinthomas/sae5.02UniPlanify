@@ -1,3 +1,5 @@
+package fr.uniplanify;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -6,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Login.Client;
+import fr.uniplanify.dao.DS;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +19,9 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/Pro")
 public class Pro extends HttpServlet {
 
-    Client c;
+    private DS ds = new DS();
+	private Connection con;
+
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -38,20 +42,11 @@ public class Pro extends HttpServlet {
         out.println("<body>");
         out.println("<center>");
 
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(
-                    getServletContext().getInitParameter("url"),
-                    getServletContext().getInitParameter("login"),
-                    getServletContext().getInitParameter("password"));
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println("erreur connection sql");
-        }
+        con = ds.getConnection();
+        
 
         try {
-            out.println("<h1> Mes rendez vous du jour</h1>");
+            out.println("<h1> Mes rendez vous</h1>");
             Statement stmt = con.createStatement();
             String rdvToday = "SELECT\n" + //
                     "  rdv.heure,\n" + //
