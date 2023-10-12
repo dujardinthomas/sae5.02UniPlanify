@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS semaineTypePro;
 DROP TYPE IF EXISTS semaineDay;
 
 CREATE TABLE client (
-    idC SERIAL PRIMARY KEY,
+    idC int PRIMARY KEY,
     nomC varchar(200),
     prenomC varchar(200),
     mailC varchar(200),
@@ -16,8 +16,7 @@ CREATE TABLE client (
     pro BOOLEAN DEFAULT false
 );
 
-INSERT INTO client (nomC, prenomC, mailC, password, pro) VALUES ('DUJARDIN', 'Veronique', 'contact@dujardin-neurofeedback-dynamique.fr', 'vero', true);
-INSERT INTO client (nomC, prenomC, mailC, password) VALUES ('DUJARDIN', 'Thomas', 'thomas.dujardin2.etu@univ-lille.fr', 'toto');
+
 
 
 CREATE TABLE rdv(

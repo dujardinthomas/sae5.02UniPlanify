@@ -2,17 +2,19 @@ package fr.uniplanify.dto;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class Rdv {
-    Date jour;
-    Time heure;
+    LocalDate jour;
+    LocalTime heure;
     int duree;
     int nbPersonneMax;
-    char etat;
+    String etat;
     List<Client> clients;
 
-    public Rdv(Date jour, Time heure, int duree, int nbPersonneMax, char etat, List<Client> clients) {
+    public Rdv(LocalDate jour, LocalTime heure, int duree, int nbPersonneMax, String etat, List<Client> clients) {
         this.jour = jour;
         this.heure = heure;
         this.duree = duree;
@@ -21,20 +23,32 @@ public class Rdv {
         this.clients = clients;
     }
 
-    public Date getJour() {
+
+    public LocalDate getJour(){
         return jour;
     }
-
-    public void setJour(Date jour) {
-        this.jour = jour;
+    public Date getJourSQL() {
+        return java.sql.Date.valueOf(jour);
     }
+    public LocalDate setJour(LocalDate jour){
+        return jour;
+    }
+    public void setJourSQL(Date jour) {
+        this.jour = jour.toLocalDate();
+    }
+    
 
-    public Time getHeure() {
+    public LocalTime getHeure() {
         return heure;
     }
-
-    public void setHeure(Time heure) {
+    public Time getHeureSQL() {
+        return Time.valueOf(heure);
+    }
+    public void setHeure(LocalTime heure) {
         this.heure = heure;
+    }
+    public void setHeureSQL(Time heure) {
+        this.heure = heure.toLocalTime();
     }
 
     public int getDuree() {
@@ -53,11 +67,11 @@ public class Rdv {
         this.nbPersonneMax = nbPersonneMax;
     }
 
-    public char getEtat() {
+    public String getEtat() {
         return etat;
     }
 
-    public void setEtat(char etat) {
+    public void setEtat(String etat) {
         this.etat = etat;
     }
 
@@ -69,8 +83,5 @@ public class Rdv {
         this.clients = clients;
     }
 
-    
-    
 
-    
 }

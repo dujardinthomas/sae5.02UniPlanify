@@ -16,6 +16,8 @@ CREATE TABLE client (
     pro BOOLEAN DEFAULT false
 );
 
+INSERT INTO client (nomC, prenomC, mailC, password, pro) VALUES ('DUJARDIN', 'Veronique', 'contact@dujardin-neurofeedback-dynamique.fr', 'vero', true);
+INSERT INTO client (nomC, prenomC, mailC, password) VALUES ('DUJARDIN', 'Thomas', 'thomas.dujardin2.etu@univ-lille.fr', 'toto');
 
 CREATE TABLE rdv(
     jour date,

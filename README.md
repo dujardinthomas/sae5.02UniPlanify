@@ -3,10 +3,12 @@
 Thomas Dujardin
 Début : 14/09/2023
 
-## Utilisation sur Tomcat 10 (jakarta)
-- récuperer *UniPlanify* et le mettre dans le dossier *webapps* de tomcat
-- Verifier présence de la librairie *postgresql-42.6.0.jar* dans dossier *tomcat/lib*
-- Copier le fichier ***WEB-INF/CopyENweb.xml*** en ***WEB-INF/web.xml*** avec les infos de connexion psql
+## Démarrer le projet Maven
+- télécharger le projet
+- Vérifier si maven est installé sur votre machine par ***mvn -v*** sinon l'extraire (https://maven.apache.org/download.cgi), puis créer la variable systeme ***M2_HOME*** pointant sur la racine du dossier maven et ajouter dans votre path ***%M2_HOME%\bin***
+- ajouter le fichier configuration/loginFileDataBase.txt avec les infos de connexion psql
+- Compiler le projet avec ***mvn clean package*** : cela va créer le dossier target
+- Lancer le serveur avec ***mvn cargo:run***
 
 ## Objectif : 
 A la manière de prendreunrendezvous, de Doctolib ou de nombreux sites de prise de rendez-vous mis en place
@@ -84,6 +86,8 @@ Table :
         nomC
         prenomC
         mailC
+        password
+        pro
     
     0,n
     Reserve
@@ -113,7 +117,7 @@ Table :
 
 ### MLD
 
-    Client(#idC, nomC, prenomC, mailC, password);
+    Client(#idC, nomC, prenomC, mailC, password; pro);
 
     rdv(#jour, #heure, duree, nbPersonneMax, etat);
 
