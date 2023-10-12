@@ -1,22 +1,42 @@
 package fr.uniplanify.dao;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 public class DS {
-    public Connection getConnection(){
-	      String url = "jdbc:postgresql://psqlserv/but3";
-	      String nom = "thomasdujardin2etu";
-	      String mdp = "moi";
-	      String driver = "org.postgresql.Driver";
-	      Connection con = null;
-	      try {
-	          Class.forName(driver);
-	          con = DriverManager.getConnection(url,nom,mdp);
-	      } catch (Exception e){
-	          System.out.println("impossible de créer connection a la bdd!");
-	      }
-	      return con;
-	  }
+	public Connection getConnection() {
+		//System.out.println(System.getProperty("user.dir")); //dossier target/cargo/configurations/tomcat10x
+		String filePath = "../../../conf/loginFileDataBase.txt"; //dans target
+		InputStream loginFile = null;
+		Properties p = new Properties();
+		Connection con = null;
+		try {
+			loginFile = new FileInputStream(filePath);
+			try {
+				p.load(loginFile);
+				try {
+					Class.forName((String) p.get("driver"));
+					con = DriverManager.getConnection((String) p.get("url"), (String) p.get("user"),
+							(String) p.get("password"));
+				} catch (Exception e) {
+					System.out.println("impossible de créer la connection a la bdd!");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("erreur lecture du fichier " + filePath);
+				e.getMessage();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return con;
+	}
 
 }

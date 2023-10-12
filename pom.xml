@@ -9,10 +9,10 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-          <maven.compiler.source>17</maven.compiler.source>
-          <maven.compiler.target>17</maven.compiler.target>
-          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
-          <cargo.maven.containerId>tomcat10x</cargo.maven.containerId> 
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
+    <cargo.maven.containerId>tomcat10x</cargo.maven.containerId> 
   </properties>
 
   <dependencies>
@@ -22,23 +22,23 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
-  <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <version>6.0.0</version>
-      <scope>provided</scope>
-  </dependency>
+    <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>6.0.0</version>
+        <scope>provided</scope>
+    </dependency>
 
-  <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-  <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.6.0</version>
-  </dependency>
-
-
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.6.0</version>
+    </dependency>
   </dependencies>
+
   <build>
     <finalName>sae5.02UniPlanify</finalName>
     <plugins>
@@ -47,11 +47,40 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
         </plugin>
+
         <plugin>
           <groupId>org.codehaus.cargo</groupId>
           <artifactId>cargo-maven3-plugin</artifactId>
           <version>1.10.9</version>
         </plugin>
+
+        <!-- POUR COPIER LE FICHIER LOGIN FILE DATABASE.TXT DANS TARGET-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.2.0</version>
+            <executions>
+                <execution>
+                  <id>copy-resources</id>
+                  <phase>prepare-package</phase>
+                  <goals>
+                      <goal>copy-resources</goal>
+                  </goals>
+                  <configuration>
+                      <outputDirectory>${project.build.directory}/conf</outputDirectory>
+                      <resources>
+                          <resource>
+                              <directory>${project.basedir}/config</directory>
+                              <includes>
+                                  <include>loginFileDataBase.txt</include>
+                              </includes>
+                          </resource>
+                      </resources>
+                  </configuration>
+              </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
+  
 </project>
