@@ -67,10 +67,10 @@
                       <goal>copy-resources</goal>
                   </goals>
                   <configuration>
-                      <outputDirectory>${project.build.directory}/conf</outputDirectory>
+                      <outputDirectory>${project.build.directory}/configuration</outputDirectory>
                       <resources>
                           <resource>
-                              <directory>${project.basedir}/config</directory>
+                              <directory>${project.basedir}/configuration</directory>
                               <includes>
                                   <include>loginFileDataBase.txt</include>
                               </includes>

@@ -11,7 +11,7 @@ import java.util.Properties;
 public class DS {
 	public Connection getConnection() {
 		//System.out.println(System.getProperty("user.dir")); //dossier target/cargo/configurations/tomcat10x
-		String filePath = "../../../conf/loginFileDataBase.txt"; //dans target
+		String filePath = "../../../configuration/loginFileDataBase.txt"; //dans target
 		InputStream loginFile = null;
 		Properties p = new Properties();
 		Connection con = null;

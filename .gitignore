@@ -1,6 +1,3 @@
 target/
+/configuration/
 .vscode/
-/config/*
-/config/
-config/loginFileDataBase.txt
-/config/loginFileDataBase.txt
