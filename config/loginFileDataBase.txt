@@ -1,4 +1,4 @@
 driver=org.postgresql.Driver
 url=jdbc:postgresql://localhost/uniplanify
 login=thoma
-password=thoma
+password=thomafrds
