@@ -9,10 +9,11 @@ Les paramètres génériques seront :
 Voici mon MLD : 
 
     Client(#idC, nomC, prenomC, mailC, password, pro);
-    rdv(#jour, #heure, duree, nbPersonneMax, etat);
+    rdv(#jour, #heure, etat);
     rdvClient([#jour], [#heure] [#idC]);
     Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
     SemaineType(#jourSemaine, heureDebut, heureFin);
+    constraints(dureeDefaultMinutes, nbPersonneMaxDefault);
 
 J'ai choisi de créer une relation many to many pour les rendez vous client comme ca nous pouvons ajouter autant de client que l'on souhaite (Généricité), (je ferais une verif dans la servlet avec la valeur de nbPersonneMax pour éviter de dépasser cette dernière).
 
@@ -50,17 +51,43 @@ J'ai ajouté des boutons qui permettent d'afficher le mois suivant, le mois pré
 Pour l'année, si le mois est inférieur à 1 ou supérieur à 12, j'incremente ou je décremente l'année.
 
 Pour chaque jour (case), j'ai crée un compteur cliquable qui s'incrémente lors du clic sur ce lien. Pour cela, j'ai créé une hasmap générale que je place dans une session pour la conserver tant que l'utilisateur est connecté.
-Pour la mettre différente d'un mois à l'autre, je l'identifie avec son année et son mois
+Pour la mettre différente d'un mois à l'autre, je l'identifie avec son année et son mois.
+J'ai placé un simple lien dans chaque case qui renvoie sur la même page : 
+
+```java
+calendarHTML.append("<a href=\"?year=" + year + "&month=" + month + "&day=").append(dayStr).append("\">" + counter +"</a>");
+```
+
+(l'incrementation du compteur se fait au début du code de la page) : 
+
+```java
+String day = req.getParameter("day");
+        if (day != null) {
+            Integer counter = counters.get(day);
+            if (counter == null) {
+                counter = 1;
+            } else {
+                counter++;
+            }
+            counters.put(day, counter);
+        }
+```
 
 J'ai commencé la création d'une servlet de sécurisation du context. J'ai placé les informations de connexions à la base de données dans le fichier */WEB-INF/web.xml*
 
 
-## 3e semaine : Creation de quelques DAO ET DTO et d'une servlet du jour selectionné
+## 3e semaine : Récréation du projet en Maven, début du respect des principes d’un MVC Web, et avec des DAO ET DTO, et d'une servlet du jour selectionné
 
-J'ai créé une classe Client.java qui permet de crée un objet client avec ses caracteristiques prisent via la classe ClientDAO.java, ce dernier étant un DAO qui renvoie un client.
+J'ai recrée un nouveau projet maven web et y déplacé mes servlets. J'ai configuré mon fichier de configuration pom.xml en y ajoutant les extensions nécessaires (jakarta, postgresql, cargo avec le paramètre tomcat). J'ai placé mon fichier contenant les informations de connexion à la base de données dans un dossier de la racine du projet et crée une classe DS qui crée une connection en lisant le fichier. J'ai ajouté un plugin qui permet de copier ce fichier dans le dossier de compilation target.
 
-Même chose pour un rdv via les classes RdvDAO et RdvClientDAO, ce dernier renvoie une liste de client ajouté au caracteristique de l'objet Rdv. (relation many-to-many)
+J'ai créé dans le package models des DTO et DAO, une classe Client.java qui permet de crée un objet client avec ses caracteristiques prisent via la classe ClientDAO.java, ce dernier étant un DAO qui respecte le modèle CRUD qui renvoie un client.
+
+Même chose pour un rdv via les classes RdvDAO et RdvClientDAO, ce dernier renvoie une liste de client ajouté aux caracteristiques de l'objet Rdv. (relation many-to-many)
+
+Egalement pour une semaineTypePro, son DTO (JournéePro et SemaineTypePro) et son DAO.
 
 J'ai modifié le calendrier et quand l'user clique sur un jour cela redirige sur une nouvelle servlet 'jour' qui prend en paramètre le jour, le mois et l'année.
 
 La servlet Jour affiche les créneau de la journée avec l'heure de début, l'heure de fin et la durée d'un rdv. Par exemple, si le pro à des rdv de 15 minutes et commence sa journée à 8h et la finit à 18h, nous avons 8h00, 8h15,...,17h45.
+
+J'ai hiérarchisé le code pour qu'il respecte les principes d'un modèle MVC WEB.

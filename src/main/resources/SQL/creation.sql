@@ -65,7 +65,7 @@ CREATE TABLE semaineTypePro(
 --Enregistre à l'instanciation du framework il n'y a qu'une seul ligne vu qu'il n'y a qu'un seul professionel
 CREATE TABLE constraints(
     dureeDefaultMinutes int,
-    nbPersonneMaxDefault int,
+    nbPersonneMaxDefault int
 )
 
 

@@ -46,8 +46,6 @@ public class TestsAleaData {
                     System.out.println(rdvDAO.createRDV(new Rdv(
                             d,
                             t,
-                            duree,
-                            nbPersonneMax,
                             "en attente",
                             // rdvClientDAO.getAllClientsInRDV(d, t)
                             // rdvClientDAO.createRdvClient(d, t, j)

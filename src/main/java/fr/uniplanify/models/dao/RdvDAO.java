@@ -27,10 +27,8 @@ public class RdvDAO {
 			String query = "select * from rdv where date=" + java.sql.Date.valueOf(date) + " and heure =" + Time.valueOf( heure );
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs.next()) {
-				int duree = rs.getInt("duree");
-				int nbPersonneMax = rs.getInt("nbPersonneMax");
 				String etat = rs.getString("etat");
-				rdv = new Rdv(date, heure, duree, nbPersonneMax, etat, rdvClient.getAllClientsInRDV(date, heure));
+				rdv = new Rdv(date, heure, etat, rdvClient.getAllClientsInRDV(date, heure));
 			}
 		} catch (SQLException e) {
 			e.getMessage();
@@ -42,15 +40,13 @@ public class RdvDAO {
 
 	public boolean createRDV(Rdv rdv) {
 		con = ds.getConnection();
-		String query = "insert into rdv (jour, heure, duree, nbPersonneMax, etat) values (?,?,?,?,?)";
+		String query = "insert into rdv (jour, heure, etat) values (?,?,?)";
 		PreparedStatement ps;
 		try {
 			ps = con.prepareStatement(query);
 			ps.setDate(1, rdv.getJourSQL());
 			ps.setTime(2, rdv.getHeureSQL());
-			ps.setInt(3, rdv.getDuree());
-			ps.setInt(4, rdv.getNbPersonneMax());
-			ps.setString(5, rdv.getEtat());
+			ps.setString(3, rdv.getEtat());
 			System.out.println(ps.executeUpdate());
 
 			for(int i=0; i<rdv.getClients().size(); i++) {
