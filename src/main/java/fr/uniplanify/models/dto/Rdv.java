@@ -1,4 +1,4 @@
-package fr.uniplanify.dto;
+package fr.uniplanify.models.dto;
 
 import java.sql.Date;
 import java.sql.Time;

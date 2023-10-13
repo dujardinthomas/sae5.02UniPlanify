@@ -1,4 +1,4 @@
-package fr.uniplanify.dao;
+package fr.uniplanify.models.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import fr.uniplanify.dto.Client;
+import fr.uniplanify.models.dto.Client;
 
 public class ClientDAO {
 

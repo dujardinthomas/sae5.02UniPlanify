@@ -48,14 +48,14 @@ CREATE TABLE indisponibilite(
 
 
 
---POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
-CREATE TYPE semaineDay AS ENUM (
-    'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
-);
+-- --POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
+-- CREATE TYPE semaineDay AS ENUM (
+--     'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
+-- );
 
 
 CREATE TABLE semaineTypePro(
-    jourSemaine semaineDay,
+    jourSemaine varchar(15),
     heureDebut time,
     heureFin time,
     CONSTRAINT pk_semaineType PRIMARY KEY (jourSemaine)

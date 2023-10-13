@@ -48,16 +48,24 @@ CREATE TABLE indisponibilite(
 
 
 
---POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
-CREATE TYPE semaineDay AS ENUM (
-    'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
-);
+-- --POUR SPECIFIER UNE SEMAINE TYPE POUR EVITER LES REPETS D'INDISPO
+-- CREATE TYPE semaineDay AS ENUM (
+--     'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
+-- );
 
 
 CREATE TABLE semaineTypePro(
-    jourSemaine semaineDay,
+    jourSemaine varchar(15),
     heureDebut time,
     heureFin time,
     CONSTRAINT pk_semaineType PRIMARY KEY (jourSemaine)
 );
+
+
+--Enregistre à l'instanciation du framework il n'y a qu'une seul ligne vu qu'il n'y a qu'un seul professionel
+CREATE TABLE constraints(
+    dureeDefaultMinutes int,
+    nbPersonneMaxDefault int,
+)
+
 

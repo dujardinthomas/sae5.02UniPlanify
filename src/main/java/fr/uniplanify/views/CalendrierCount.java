@@ -1,4 +1,4 @@
-package fr.uniplanify;
+package fr.uniplanify.views;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,11 +8,13 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 
-@WebServlet("/Calendrier")
-public class Calendrier extends HttpServlet {
+@WebServlet("/CalendrierCount")
+public class CalendrierCount extends HttpServlet {
 
     int year;
     int month; 
@@ -28,6 +30,29 @@ public class Calendrier extends HttpServlet {
         // }
 
 
+        String nameSession = "counters" + year + month; 
+
+        HttpSession session = req.getSession(true);
+        Map<String, Integer> counters = (Map<String, Integer>) session.getAttribute(nameSession);
+
+        if (counters == null) {
+            counters = new HashMap<>();
+            session.setAttribute(nameSession, counters);
+        }
+
+
+        String day = req.getParameter("day");
+        if (day != null) {
+            Integer counter = counters.get(day);
+            if (counter == null) {
+                counter = 1;
+            } else {
+                counter++;
+            }
+            counters.put(day, counter);
+        }
+
+
         res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
 
@@ -41,7 +66,7 @@ public class Calendrier extends HttpServlet {
             month = dateActuelle.getMonthValue();
         }
 
-        String calendarHTML = generateCalendarManuel(year, month);
+        String calendarHTML = generateCalendarManuel(year, month, counters);
 
         out.println("<html>");
         out.println("<head>");
@@ -81,7 +106,7 @@ public class Calendrier extends HttpServlet {
 
 
  
-    private String generateCalendarManuel(int year, int month) {
+    private String generateCalendarManuel(int year, int month, Map<String, Integer> counters) {
 
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
         int daysInMonth = firstDayOfMonth.lengthOfMonth();
@@ -116,12 +141,16 @@ public class Calendrier extends HttpServlet {
             calendarHTML.append("<td><div class=\"cellule\">");
 
             calendarHTML.append("<div class=\"dayNumber\">");
-            calendarHTML.append("<a href=Jour?day="+day+"&month="+month+"&year="+year+">"+day+"</a>");
+            calendarHTML.append(day);
             calendarHTML.append("</div>");
 
-            // calendarHTML.append("<div class=\"event\">");
-            // calendarHTML.append("<a href=\"?year=" + year + "&month=" + month + "&day=").append("\"></a>");
-            // calendarHTML.append("</div>");
+            String dayStr = String.valueOf(day);
+            Integer counter = counters.get(dayStr);
+            counter = (counter == null) ? 0 : counter;
+
+            calendarHTML.append("<div class=\"event\">");
+            calendarHTML.append("<a href=\"?year=" + year + "&month=" + month + "&day=").append(dayStr).append("\">" + counter +"</a>");
+            calendarHTML.append("</div>");
             calendarHTML.append("</div></td>");
 
             // Passer à la prochaine ligne chaque fois que nous atteignons le Dimanche (jour

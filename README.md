@@ -139,7 +139,7 @@ on definie une semaine type du pro par défaut (ouvert tout les lundi de 8h à 1
 ### Mise en pratique
 
 Init : 
-new calendrier(durée, nbPersonneMax);
+new calendrier(durée, nbPersonneMax, semaineType);
 A chaque insert de rdv, insert durée et nbPersonneMax
 
 

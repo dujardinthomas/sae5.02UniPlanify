@@ -1,4 +1,4 @@
-package fr.uniplanify.dao;
+package fr.uniplanify.models.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import fr.uniplanify.dto.Rdv;
+import fr.uniplanify.models.dto.Rdv;
 
 public class RdvDAO {
 
@@ -64,9 +64,10 @@ public class RdvDAO {
 		} catch (SQLException e) {
 			e.getMessage();
 			System.out.println("erreur de insert rdv!");
+			return false;
 		}
 		ds.closeConnection(con);
-		return false;
+		return true;
 		
 			
 	}

@@ -1,4 +1,4 @@
-package fr.uniplanify.dto;
+package fr.uniplanify.models.dto;
 
 public class Client {
     private int idC;

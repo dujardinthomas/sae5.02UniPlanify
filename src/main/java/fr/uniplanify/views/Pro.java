@@ -1,4 +1,4 @@
-package fr.uniplanify;
+package fr.uniplanify.views;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import fr.uniplanify.dao.DS;
+import fr.uniplanify.models.dao.DS;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

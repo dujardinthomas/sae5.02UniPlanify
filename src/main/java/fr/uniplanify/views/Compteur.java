@@ -1,4 +1,4 @@
-package fr.uniplanify;
+package fr.uniplanify.views;
 
 import java.io.IOException;
 import java.io.PrintWriter;

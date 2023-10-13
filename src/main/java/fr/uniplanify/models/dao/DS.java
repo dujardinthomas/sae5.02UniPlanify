@@ -1,4 +1,4 @@
-package fr.uniplanify.dao;
+package fr.uniplanify.models.dao;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
