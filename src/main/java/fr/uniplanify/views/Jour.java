@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+import fr.uniplanify.models.dao.ConstraintsDAO;
 import fr.uniplanify.models.dao.SemaineTypeProDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,9 +20,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/Jour")
 public class Jour extends HttpServlet{
 
-    private int heureStart = 8;
-    private int heureEnd = 18;
-    private int dureeRDV = 15;
+    ConstraintsDAO cDAO = new ConstraintsDAO();
+    int dureeRDV =cDAO.getConstraints().getDureeDefaultMinutes() ;
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -65,7 +65,8 @@ public class Jour extends HttpServlet{
             out.println("<div class=\"event\">");
             out.println("DISPO EN DUR</div></td>");
             out.println("</tr>");
-            heureActuelle = heureActuelle.plusMinutes(dureeRDV); // Incrément de 30 minutes
+            int dureeRDV =cDAO.getConstraints().getDureeDefaultMinutes() ;
+            heureActuelle = heureActuelle.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
         }
 
         out.println("</body>");
