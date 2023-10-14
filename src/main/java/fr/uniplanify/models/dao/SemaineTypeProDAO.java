@@ -50,6 +50,29 @@ public class SemaineTypeProDAO {
 
 	}
 
+
+	public List<LocalTime> getDayPro(String jour) {
+		String jourFormatee = jour.substring(0, 1).toUpperCase() + jour.substring(1);
+		List<LocalTime> day = new ArrayList<>();
+		con = ds.getConnection();
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			String query = "select heureDebut, heureFin from semainetypepro where joursemaine = '" + jourFormatee + "'";
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				day.add(rs.getTime("heuredebut").toLocalTime());
+				day.add(rs.getTime("heurefin").toLocalTime());
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+			System.out.println("erreur de select heures for " + jour + " semainetypepro!");
+		}
+		ds.closeConnection(con);
+		return day;
+	}
+
+
 	public boolean createSemaineTypePro(SemaineTypePro weekDTO) {
 		con = ds.getConnection();
 		String query = "insert into semainetypepro (joursemaine, heuredebut, heurefin) values (?,?,?)";

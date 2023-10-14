@@ -15,8 +15,8 @@ public class Medecin{
 
     Constraints c;
 
-    public Medecin(int dureeEnMinute, int nbPersonneMax, String[] joursWork, int[][] heuresStartWork, int[][] heuresEndWork) {
-        c = new Constraints(dureeEnMinute, nbPersonneMax);
+    public Medecin(int dureeDefaultMinutes, int nbPersonneMaxDefault, String[] joursWork, int[][] heuresStartWork, int[][] heuresEndWork) {
+        c = new Constraints(dureeDefaultMinutes, nbPersonneMaxDefault);
 
         ConstraintsDAO cDAO = new ConstraintsDAO();
         cDAO.createConstraint(c);

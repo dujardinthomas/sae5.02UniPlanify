@@ -6,8 +6,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 
+import fr.uniplanify.models.dao.SemaineTypeProDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -46,9 +48,12 @@ public class Jour extends HttpServlet{
         out.println("<table> <tr> <td>" + dateFormatee + "</td> </tr>");
 
 
-        // Affichage des heures de la journée
-        LocalTime heureDebut = LocalTime.of(heureStart, 0); // Heure de début (00:00)
-        LocalTime heureFin = LocalTime.of(heureEnd, 00); // Heure de fin (23:59)
+        // Affichage des heures en fonction du jou
+        SemaineTypeProDAO semDAO = new SemaineTypeProDAO();
+        List<LocalTime> dayTime = semDAO.getDayPro(dateFormatee.split(" ")[0]); //on recupere le 1er mot : lundi
+
+        LocalTime heureDebut = dayTime.get(0);
+        LocalTime heureFin = dayTime.get(1);
         LocalTime heureActuelle = heureDebut;
 
         DateTimeFormatter heureFormatter = DateTimeFormatter.ofPattern("HH:mm");

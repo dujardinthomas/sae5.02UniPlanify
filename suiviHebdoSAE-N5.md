@@ -12,7 +12,7 @@ Voici mon MLD :
     rdv(#jour, #heure, etat);
     rdvClient([#jour], [#heure] [#idC]);
     Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
-    SemaineType(#jourSemaine, heureDebut, heureFin);
+    semainetypepro(#jourSemaine, heureDebut, heureFin);
     constraints(dureeDefaultMinutes, nbPersonneMaxDefault);
 
 J'ai choisi de créer une relation many to many pour les rendez vous client comme ca nous pouvons ajouter autant de client que l'on souhaite (Généricité), (je ferais une verif dans la servlet avec la valeur de nbPersonneMax pour éviter de dépasser cette dernière).
