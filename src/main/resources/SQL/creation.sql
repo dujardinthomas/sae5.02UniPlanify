@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS indisponibilite;
 DROP TABLE IF EXISTS client;
 
 DROP TABLE IF EXISTS semaineTypePro;
-DROP TYPE IF EXISTS semaineDay;
+DROP TABLE IF EXISTS constraints;
 
 CREATE TABLE client (
     idC int PRIMARY KEY,

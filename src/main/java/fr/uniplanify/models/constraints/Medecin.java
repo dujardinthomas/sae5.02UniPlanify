@@ -23,7 +23,7 @@ public class Medecin{
 
         List<JournéePro> weekWork = new ArrayList<>();
         for(int j=0; j<joursWork.length; j++){
-            weekWork.add(new JournéePro(joursWork[j], LocalTime.of(heuresStartWork[j][0], heuresStartWork[j][1]),  LocalTime.of(heuresEndWork[j][0], heuresEndWork[j][1])));
+            weekWork.add(new JournéePro(joursWork[j].toLowerCase(), LocalTime.of(heuresStartWork[j][0], heuresStartWork[j][1]),  LocalTime.of(heuresEndWork[j][0], heuresEndWork[j][1])));
         }
         System.out.println(weekWork.toString());
         SemaineTypePro semaineTypeProWork = new SemaineTypePro(weekWork);

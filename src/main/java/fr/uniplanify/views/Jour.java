@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.uniplanify.models.dao.ConstraintsDAO;
+import fr.uniplanify.models.dao.RdvDAO;
 import fr.uniplanify.models.dao.SemaineTypeProDAO;
+import fr.uniplanify.models.dto.Rdv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,13 +20,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet("/Jour")
-public class Jour extends HttpServlet{
+public class Jour extends HttpServlet {
 
     ConstraintsDAO cDAO = new ConstraintsDAO();
-    int dureeRDV =cDAO.getConstraints().getDureeDefaultMinutes() ;
+    int dureeRDV = cDAO.getConstraints().getDureeDefaultMinutes();
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
 
         res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
@@ -33,7 +34,7 @@ public class Jour extends HttpServlet{
         int month = Integer.parseInt(req.getParameter("month"));
         int year = Integer.parseInt(req.getParameter("year"));
 
-        LocalDate dateSelectionnee = LocalDate.of(year,month,day);
+        LocalDate dateSelectionnee = LocalDate.of(year, month, day);
 
         out.println("<html>");
         out.println("<head>");
@@ -47,30 +48,53 @@ public class Jour extends HttpServlet{
 
         out.println("<table> <tr> <td>" + dateFormatee + "</td> </tr>");
 
-
         // Affichage des heures en fonction du jou
         SemaineTypeProDAO semDAO = new SemaineTypeProDAO();
-        List<LocalTime> dayTime = semDAO.getDayPro(dateFormatee.split(" ")[0]); //on recupere le 1er mot : lundi
+        List<LocalTime> dayTime = semDAO.getDayPro(dateFormatee.split(" ")[0]); // on recupere le 1er mot : lundi
+        if (dayTime == null) {
+            System.out.println("jour fermé!");
+            out.println("<tr> <td>Fermé !</td> </tr>");
 
-        LocalTime heureDebut = dayTime.get(0);
-        LocalTime heureFin = dayTime.get(1);
-        LocalTime heureActuelle = heureDebut;
+        } else {
 
-        DateTimeFormatter heureFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime heureDebut = dayTime.get(0);
+            LocalTime heureFin = dayTime.get(1);
+            LocalTime heureActuelle = heureDebut;
 
-        while (!heureActuelle.isAfter(heureFin)) {
-            out.println("<tr><td><div class=\"cellule\"><div class=\"dayNumber\">");
-            out.println(heureActuelle.format(heureFormatter));
-            out.println("</div>");
-            out.println("<div class=\"event\">");
-            out.println("DISPO EN DUR</div></td>");
-            out.println("</tr>");
-            int dureeRDV =cDAO.getConstraints().getDureeDefaultMinutes() ;
-            heureActuelle = heureActuelle.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
+            DateTimeFormatter heureFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            int dureeRDV = cDAO.getConstraints().getDureeDefaultMinutes();
+            RdvDAO rDAO = new RdvDAO();
+
+            while (!heureActuelle.isAfter(heureFin)) {
+                // tant que il y a encore des creneaux
+                String etat = "";
+                String style = "background-color:ffe694";
+
+                Rdv rdv = rDAO.getRDVByDateAndHeure(dateSelectionnee, heureActuelle);
+
+                if (rdv == null) {
+                    // si null = pas de rdv à l'heureActuelle , affiche la cellule en vert
+                    etat = "DISPONIBLE POUR LE MOMENT";
+                    style = "background-color:1aff00";
+                } else {
+                    etat = "PAS DISPONIBLE";
+                    style = "background-color:ff0000";
+                }
+
+                out.println("<tr><td><div class=\"cellule\"style=\"" + style + "\"><div class=\"dayNumber\">");
+                out.println(heureActuelle.format(heureFormatter));
+                out.println("</div>");
+                out.println("<div class=\"event\">");
+                out.println(etat + "</div></td>");
+                out.println("</tr>");
+
+                heureActuelle = heureActuelle.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
+            }
+
         }
-
+        
+        out.println("</table>");
         out.println("</body>");
     }
-
 
 }

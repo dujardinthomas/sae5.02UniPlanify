@@ -24,7 +24,8 @@ public class RdvDAO {
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
-			String query = "select * from rdv where date=" + java.sql.Date.valueOf(date) + " and heure =" + Time.valueOf( heure );
+			String query = "select * from rdv where jour = '" + java.sql.Date.valueOf(date) + "' and heure = '" + Time.valueOf( heure ) + "'";
+			System.out.println(query);
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs.next()) {
 				String etat = rs.getString("etat");
@@ -32,6 +33,7 @@ public class RdvDAO {
 			}
 		} catch (SQLException e) {
 			e.getMessage();
+			System.out.println("erreur de recuperaton du rdv :" + date + heure);
 		}
 		ds.closeConnection(con);
 		return rdv;

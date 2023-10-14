@@ -5,10 +5,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import fr.uniplanify.models.dao.SemaineTypeProDAO;
+import fr.uniplanify.models.dto.JournéePro;
+import fr.uniplanify.models.dto.SemaineTypePro;
 
 
 @WebServlet("/Calendrier")
@@ -110,13 +117,32 @@ public class Calendrier extends HttpServlet {
             calendarHTML.append("<td></td>");
         }
 
+        SemaineTypeProDAO semDAO = new SemaineTypeProDAO();
+        SemaineTypePro pro = semDAO.getSemaineTypePro();
+        List<String> dayWork = new ArrayList<>();
+        for (JournéePro journee : pro.getSemaine()) {
+            dayWork.add(journee.getJour());
+        }
+
         LocalDate currentDate = firstDayOfMonth;
         for (int day = 1; day <= daysInMonth; day++) {
             // Ajouter une cellule pour le jour courant
-            calendarHTML.append("<td><div class=\"cellule\">");
+           
+            //if journee type == true alord
+            
 
-            calendarHTML.append("<div class=\"dayNumber\">");
-            calendarHTML.append("<a href=Jour?day="+day+"&month="+month+"&year="+year+">"+day+"</a>");
+            LocalDate now = LocalDate.of(year, month, day);
+            String dayOfWeek = now.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRENCH);
+            if(dayWork.contains(dayOfWeek.toString())){
+                calendarHTML.append("<td><div class=\"cellule\">");
+                calendarHTML.append("<div class=\"dayNumber\">");
+                calendarHTML.append("<a href=Jour?day="+day+"&month="+month+"&year="+year+">"+day+"</a>");
+            }else{
+                calendarHTML.append("<td><div class=\"celluleClose\">");
+                calendarHTML.append("<div class=\"dayNumber\">");
+                calendarHTML.append(day);
+            }
+            
             calendarHTML.append("</div>");
 
             // calendarHTML.append("<div class=\"event\">");

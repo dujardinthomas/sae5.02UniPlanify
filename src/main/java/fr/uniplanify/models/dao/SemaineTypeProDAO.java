@@ -52,15 +52,15 @@ public class SemaineTypeProDAO {
 
 
 	public List<LocalTime> getDayPro(String jour) {
-		String jourFormatee = jour.substring(0, 1).toUpperCase() + jour.substring(1);
-		List<LocalTime> day = new ArrayList<>();
+		List<LocalTime> day = null;
 		con = ds.getConnection();
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
-			String query = "select heureDebut, heureFin from semainetypepro where joursemaine = '" + jourFormatee + "'";
+			String query = "select heureDebut, heureFin from semainetypepro where joursemaine = '" + jour.toLowerCase() + "'";
 			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
+			if (rs.next()) {
+				day = new ArrayList<>();
 				day.add(rs.getTime("heuredebut").toLocalTime());
 				day.add(rs.getTime("heurefin").toLocalTime());
 			}

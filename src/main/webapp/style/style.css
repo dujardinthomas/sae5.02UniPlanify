@@ -20,6 +20,11 @@ td {
     padding: 10px;
 }
 
+.celluleClose{
+    background-color: #696969;
+    padding: 10px;
+}
+
 .dayNumber {
     padding: 10px;
     font-weight: bold;

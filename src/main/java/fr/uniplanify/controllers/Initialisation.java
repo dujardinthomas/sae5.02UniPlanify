@@ -3,6 +3,7 @@ package fr.uniplanify.controllers;
 import java.io.IOException;
 
 import fr.uniplanify.TestsAleaData;
+import fr.uniplanify.models.CreateDataBase;
 import fr.uniplanify.models.constraints.Medecin;
 import fr.uniplanify.models.dao.SemaineTypeProDAO;
 import jakarta.servlet.ServletException;
@@ -11,13 +12,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/Initialisation")
+@WebServlet("/Reinitialisation")
 public class Initialisation extends HttpServlet{
     
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        SemaineTypeProDAO s = new SemaineTypeProDAO();
-        s.deleteSemaineTypePro();
+        CreateDataBase cdb = new CreateDataBase();
+        cdb.createnewdatabase();
         
         Medecin patrice = new Medecin(15, 
                                         1, 
