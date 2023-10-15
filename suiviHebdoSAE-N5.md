@@ -88,6 +88,7 @@ Egalement pour une semaineTypePro, son DTO (JournéePro et SemaineTypePro) et so
 
 J'ai modifié le calendrier et quand l'user clique sur un jour cela redirige sur une nouvelle servlet 'jour' qui prend en paramètre le jour, le mois et l'année.
 
-La servlet Jour affiche les créneau de la journée avec l'heure de début, l'heure de fin et la durée d'un rdv. Par exemple, si le pro à des rdv de 15 minutes et commence sa journée à 8h et la finit à 18h, nous avons 8h00, 8h15,...,17h45.
+La servlet Jour affiche tout les créneaux de la journée, qu'il soit disponible (affichage de la case en vert) ou qu'il soit déja reservé (affichage de la case en rouge). Par exemple, si le pro à des rdv de 15 minutes et commence sa journée à 8h et la finit à 18h, nous avons 8h00, 8h15,...,17h45. 
+Pour vérifier si le créneau est disponible, je regarde si ma méthode dans mon RDVDAO retourne un objet rendez-vous correspondant à l'heure de ce créneau. Pour afficher tout les créneau, je fais une boucle tant que le créneau iterable est avant la fin de journée (recupere objet SemaineTypeProDAO qui contient une liste de JournéePro qui contient le jour, l'heure de début et l'heure de fin en LocalDate).
 
 J'ai hiérarchisé le code pour qu'il respecte les principes d'un modèle MVC WEB.
