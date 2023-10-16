@@ -24,7 +24,8 @@ public class RdvDAO {
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
-			String query = "select * from rdv where jour = '" + java.sql.Date.valueOf(date) + "' and heure = '" + Time.valueOf( heure ) + "'";
+			String query = "select * from rdv where jour = '" + java.sql.Date.valueOf(date) + "' and heure = '"
+					+ Time.valueOf(heure) + "'";
 			System.out.println(query);
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs.next()) {
@@ -39,35 +40,52 @@ public class RdvDAO {
 		return rdv;
 	}
 
-
 	public boolean createRDV(Rdv rdv) {
-		con = ds.getConnection();
-		String query = "insert into rdv (jour, heure, etat) values (?,?,?)";
-		PreparedStatement ps;
-		try {
-			ps = con.prepareStatement(query);
-			ps.setDate(1, rdv.getJourSQL());
-			ps.setTime(2, rdv.getHeureSQL());
-			ps.setString(3, rdv.getEtat());
-			System.out.println(ps.executeUpdate());
+		if (allowTakeRDV(rdv)) {
+			con = ds.getConnection();
+			String query = "insert into rdv (jour, heure, etat) values (?,?,?)";
+			PreparedStatement ps;
+			try {
+				ps = con.prepareStatement(query);
+				ps.setDate(1, rdv.getJourSQL());
+				ps.setTime(2, rdv.getHeureSQL());
+				ps.setString(3, rdv.getEtat());
+				System.out.println(ps.executeUpdate());
 
-			for(int i=0; i<rdv.getClients().size(); i++) {
-				rdvClient.createRdvClient(rdv.getJour(), rdv.getHeure(), rdv.getClients().get(i).getIdC());
-				System.out.println("rdv client add! ");
+				for (int i = 0; i < rdv.getClients().size(); i++) {
+					System.out.println(rdvClient.createRdvClient(rdv.getJour(), rdv.getHeure(), rdv.getClients().get(i).getIdC()));
+					System.out.println("rdv client add! ");
+				}
+
+				System.out.println("rdv add !");
+
+			} catch (SQLException e) {
+				e.getMessage();
+				System.out.println("erreur de insert rdv!");
+				return false;
 			}
-
-			System.out.println("rdv add !");
-	
-
-		} catch (SQLException e) {
-			e.getMessage();
-			System.out.println("erreur de insert rdv!");
+			ds.closeConnection(con);
+			return true;
+		} else {
 			return false;
 		}
-		ds.closeConnection(con);
-		return true;
-		
-			
+	}
+
+	public boolean allowTakeRDV(Rdv rdv) {
+		Rdv rdvTrouve = getRDVByDateAndHeure(rdv.getJour(), rdv.getHeure());
+		ConstraintsDAO cDao = new ConstraintsDAO();
+		if (rdvTrouve != null && rdvTrouve.getClients().size() < cDao.getConstraints().getNbPersonneMaxDefault()) {
+			// reste de la place logique metier
+			System.out.println("reste de la place renvoie true");
+			return true;
+
+		} else if (rdvTrouve != null && rdvTrouve.getClients().size() == cDao.getConstraints().getNbPersonneMaxDefault()) {
+			System.out.println("rdv " + rdv.getJour() + " à " + rdv.getHeure() + "h complet false!");
+			return false;
+		} else {
+			System.out.println("rdv " + rdv.getJour() + " à " + rdv.getHeure() + "h inexistant true!");
+			return true;
+		}
 	}
 
 }

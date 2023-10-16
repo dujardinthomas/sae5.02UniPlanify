@@ -65,5 +65,12 @@ public class Client {
     public void setPro(Boolean pro) {
         this.pro = pro;
     }
+
+    @Override
+    public String toString() {
+        return "Client [idC=" + idC + ", nomC=" + nomC + ", prenomC=" + prenomC + ", mailC=" + mailC + ", password="
+                + password + ", pro=" + pro + "]";
+    }
+    
     
 }

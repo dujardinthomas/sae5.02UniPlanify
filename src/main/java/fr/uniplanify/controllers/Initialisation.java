@@ -21,12 +21,13 @@ public class Initialisation extends HttpServlet{
         cdb.createnewdatabase();
         
         Medecin patrice = new Medecin(15, 
-                                        1, 
+                                        2, 
                                         new String[]{"Lundi","Mardi","Mercredi","Jeudi","Vendredi"}, 
                                         new int[][]{{10,30}, {8,0}, {9,30}, {9,0}, {15,0}}, 
                                         new int[][]{{16,15}, {17,0}, {17,30}, {17,45}, {17,0}});
 
-        //TestsAleaData tests = new TestsAleaData();
+        TestsAleaData tests = new TestsAleaData();
+        tests.createClient(10);
         //tests.createRDVForYear(2023);
         //TODO RECUPERER LES PLAGES DE DEBUT ET FIN DE JOURNEE
     }

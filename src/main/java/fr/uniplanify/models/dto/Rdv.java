@@ -64,4 +64,13 @@ public class Rdv {
     }
 
 
+    @Override
+    public String toString() {
+        return "Rdv [jour=" + jour + ", heure=" + heure + ", etat=" + etat + ", clients=" + clients + "]";
+    }
+    
+
+    
+
+
 }
