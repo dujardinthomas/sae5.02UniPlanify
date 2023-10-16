@@ -65,7 +65,7 @@ public class Jour extends HttpServlet {
             int dureeRDV = cDAO.getConstraints().getDureeDefaultMinutes();
             RdvDAO rDAO = new RdvDAO();
 
-            while (!heureActuelle.isAfter(heureFin)) {
+            while (!heureActuelle.plusMinutes(dureeRDV).isAfter(heureFin)) {
                 // tant que il y a encore des creneaux
                 String etat = "";
                 String style = "background-color:ffe694";
