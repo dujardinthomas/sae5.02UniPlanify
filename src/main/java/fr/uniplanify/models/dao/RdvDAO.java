@@ -26,7 +26,6 @@ public class RdvDAO {
 			stmt = con.createStatement();
 			String query = "select * from rdv where jour = '" + java.sql.Date.valueOf(date) + "' and heure = '"
 					+ Time.valueOf(heure) + "'";
-			System.out.println(query);
 			ResultSet rs = stmt.executeQuery(query);
 			if (rs.next()) {
 				String etat = rs.getString("etat");
@@ -54,10 +53,9 @@ public class RdvDAO {
 
 				for (int i = 0; i < rdv.getClients().size(); i++) {
 					System.out.println(rdvClient.createRdvClient(rdv.getJour(), rdv.getHeure(), rdv.getClients().get(i).getIdC()));
-					System.out.println("rdv client add! ");
 				}
 
-				System.out.println("rdv add !");
+				System.out.println("rdv add avec les client!");
 
 			} catch (SQLException e) {
 				e.getMessage();

@@ -21,22 +21,18 @@ public class RdvClientDAO {
 	private ClientDAO clientDAO = new ClientDAO();
 
 	public List<Client> getAllClientsInRDV(LocalDate d, LocalTime t) {
-		System.out.println("debuttttt");
 		con = ds.getConnection();
 		List<Client> clients = new ArrayList<Client>();
 		Statement stmt;
 		try {
 			stmt = con.createStatement();
 
-			System.out.println("okkkkkkkkkkkkk");
 
 			String query = "select * from rdvClient where jour= '" + java.sql.Date.valueOf(d) + "' and heure = '"
 					+ Time.valueOf(t) + "'";
-			System.out.println("putaineeeeeee " + query);
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				clients.add(clientDAO.getClientByIdC(rs.getInt("idC")));
-				System.out.println("on ajoute un client a liste");
 			}
 		} catch (SQLException e) {
 			e.getMessage();

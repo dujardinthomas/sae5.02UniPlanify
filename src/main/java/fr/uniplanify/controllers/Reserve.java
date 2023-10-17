@@ -1,6 +1,7 @@
 package fr.uniplanify.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -49,6 +50,16 @@ public class Reserve extends HttpServlet {
         RdvDAO rdvDAO = new RdvDAO();
         Rdv rdvTrouve = rdvDAO.getRDVByDateAndHeure(date, time);
 
+        res.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = res.getWriter();
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<meta charset=\"UTF-8\"><title>Reservation</title>");
+        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
+        out.println("</head>");
+        out.println("<body>");
+
+
         String etat = "reservé";
         if (nbPersonne > 1) {
             if (rdvTrouve != null) {
@@ -56,13 +67,20 @@ public class Reserve extends HttpServlet {
                 if (rdvTrouve.getClients().size() < nbPersonne) {
                     // on peut ajouter un client
                     RdvClientDAO rdvClientDAO = new RdvClientDAO();
-                    rdvClientDAO.createRdvClient(date, time, user.getIdC());
+                    boolean statut = rdvClientDAO.createRdvClient(date, time, user.getIdC());
+                    out.println("<h1>client " + clients.get(0).getIdC() + (statut ? " à été " : "n'a pas été ") + " ajouté au rendez-vous du " + date + " à " + time + "</h1>");
+                }
+                else{
+                    out.println("<h1>Impossible de prendre un rendez-vous pour ce " + date + " à " + time + " !<h1>");
+                    out.println("<h2>Il n'y a malheureusement plus de places disponible pour ce rendez-vous.</h2>");
                 }
             } else {
-                rdvDAO.createRDV(new Rdv(date, time, etat, clients));
+                boolean statut = rdvDAO.createRDV(new Rdv(date, time, etat, clients));
+                out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
             }
         } else {
-            rdvDAO.createRDV(new Rdv(date, time, etat, clients));
+            boolean statut = rdvDAO.createRDV(new Rdv(date, time, etat, clients));
+            out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
         }
 
     }

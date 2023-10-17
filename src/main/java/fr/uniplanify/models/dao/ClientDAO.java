@@ -15,7 +15,6 @@ public class ClientDAO {
 
 
 	public Client getClientByIdC(int idC){
-		System.out.println("clientdao public");
 		return getClients("select * from client where idc = " + idC);
 	}
 
@@ -29,7 +28,6 @@ public class ClientDAO {
 	
 
 	private Client getClients(String query) {
-		System.out.println("clientdao private requete " + query);
 		//List<Client> clients = new ArrayList<>();
 		Client clients = null;
 		con = ds.getConnection();
