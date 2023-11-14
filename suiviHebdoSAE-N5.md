@@ -92,3 +92,9 @@ La servlet Jour affiche tout les créneaux de la journée, qu'il soit disponible
 Pour vérifier si le créneau est disponible, je regarde si ma méthode dans mon RDVDAO retourne un objet rendez-vous correspondant à l'heure de ce créneau. Pour afficher tout les créneau, je fais une boucle tant que le créneau iterable est avant la fin de journée (recupere objet SemaineTypeProDAO qui contient une liste de JournéePro qui contient le jour, l'heure de début et l'heure de fin en LocalDate).
 
 J'ai hiérarchisé le code pour qu'il respecte les principes d'un modèle MVC WEB.
+
+## 4e semaine : Authentification
+
+L'objectif est de rendre le calendrier accessible au public tout en exigeant une identification pour réserver un créneau. Pour cela, j'ai mis en place un filtre qui écoute chaque requête débutant par le mot clé "Reserve" : @WebFilter(urlPatterns = { "/Reserve/*" }). 
+Ce filtre examine si l'utilisateur est connecté en vérifiant l'existence ou non d'un attribut de session appelé "token". Si cet attribut existe, le filtre permet l'accès à la page initiale. En revanche, s'il n'existe pas, le filtre redirige vers la page de connexion, puis vers la servlet de vérification de connexion. Cette servlet va créer l'attribut de session "token" et rediriger vers la page initiale si le login et le mot de passe sont présents dans la base de données. Dans le cas où ils ne sont pas reconnus, elle renvoie à nouveau vers la page de connexion.
+L'url de la page intial et ses paramètres sont passés au formulaire de connexion en champ caché permettant la redirection souhaité.
