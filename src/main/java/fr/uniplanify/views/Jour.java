@@ -68,6 +68,8 @@ public class Jour extends HttpServlet {
             Constraints constraints = cDAO.getConstraints();
             RdvDAO rDAO = new RdvDAO();
 
+            System.out.println("duree rdv : " + dureeRDV);
+
             while (!heureActuelle.plusMinutes(dureeRDV).isAfter(heureFin)) {
                 // tant que il y a encore des creneaux
                 String etat = "";
@@ -82,12 +84,13 @@ public class Jour extends HttpServlet {
                     style = "background-color:1aff00";
                     priseRDV = " <a href=\"Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+"&idC=1" + "\">Prendre RDV </a>";
                 }else if (rdv.getClients().size() < constraints.getNbPersonneMaxDefault()) {
-                    // si null = pas de rdv à l'heureActuelle , affiche la cellule en vert
-                    etat = "ENCORE " + rdv.getClients().size() + " PLACES DISPONIBLE SUR " + constraints.getNbPersonneMaxDefault() + " POUR LE MOMENT ";
+                    // si reste de la place = présence d'un rdv mais possibilité d'ajouter dans rdvclient , affiche la cellule en orange
+                    etat = "ENCORE " + (constraints.getNbPersonneMaxDefault() - rdv.getClients().size()) + " PLACES DISPONIBLE SUR " + constraints.getNbPersonneMaxDefault() + " POUR LE MOMENT ";
                     style = "background-color:FFA500";
                     priseRDV = " <a href=\"Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+"&idC=1" + "\">Prendre RDV </a>";
                 }
                  else {
+                    //si quota atteint affice la cellule en rouge
                     etat = "PAS DISPONIBLE "+rdv.toString();
                     style = "background-color:ff0000";
                     priseRDV = "";
@@ -95,6 +98,8 @@ public class Jour extends HttpServlet {
 
                 out.println("<tr><td><div class=\"cellule\"style=\"" + style + "\"><div class=\"dayNumber\">");
                 out.println(heureActuelle.format(heureFormatter));
+
+                System.out.println(heureActuelle);
                 
                 out.println("</div>");
                 out.println("<div class=\"event\">");

@@ -8,4 +8,14 @@
     <welcome-file-list>
         <welcome-file>Calendrier</welcome-file>
     </welcome-file-list>
+
+    <!-- pour la récupération de la page d'accueil dans la servlet deconnect-->
+    <context-param>
+        <param-name>accueil</param-name>
+        <param-value>Calendrier</param-value>
+    </context-param>
+    
 </web-app>
+
+
+
