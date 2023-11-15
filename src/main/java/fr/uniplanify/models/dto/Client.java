@@ -26,6 +26,10 @@ public class Client {
         this.pro = pro;
     }
 
+    public Client(){
+        
+    }
+
 
     public int getIdC() {
         return idC;
