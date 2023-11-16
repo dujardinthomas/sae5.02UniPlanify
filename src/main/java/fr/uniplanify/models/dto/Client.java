@@ -67,7 +67,7 @@ public class Client {
     }
 
     public void setPro(Boolean pro) {
-        this.pro = pro;
+        System.out.println(pro);
     }
 
     @Override
