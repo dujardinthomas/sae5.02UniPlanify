@@ -6,6 +6,9 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
+import fr.uniplanify.models.dao.ClientDAO;
+import fr.uniplanify.models.dto.Client;
+
 // N'est appelée QUE par la page de login
 @WebServlet("/verif")
 public class Verif extends HttpServlet
@@ -15,13 +18,18 @@ public class Verif extends HttpServlet
     {
             String login = req.getParameter("login");
             String pwd = req.getParameter("pwd");
+
+            ClientDAO c = new ClientDAO();
+            Client client = c.getClientByMailAndPwd(login, pwd);
         
             System.out.println("Verif : "+login+" "+pwd);
-            if (login != null && pwd != null && login.equals("thomas.dujardin2.etu@univ-lille.fr") && pwd.equals("toto"))
+            if (login != null && pwd != null && client!= null)
             {   // le login est correct, on fournit la page demandée
                 HttpSession session=req.getSession(true);
-                session.setAttribute("token", login);
-                System.out.println("Dans la session :"+session.getAttribute("token"));
+                session.invalidate();
+                session=req.getSession(true);
+                session.setAttribute("clientDTO", client);
+                System.out.println("bienvenue " + client.getPrenomC() + " " + client.getNomC());
                 System.out.println("Redirection vers "+req.getParameter("origine"));
                 res.sendRedirect(req.getParameter("origine"));
             } else

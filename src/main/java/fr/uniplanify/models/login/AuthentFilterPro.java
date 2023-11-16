@@ -1,6 +1,8 @@
 package fr.uniplanify.models.login;
 
 import java.io.IOException;
+
+import fr.uniplanify.models.dto.Client;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -17,9 +19,9 @@ public class AuthentFilterPro extends HttpFilter {
         System.out.println("Le filtre pro se déclenche");
 
         HttpSession session = req.getSession(true);
-        String role = "admin";
-        if ((session.getAttribute("token") != null) && (role == "admin")){
-            System.out.println("Le token est présent, poursuite...");
+        Client c = (Client) session.getAttribute("clientDAO");
+        if ((c != null) && (c.getPro())){
+            System.out.println("L'utilisateur est présent, et est admin, poursuite...");
             chain.doFilter(req, res);
         } else {
             System.out.println("Le token n'est pas présent, on envoie sur login...");

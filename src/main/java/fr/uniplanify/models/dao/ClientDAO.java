@@ -15,19 +15,24 @@ public class ClientDAO {
 
 
 	public Client getClientByIdC(int idC){
-		return getClients("select * from client where idc = " + idC);
+		return getClients("select * from client where idc = '" + idC + "'");
 	}
 
 	public Client getClientByNomC(String nomC){
-		return getClients("select * from client where nomc = " + nomC);
+		return getClients("select * from client where nomc = '" + nomC + "'");
 	}
 
 	public Client getClientByPrenomC(String prenomC){
-		return getClients("select * from client where prenomC = " + prenomC);
+		return getClients("select * from client where prenomC = '" + prenomC + "'");
+	}
+
+	public Client getClientByMailAndPwd(String mailC, String pwd){
+		return getClients("select * from client where mailC = '" + mailC + "' and password = '" + pwd + "'");
 	}
 	
 
 	private Client getClients(String query) {
+		System.out.println(query);
 		//List<Client> clients = new ArrayList<>();
 		Client clients = null;
 		con = ds.getConnection();

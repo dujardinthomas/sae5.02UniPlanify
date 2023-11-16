@@ -17,11 +17,11 @@ public class AuthentFilterPerso extends HttpFilter {
         System.out.println("Le filtre se déclenche");
 
         HttpSession session = req.getSession(true);
-        if (session.getAttribute("token") != null) {
-            System.out.println("Le token est présent, poursuite...");
+        if (session.getAttribute("clientDTO") != null) {
+            System.out.println("Le client est présent, poursuite...");
             chain.doFilter(req, res);
         } else {
-            System.out.println("Le token n'est pas présent, on envoie sur login...");
+            System.out.println("Le client n'est pas présent, on envoie sur login...");
             // non authentifié, on range l'appel dans la session
             // et on appelle la page de login
 

@@ -7,12 +7,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.uniplanify.models.dao.ClientDAO;
 import fr.uniplanify.models.dao.ConstraintsDAO;
 import fr.uniplanify.models.dao.RdvClientDAO;
 import fr.uniplanify.models.dao.RdvDAO;
 import fr.uniplanify.models.dto.Client;
-import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Rdv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,8 +30,8 @@ public class Reserve extends HttpServlet {
         int hours = Integer.parseInt(req.getParameter("hours"));
         int minute = Integer.parseInt(req.getParameter("minutes"));
 
-        ClientDAO clDAO = new ClientDAO();
-        Client user = clDAO.getClientByIdC(Integer.parseInt(req.getParameter("idC")));
+        HttpSession session=req.getSession(true);
+        Client user = (Client) session.getAttribute("clientDTO");
 
         // HttpSession session = req.getSession(true);
         // Client user = (Client) session.getAttribute("user");
