@@ -53,7 +53,7 @@ public class Reserve extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<meta charset=\"UTF-8\"><title>Reservation</title>");
-        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
+        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"../style/style.css\">");
         out.println("</head>");
         out.println("<body>");
 
@@ -81,7 +81,7 @@ public class Reserve extends HttpServlet {
             out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
         }
 
-        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
+        out.println("<footer> <button> <a href=../Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
         out.println("</body>");
         out.println("</html>");
     }

@@ -2,13 +2,8 @@ package fr.uniplanify.views;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
-import fr.uniplanify.models.dao.DS;
 import fr.uniplanify.models.dao.RdvDAO;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Rdv;
@@ -89,7 +84,7 @@ public class Perso extends HttpServlet {
         out.println("</table>");
 
         out.println("</center>");
-        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
+        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
         out.println("</body>");
         out.println("</html>");
     }

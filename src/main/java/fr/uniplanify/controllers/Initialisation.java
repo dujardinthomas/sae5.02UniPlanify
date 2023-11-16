@@ -62,7 +62,7 @@ public class Initialisation extends HttpServlet {
         // TestsAleaData tests = new TestsAleaData();
         // tests.createClient(10);
 
-        
+        res.sendRedirect("../Deconnect");
 
     }
 

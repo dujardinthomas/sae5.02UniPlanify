@@ -112,7 +112,7 @@ public class Jour extends HttpServlet {
         }
         
         out.println("</table>");
-        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
+        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
         out.println("</body>");
         out.println("</html>");
     }

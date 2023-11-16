@@ -15,9 +15,7 @@ public class Deconnect extends HttpServlet{
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
         session.invalidate();
-        String accueil = getServletContext().getInitParameter("accueil");
-        System.out.println(accueil);
-        res.sendRedirect(accueil);
+        res.sendRedirect(getServletContext().getInitParameter("accueil"));
     }
 
 }

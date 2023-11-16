@@ -2,11 +2,11 @@ package fr.uniplanify.views;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.List;
 
-import fr.uniplanify.models.dao.DS;
+import fr.uniplanify.models.dao.RdvDAO;
+import fr.uniplanify.models.dto.Client;
+import fr.uniplanify.models.dto.Rdv;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,15 +16,18 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/Pro")
 public class Pro extends HttpServlet {
 
-    private DS ds = new DS();
-	private Connection con;
+    // private DS ds = new DS();
+	// private Connection con;
 
-
+    RdvDAO r = new RdvDAO();
+    
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+    
+        List<Rdv> getAllMyRDV = r.getAllRDV();
         // // Authentifie
-        // HttpSession session = req.getSession(true);
-        // c = (Client) session.getAttribute("client");
+        //HttpSession session = req.getSession(true);
+        //c = (Client) session.getAttribute("client");
         // if (c == null || c.getPro() == false) {
         // res.sendRedirect("Deconnect");
         // }
@@ -39,76 +42,44 @@ public class Pro extends HttpServlet {
         out.println("<body>");
         out.println("<center>");
 
-        con = ds.getConnection();
-        
+        out.println("<h1> LES RENDEZ-VOUS PROFESSIONELS </h1>");
 
-        try {
-            out.println("<h1> Mes rendez vous</h1>");
-            Statement stmt = con.createStatement();
-            String rdvToday = "SELECT\n" + //
-                    "  rdv.heure,\n" + //
-                    "  client.nomC,\n" + //
-                    "  rdv.etat\n" + //
-                    "FROM\n" + //
-                    "  rdv\n" + //
-                    "INNER JOIN\n" + //
-                    "  rdvClient\n" + //
-                    "ON\n" + //
-                    "  rdv.jour = rdvClient.jour\n" + //
-                    "AND\n" + //
-                    "  rdv.heure = rdvClient.heure\n" + //
-                    "INNER JOIN\n" + //
-                    "  client\n" + //
-                    "ON\n" + //
-                    "  rdvClient.idC = client.idC\n" + //
-                    "WHERE\n" + //
-                    "  rdv.jour = DATE( NOW());";
-
-            String rdvAll = "SELECT\n" + //
-                    "  rdv.jour,\n" + //
-                    "  rdv.heure,\n" + //
-                    "  client.nomC,\n" + //
-                    "  client.prenomC,\n" + //
-                    "  rdv.etat\n" + //
-                    "FROM\n" + //
-                    "  rdv\n" + //
-                    "INNER JOIN\n" + //
-                    "  rdvClient\n" + //
-                    "ON\n" + //
-                    "  rdv.jour = rdvClient.jour\n" + //
-                    "AND\n" + //
-                    "  rdv.heure = rdvClient.heure\n" + //
-                    "INNER JOIN\n" + //
-                    "  client\n" + //
-                    "ON\n" + //
-                    "  rdvClient.idC = client.idC;";
-
-            ResultSet rs = stmt.executeQuery(rdvAll);
-            out.println("<table>");
+        out.println("<table>");
+        out.println("<tr>");
+        out.println("<td>Jour</td>");
+        out.println("<td>Heure</td>");
+        out.println("<td>Nombre de personne</td>");
+        out.println("<td>Nom</td>");
+        out.println("<td>Prenom</td>");
+        out.println("</tr>");
+        for (Rdv rdv : getAllMyRDV) {
+            out.println("<tr>");
+            
+            out.println("<td>" + rdv.getJour() + "</td>");
+            out.println("<td>" + rdv.getHeure() + "</td>");
+            out.println("<td>" + rdv.getClients().size() + "</td>");
+            out.println("<td><table>");
+            for (Client client : rdv.getClients()) {
                 out.println("<tr>");
-                    out.println("<td>Jour</td>");
-                    out.println("<td>Heure</td>");
-                    out.println("<td>Nom</td>");
-                    out.println("<td>Preom</td>");
-                    out.println("<td>Etat du RDV</td>");
-                out.println("</tr>");
-
-            while (rs.next()) {
-                out.println("<tr>");
-                    out.println("<td>" + rs.getObject("jour") + "</td>");
-                    out.println("<td>" + rs.getObject("heure") + "</td>");
-                    out.println("<td>" + rs.getObject("nomC") + "</td>");
-                    out.println("<td>" + rs.getObject("prenomC") + "</td>");
-                    out.println("<td>" + rs.getObject("etat") + "</td>");
+                out.println("<td>" + client.getNomC() + "</td>");
                 out.println("</tr>");
             }
-            out.println("</table>");
-        } catch (Exception e) {
-            System.out.println("erreur de requete sql");
+            out.println("</table></td>");
+
+            out.println("<td><table>");
+            for (Client client : rdv.getClients()) {
+                out.println("<tr>");
+                out.println("<td>" + client.getPrenomC() + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table></td>");
+
+            out.println("<tr>");
         }
+        out.println("</table>");
 
         out.println("</center>");
-        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
+        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
         out.println("</body>");
         out.println("</html>");
     }
