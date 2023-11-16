@@ -8,13 +8,18 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Rdv;
 
 public class RdvDAO {
 
 	private DS ds = new DS();
 	private Connection con;
+
+	private String ordreTri = " ORDER BY jour, heure";
 
 	RdvClientDAO rdvClient = new RdvClientDAO();
 
@@ -37,6 +42,35 @@ public class RdvDAO {
 		}
 		ds.closeConnection(con);
 		return rdv;
+	}
+
+	public List<Rdv> getAllMyRDV(Client c){
+		return getRDV("select * from rdvclient where idc = " + c.getIdC() + ordreTri);
+	}
+
+	public List<Rdv> getAllRDV(){
+		return getRDV("select DISTINCT jour, heure from rdvclient" + ordreTri);
+	}
+
+	private List<Rdv> getRDV(String query) {
+		List<Rdv> rdvs = new ArrayList<>();
+		con = ds.getConnection();
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				LocalDate date = rs.getDate("jour").toLocalDate();
+				LocalTime heure = rs.getTime("heure").toLocalTime();
+				
+				rdvs.add(new Rdv(date, heure, "", rdvClient.getAllClientsInRDV(date, heure)));
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+			System.out.println("erreur de recuperaton des rdvs");
+		}
+		ds.closeConnection(con);
+		return rdvs;
 	}
 
 	public boolean createRDV(Rdv rdv) {

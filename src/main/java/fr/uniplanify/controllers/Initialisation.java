@@ -2,11 +2,9 @@ package fr.uniplanify.controllers;
 
 import java.io.IOException;
 
-import fr.uniplanify.TestsAleaData;
 import fr.uniplanify.models.CreateDataBase;
 import fr.uniplanify.models.constraints.Medecin;
 import fr.uniplanify.models.dao.ClientDAO;
-import fr.uniplanify.models.dao.SemaineTypeProDAO;
 import fr.uniplanify.models.dto.Client;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -59,10 +57,10 @@ public class Initialisation extends HttpServlet {
         }
 
         ClientDAO c = new ClientDAO();
-        c.createClient(new Client(0, "dujardin", "thomas", "thomas.dujardin2.etu@univ-lille.fr", "moi", true));
+        c.createClient(new Client("dujardin", "thomas", "thomas.dujardin2.etu@univ-lille.fr", "moi", true));
 
-        TestsAleaData tests = new TestsAleaData();
-        tests.createClient(10);
+        // TestsAleaData tests = new TestsAleaData();
+        // tests.createClient(10);
 
         
 

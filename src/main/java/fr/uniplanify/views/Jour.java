@@ -2,7 +2,6 @@ package fr.uniplanify.views;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -83,12 +82,12 @@ public class Jour extends HttpServlet {
                     // si null = pas de rdv à l'heureActuelle , affiche la cellule en vert
                     etat = "DISPONIBLE POUR LE MOMENT";
                     style = "background-color:1aff00";
-                    priseRDV = " <a href=\"Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
+                    priseRDV = " <a href=\"Perso/Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
                 }else if (rdv.getClients().size() < constraints.getNbPersonneMaxDefault()) {
                     // si reste de la place = présence d'un rdv mais possibilité d'ajouter dans rdvclient , affiche la cellule en orange
                     etat = "ENCORE " + (constraints.getNbPersonneMaxDefault() - rdv.getClients().size()) + " PLACES DISPONIBLE SUR " + constraints.getNbPersonneMaxDefault() + " POUR LE MOMENT ";
                     style = "background-color:FFA500";
-                    priseRDV = " <a href=\"Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
+                    priseRDV = " <a href=\"Perso/Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
                 }
                  else {
                     //si quota atteint affice la cellule en rouge
@@ -113,7 +112,9 @@ public class Jour extends HttpServlet {
         }
         
         out.println("</table>");
+        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
         out.println("</body>");
+        out.println("</html>");
     }
 
 }

@@ -1,7 +1,6 @@
 package fr.uniplanify.models;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -33,7 +32,7 @@ public class CreateDataBase {
 
     public String dropTableClient = "DROP TABLE IF EXISTS client;";
     public String createTableClient = "CREATE TABLE client (\r\n" + //
-            "    idC int PRIMARY KEY,\r\n" + //
+            "    idC SERIAL PRIMARY KEY,\r\n" + //
             "    nomC varchar(200),\r\n" + //
             "    prenomC varchar(200),\r\n" + //
             "    mailC varchar(200),\r\n" + //

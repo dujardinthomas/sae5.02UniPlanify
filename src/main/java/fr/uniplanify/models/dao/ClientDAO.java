@@ -62,16 +62,17 @@ public class ClientDAO {
 
 	public boolean createClient(Client c) {
 		con = ds.getConnection();
-		String query = "insert into client (idc, nomc, prenomc, mailc, password, pro) values (?,?,?,?,?,?)";
+		String query = "insert into client (nomc, prenomc, mailc, password, pro) values (?,?,?,?,?)";
 		PreparedStatement ps;
 		try {
 			ps = con.prepareStatement(query);
-			ps.setInt(1, c.getIdC());
-			ps.setString(2, c.getNomC());
-			ps.setString(3, c.getPrenomC());
-			ps.setString(4, c.getMailC());
-			ps.setString(5, c.getPassword());
-			ps.setBoolean(6, c.getPro());
+			//ps.setInt(1, c.getIdC());
+			ps.setString(1, c.getNomC());
+			ps.setString(2, c.getPrenomC());
+			ps.setString(3, c.getMailC());
+			ps.setString(4, c.getPassword());
+			ps.setBoolean(5, c.getPro());
+			System.out.println(ps.toString());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.getMessage();

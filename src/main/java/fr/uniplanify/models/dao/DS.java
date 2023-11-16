@@ -28,12 +28,10 @@ public class DS {
 					System.out.println("impossible de créer la connection a la bdd!");
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				System.out.println("erreur lecture du fichier " + filePath);
 				e.getMessage();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -19,21 +19,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/Perso")
-public class Perso extends HttpServlet {
+@WebServlet("/Pro2")
+public class Pro2 extends HttpServlet {
 
     // private DS ds = new DS();
 	// private Connection con;
 
     RdvDAO r = new RdvDAO();
     
-
-
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        HttpSession session = req.getSession(true);
-        Client c = (Client) session.getAttribute("clientDTO");
-        List<Rdv> getAllMyRDV = r.getAllMyRDV(c);
+    
+        List<Rdv> getAllMyRDV = r.getAllRDV();
         // // Authentifie
         //HttpSession session = req.getSession(true);
         //c = (Client) session.getAttribute("client");
@@ -51,8 +48,7 @@ public class Perso extends HttpServlet {
         out.println("<body>");
         out.println("<center>");
 
-        out.println("<h1> MES RENDEZ-VOUS CLIENT</h1>");
-
+        out.println("<h1> LES RENDEZ-VOUS PROFESSIONELS </h1>");
 
         out.println("<table>");
         out.println("<tr>");

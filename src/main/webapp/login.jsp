@@ -1,29 +1,39 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
+
 <head>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
 </head>
-  
-<h1>Login</h1>
 
-<%
-  String mess = request.getParameter("mess");
-  if (mess!=null) out.println("<h2>"+mess+"</h2>");  
+<body>
+  <h1><a href="login.jsp">Login</a></h1>
 
-  String origine=(String)session.getAttribute("origine");
-  if (origine==null) origine="private/welcome1" ;
-%>
+  <% String mess=request.getParameter("mess"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
 
-<form action="verif" method="post">
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="login" required>
+    String origine=(String)session.getAttribute("origine");
+    if (origine==null) origine="private/welcome1" ;
+    %>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="pwd" required>
+    <form action="verif" method="post">
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="login" required>
 
-    <input type="hidden" name="origine" value=<%=origine%> >
-    
-    <button type="submit">Login</button>
-  </div>
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="pwd" required>
 
-</form> 
+        <input type="hidden" name="origine" value=<%=origine%> >
+
+        <button type="submit">Login</button>
+      </div>
+
+    </form>
+
+    <h1><a href="inscription.jsp">Inscription</a></h1>
+
+</body>
+
+</html>

@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/Reserve")
+@WebServlet("/Perso/Reserve")
 public class Reserve extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -81,6 +81,9 @@ public class Reserve extends HttpServlet {
             out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
         }
 
+        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
+        out.println("</body>");
+        out.println("</html>");
     }
 
 }

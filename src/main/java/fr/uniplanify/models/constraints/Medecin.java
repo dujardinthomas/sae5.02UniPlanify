@@ -2,7 +2,6 @@ package fr.uniplanify.models.constraints;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import fr.uniplanify.models.dao.ConstraintsDAO;

@@ -2,10 +2,6 @@ package fr.uniplanify.controllers;
 
 import java.io.IOException;
 
-import fr.uniplanify.TestsAleaData;
-import fr.uniplanify.models.CreateDataBase;
-import fr.uniplanify.models.constraints.Medecin;
-import fr.uniplanify.models.dao.SemaineTypeProDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

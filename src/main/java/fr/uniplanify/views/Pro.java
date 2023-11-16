@@ -3,9 +3,7 @@ package fr.uniplanify.views;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import fr.uniplanify.models.dao.DS;
@@ -14,7 +12,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/Pro")
 public class Pro extends HttpServlet {
@@ -107,13 +104,12 @@ public class Pro extends HttpServlet {
             }
             out.println("</table>");
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println("erreur de requete sql");
         }
 
         out.println("</center>");
-        out.println("</body>");
         out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
+        out.println("</body>");
         out.println("</html>");
     }
 

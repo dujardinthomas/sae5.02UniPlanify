@@ -5,7 +5,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -80,9 +79,9 @@ public class Calendrier extends HttpServlet {
         out.println("<a href=\"?year=" + dateActuelle.getYear() + "&month=" + dateActuelle.getMonth().getValue() + "\">Aujourd'hui</a>");
         out.println("<a href=\"?year=" + nextYear + "&month=" + nextMonth + "\">Mois suivant</a>");
         out.println("</div>");
-        out.println("</body>");
 
         out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button></footer");
+        out.println("</body>");
         out.println("</html>");
     }
 
