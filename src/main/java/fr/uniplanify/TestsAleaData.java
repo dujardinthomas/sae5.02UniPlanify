@@ -22,7 +22,7 @@ public class TestsAleaData {
     int nbPersonneMax = 1;
 
     public boolean createClient(int nb) {
-        for (int c = 0; c < nb; c++) {
+        for (int c = 1; c <= nb; c++) {
             // System.out.println(
             clientDAO.createClient(new Client(c, "nom" + c, "prenom" + c, "mail" + c,
                     "password" + c, false));

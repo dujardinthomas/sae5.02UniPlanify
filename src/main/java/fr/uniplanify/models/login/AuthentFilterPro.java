@@ -20,7 +20,6 @@ public class AuthentFilterPro extends HttpFilter {
 
         HttpSession session = req.getSession(true);
         Client c = (Client) session.getAttribute("clientDTO");
-        System.out.println("verif pro filter " + c.getNomC() + " " + c.getPro());
         if ((c != null) && (c.getPro())){
             System.out.println("L'utilisateur est présent, et est admin, poursuite...");
             chain.doFilter(req, res);

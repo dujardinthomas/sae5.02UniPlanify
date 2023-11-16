@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class Jour extends HttpServlet {
 
     ConstraintsDAO cDAO = new ConstraintsDAO();
-    int dureeRDV = cDAO.getConstraints().getDureeDefaultMinutes();
+    
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -68,6 +68,7 @@ public class Jour extends HttpServlet {
             Constraints constraints = cDAO.getConstraints();
             RdvDAO rDAO = new RdvDAO();
 
+            int dureeRDV = cDAO.getConstraints().getDureeDefaultMinutes();
             System.out.println("duree rdv : " + dureeRDV);
 
             while (!heureActuelle.plusMinutes(dureeRDV).isAfter(heureFin)) {
