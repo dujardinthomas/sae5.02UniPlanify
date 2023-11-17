@@ -81,6 +81,12 @@ public class Reserve extends HttpServlet {
             boolean statut = rdvDAO.createRDV(new Rdv(date, time, etat, clients));
             out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
         }
+        
+        String monEspace = "Perso";
+        if(user.getPro() == true){
+            monEspace = "Pro";
+        }
+        out.println("<h2><a href=\"../"+ monEspace +"\">Accéder à mon espace</a></h2>");
 
         Footer footer = new Footer(req, "../");
         out.println(footer.toString());
