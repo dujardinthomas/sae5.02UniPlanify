@@ -11,6 +11,7 @@ import java.util.Locale;
 import fr.uniplanify.models.dao.ConstraintsDAO;
 import fr.uniplanify.models.dao.RdvDAO;
 import fr.uniplanify.models.dao.SemaineTypeProDAO;
+import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Rdv;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/Jour")
 public class Jour extends HttpServlet {
@@ -112,7 +114,10 @@ public class Jour extends HttpServlet {
         }
         
         out.println("</table>");
-        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
+
+        Footer footer = new Footer(req, "");
+        out.println(footer.toString());
+        
         out.println("</body>");
         out.println("</html>");
     }

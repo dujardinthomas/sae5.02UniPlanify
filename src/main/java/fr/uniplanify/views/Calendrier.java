@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.uniplanify.models.dao.SemaineTypeProDAO;
+import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.JournéePro;
 import fr.uniplanify.models.dto.SemaineTypePro;
 
@@ -80,7 +81,8 @@ public class Calendrier extends HttpServlet {
         out.println("<a href=\"?year=" + nextYear + "&month=" + nextMonth + "\">Mois suivant</a>");
         out.println("</div>");
 
-        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
+        Footer footer = new Footer(req, "");
+        out.println(footer.toString());
         out.println("</body>");
         out.println("</html>");
     }

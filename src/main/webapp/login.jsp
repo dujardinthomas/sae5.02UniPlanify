@@ -14,7 +14,7 @@
   <% String mess=request.getParameter("mess"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
 
     String origine=(String)session.getAttribute("origine");
-    if (origine==null) origine="private/welcome1" ;
+    if (origine==null) origine="" ;
     %>
 
     <form action="verif" method="post">

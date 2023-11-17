@@ -83,8 +83,8 @@ public class Perso extends HttpServlet {
         }
         out.println("</table>");
 
-        out.println("</center>");
-        out.println("<footer> <button> <a href=Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
+        Footer footer = new Footer(req, "");
+        out.println(footer.toString());
         out.println("</body>");
         out.println("</html>");
     }

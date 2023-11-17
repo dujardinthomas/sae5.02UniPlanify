@@ -31,7 +31,14 @@ public class Verif extends HttpServlet
                 session.setAttribute("clientDTO", client);
                 System.out.println("bienvenue " + client.getPrenomC() + " " + client.getNomC());
                 System.out.println("Redirection vers "+req.getParameter("origine"));
-                res.sendRedirect(req.getParameter("origine"));
+                String redirection = req.getParameter("origine");
+                if(redirection == ""){
+                    res.sendRedirect(getServletContext().getInitParameter("accueil"));
+                }
+                else{
+                    res.sendRedirect(redirection);
+                }
+                 
             } else
             {
                 // non authentifié, on repart au login

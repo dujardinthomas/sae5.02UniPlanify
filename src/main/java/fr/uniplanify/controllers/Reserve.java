@@ -12,6 +12,7 @@ import fr.uniplanify.models.dao.RdvClientDAO;
 import fr.uniplanify.models.dao.RdvDAO;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Rdv;
+import fr.uniplanify.views.Footer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -81,7 +82,8 @@ public class Reserve extends HttpServlet {
             out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
         }
 
-        out.println("<footer> <button> <a href=../Deconnect>Se déconnecter</a></button>    <button> <a href=../>Accueil</a></button></footer");
+        Footer footer = new Footer(req, "../");
+        out.println(footer.toString());
         out.println("</body>");
         out.println("</html>");
     }
