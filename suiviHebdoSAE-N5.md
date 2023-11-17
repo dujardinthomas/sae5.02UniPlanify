@@ -93,8 +93,12 @@ Pour vérifier si le créneau est disponible, je regarde si ma méthode dans mon
 
 J'ai hiérarchisé le code pour qu'il respecte les principes d'un modèle MVC WEB.
 
-## 4e semaine : Authentification
+## 4e semaine : Authentification, passage à JPA
 
-L'objectif est de rendre le calendrier accessible au public tout en exigeant une identification pour réserver un créneau. Pour cela, j'ai mis en place un filtre qui écoute chaque requête débutant par le mot clé "Reserve" : @WebFilter(urlPatterns = { "/Reserve/*" }). 
-Ce filtre examine si l'utilisateur est connecté en vérifiant l'existence ou non d'un attribut de session appelé "token". Si cet attribut existe, le filtre permet l'accès à la page initiale. En revanche, s'il n'existe pas, le filtre redirige vers la page de connexion, puis vers la servlet de vérification de connexion. Cette servlet va créer l'attribut de session "token" et rediriger vers la page initiale si le login et le mot de passe sont présents dans la base de données. Dans le cas où ils ne sont pas reconnus, elle renvoie à nouveau vers la page de connexion.
-L'url de la page intial et ses paramètres sont passés au formulaire de connexion en champ caché permettant la redirection souhaité.
+L'objectif est de rendre le calendrier accessible au public tout en exigeant une authentification pour la réservation et la consultation de son espace. Pour cela, j'ai mis en place 2 filtres ; un qui écoute chaque requête débutant par "Perso" et le second par "Pro" : *@WebFilter(urlPatterns = { "/Perso/*" }).
+
+Ces filtres regardent dans la session si un objet client existe. 
+- Pour un client, si il existe, le filtre permet l'accès à la page demandé 
+- Pour un admin, le filtre regarde si l'attribut pro est à true. 
+
+Si le client n'existe pas ou qu'il n'est pas pro, le filtre redirige vers la page de connexion, puis vers la servlet de vérification de connexion. Cette servlet va créer l'objet client, depuis la bdd et rediriger vers la page souhaité (L'url de la page intial et ses paramètres sont passés au formulaire de connexion en champ caché permettant la redirection souhaité).
