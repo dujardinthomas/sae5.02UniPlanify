@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.uniplanify.models.dao.ConstraintsDAO;
-import fr.uniplanify.models.dao.SemaineTypeProDAO;
+import fr.uniplanify.models.dao.JourneeTypeProDAO;
 import fr.uniplanify.models.dto.Constraints;
-import fr.uniplanify.models.dto.JournéePro;
-import fr.uniplanify.models.dto.SemaineTypePro;
+import fr.uniplanify.models.dto.JourneeTypePro;
 
 public class Medecin{
 
@@ -20,14 +19,13 @@ public class Medecin{
         ConstraintsDAO cDAO = new ConstraintsDAO();
         cDAO.createConstraint(c);
 
-        List<JournéePro> weekWork = new ArrayList<>();
+        List<JourneeTypePro> weekWork = new ArrayList<>();
         for(int j=0; j<joursWork.length; j++){
-            weekWork.add(new JournéePro(joursWork[j].toLowerCase(), LocalTime.of(heuresStartWork[j][0], heuresStartWork[j][1]),  LocalTime.of(heuresEndWork[j][0], heuresEndWork[j][1])));
+            weekWork.add(new JourneeTypePro(joursWork[j].toLowerCase(), LocalTime.of(heuresStartWork[j][0], heuresStartWork[j][1]),  LocalTime.of(heuresEndWork[j][0], heuresEndWork[j][1])));
         }
         System.out.println(weekWork.toString());
-        SemaineTypePro semaineTypeProWork = new SemaineTypePro(weekWork);
-        SemaineTypeProDAO sem = new SemaineTypeProDAO();
-        sem.createSemaineTypePro(semaineTypeProWork);
+        JourneeTypeProDAO sem = new JourneeTypeProDAO();
+        sem.createSemaineTypePro(weekWork);
 
     }
 

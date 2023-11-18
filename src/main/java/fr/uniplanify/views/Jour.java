@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import fr.uniplanify.models.dao.ConstraintsDAO;
 import fr.uniplanify.models.dao.RdvDAO;
-import fr.uniplanify.models.dao.SemaineTypeProDAO;
+import fr.uniplanify.models.dao.JourneeTypeProDAO;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Rdv;
@@ -51,7 +51,7 @@ public class Jour extends HttpServlet {
         out.println("<table> <tr> <td>" + dateFormatee + "</td> </tr>");
 
         // Affichage des heures en fonction du jou
-        SemaineTypeProDAO semDAO = new SemaineTypeProDAO();
+        JourneeTypeProDAO semDAO = new JourneeTypeProDAO();
         List<LocalTime> dayTime = semDAO.getDayPro(dateFormatee.split(" ")[0]); // on recupere le 1er mot : lundi
         if (dayTime == null) {
             System.out.println("jour fermé!");

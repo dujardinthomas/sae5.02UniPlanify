@@ -3,12 +3,12 @@ package fr.uniplanify.models.dto;
 import java.sql.Time;
 import java.time.LocalTime;
 
-public class JournéePro {
+public class JourneeTypePro {
     String jour;
     LocalTime heureDebut;
     LocalTime heureFin;
     
-    public JournéePro(String jour, LocalTime heureDebut, LocalTime heureFin) {
+    public JourneeTypePro(String jour, LocalTime heureDebut, LocalTime heureFin) {
         this.jour = jour;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;

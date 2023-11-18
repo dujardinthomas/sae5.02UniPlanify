@@ -8,17 +8,15 @@ import java.sql.Statement;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import fr.uniplanify.models.dto.JournéePro;
-import fr.uniplanify.models.dto.SemaineTypePro;
+import fr.uniplanify.models.dto.JourneeTypePro;
 
-public class SemaineTypeProDAO {
+public class JourneeTypeProDAO {
 
 	private DS ds = new DS();
 	private Connection con;
 
-	public SemaineTypePro getSemaineTypePro() {
-		SemaineTypePro weekDTO = null;
-		List<JournéePro> horaires = new ArrayList<>();
+	public List<JourneeTypePro> getSemaineTypePro() {
+		List<JourneeTypePro> weekDTO = new ArrayList<>();
 
 		con = ds.getConnection();
 		Statement stmt;
@@ -28,12 +26,11 @@ public class SemaineTypeProDAO {
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				// pour chaque jour
-				horaires.add(new JournéePro(rs.getString("joursemaine"),
+				weekDTO.add(new JourneeTypePro(rs.getString("joursemaine"),
 						rs.getTime("heuredebut").toLocalTime(),
 						rs.getTime("heurefin").toLocalTime()));
 
 			}
-			weekDTO = new SemaineTypePro(horaires);
 		} catch (SQLException e) {
 			e.getMessage();
 			System.out.println("erreur de select semainetypepro!");
@@ -67,10 +64,10 @@ public class SemaineTypeProDAO {
 	}
 
 
-	public boolean createSemaineTypePro(SemaineTypePro weekDTO) {
+	public boolean createSemaineTypePro(List<JourneeTypePro> weekDTO) {
 		con = ds.getConnection();
 		String query = "insert into semainetypepro (joursemaine, heuredebut, heurefin) values (?,?,?)";
-		for (JournéePro j : weekDTO.getSemaine()) {
+		for (JourneeTypePro j : weekDTO) {
 			PreparedStatement ps;
 			try {
 				ps = con.prepareStatement(query);

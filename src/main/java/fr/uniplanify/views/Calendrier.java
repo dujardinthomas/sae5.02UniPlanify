@@ -12,10 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import fr.uniplanify.models.dao.SemaineTypeProDAO;
+import fr.uniplanify.models.dao.JourneeTypeProDAO;
 import fr.uniplanify.models.dto.Client;
-import fr.uniplanify.models.dto.JournéePro;
-import fr.uniplanify.models.dto.SemaineTypePro;
+import fr.uniplanify.models.dto.JourneeTypePro;
 
 
 @WebServlet("/Calendrier")
@@ -118,10 +117,9 @@ public class Calendrier extends HttpServlet {
             calendarHTML.append("<td></td>");
         }
 
-        SemaineTypeProDAO semDAO = new SemaineTypeProDAO();
-        SemaineTypePro pro = semDAO.getSemaineTypePro();
+        JourneeTypeProDAO semDAO = new JourneeTypeProDAO();
         List<String> dayWork = new ArrayList<>();
-        for (JournéePro journee : pro.getSemaine()) {
+        for (JourneeTypePro journee : semDAO.getSemaineTypePro()) {
             dayWork.add(journee.getJour());
         }
 
