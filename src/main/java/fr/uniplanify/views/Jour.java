@@ -8,9 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-import fr.uniplanify.models.dao.ConstraintsDAO;
-import fr.uniplanify.models.dao.RdvDAO;
-import fr.uniplanify.models.dao.JourneeTypeProDAO;
+
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Rdv;
@@ -24,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/Jour")
 public class Jour extends HttpServlet {
 
-    ConstraintsDAO cDAO = new ConstraintsDAO();
+   // ConstraintsDAO cDAO = new ConstraintsDAO();
     
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -51,67 +49,67 @@ public class Jour extends HttpServlet {
         out.println("<table> <tr> <td>" + dateFormatee + "</td> </tr>");
 
         // Affichage des heures en fonction du jou
-        JourneeTypeProDAO semDAO = new JourneeTypeProDAO();
-        List<LocalTime> dayTime = semDAO.getDayPro(dateFormatee.split(" ")[0]); // on recupere le 1er mot : lundi
-        if (dayTime == null) {
-            System.out.println("jour fermé!");
-            out.println("<tr> <td>Fermé !</td> </tr>");
+        // JourneeTypeProDAO semDAO = new JourneeTypeProDAO();
+        // List<LocalTime> dayTime = semDAO.getDayPro(dateFormatee.split(" ")[0]); // on recupere le 1er mot : lundi
+        // if (dayTime == null) {
+        //     System.out.println("jour fermé!");
+        //     out.println("<tr> <td>Fermé !</td> </tr>");
 
-        } else {
+        // } else {
 
-            LocalTime heureDebut = dayTime.get(0);
-            LocalTime heureFin = dayTime.get(1);
-            LocalTime heureActuelle = heureDebut;
+        //     LocalTime heureDebut = dayTime.get(0);
+        //     LocalTime heureFin = dayTime.get(1);
+        //     LocalTime heureActuelle = heureDebut;
 
-            String priseRDV = "";
+        //     String priseRDV = "";
 
-            DateTimeFormatter heureFormatter = DateTimeFormatter.ofPattern("HH:mm");
-            Constraints constraints = cDAO.getConstraints();
-            RdvDAO rDAO = new RdvDAO();
+        //     DateTimeFormatter heureFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        //     Constraints constraints = cDAO.getConstraints();
+        //     RdvDAO rDAO = new RdvDAO();
 
-            int dureeRDV = cDAO.getConstraints().getDureeDefaultMinutes();
-            System.out.println("duree rdv : " + dureeRDV);
+        //     int dureeRDV = cDAO.getConstraints().getDureeDefaultMinutes();
+        //     System.out.println("duree rdv : " + dureeRDV);
 
-            while (!heureActuelle.plusMinutes(dureeRDV).isAfter(heureFin)) {
-                // tant que il y a encore des creneaux
-                String etat = "";
-                String style = "background-color:ffe694";
+        //     while (!heureActuelle.plusMinutes(dureeRDV).isAfter(heureFin)) {
+        //         // tant que il y a encore des creneaux
+        //         String etat = "";
+        //         String style = "background-color:ffe694";
 
-                Rdv rdv = rDAO.getRDVByDateAndHeure(dateSelectionnee, heureActuelle);
+        //         Rdv rdv = rDAO.getRDVByDateAndHeure(dateSelectionnee, heureActuelle);
                 
 
-                if (rdv == null) {
-                    // si null = pas de rdv à l'heureActuelle , affiche la cellule en vert
-                    etat = "DISPONIBLE POUR LE MOMENT";
-                    style = "background-color:1aff00";
-                    priseRDV = " <a href=\"Perso/Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
-                }else if (rdv.getClients().size() < constraints.getNbPersonneMaxDefault()) {
-                    // si reste de la place = présence d'un rdv mais possibilité d'ajouter dans rdvclient , affiche la cellule en orange
-                    etat = "ENCORE " + (constraints.getNbPersonneMaxDefault() - rdv.getClients().size()) + " PLACES DISPONIBLE SUR " + constraints.getNbPersonneMaxDefault() + " POUR LE MOMENT ";
-                    style = "background-color:FFA500";
-                    priseRDV = " <a href=\"Perso/Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
-                }
-                 else {
-                    //si quota atteint affice la cellule en rouge
-                    etat = "PAS DISPONIBLE "+rdv.toString();
-                    style = "background-color:ff0000";
-                    priseRDV = "";
-                }
+        //         if (rdv == null) {
+        //             // si null = pas de rdv à l'heureActuelle , affiche la cellule en vert
+        //             etat = "DISPONIBLE POUR LE MOMENT";
+        //             style = "background-color:1aff00";
+        //             priseRDV = " <a href=\"Perso/Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
+        //         }else if (rdv.getClients().size() < constraints.getNbPersonneMaxDefault()) {
+        //             // si reste de la place = présence d'un rdv mais possibilité d'ajouter dans rdvclient , affiche la cellule en orange
+        //             etat = "ENCORE " + (constraints.getNbPersonneMaxDefault() - rdv.getClients().size()) + " PLACES DISPONIBLE SUR " + constraints.getNbPersonneMaxDefault() + " POUR LE MOMENT ";
+        //             style = "background-color:FFA500";
+        //             priseRDV = " <a href=\"Perso/Reserve?year="+year+"&month="+month+"&day="+day+"&hours="+heureActuelle.getHour()+"&minutes="+heureActuelle.getMinute()+ "\">Prendre RDV </a>";
+        //         }
+        //          else {
+        //             //si quota atteint affice la cellule en rouge
+        //             etat = "PAS DISPONIBLE "+rdv.toString();
+        //             style = "background-color:ff0000";
+        //             priseRDV = "";
+        //         }
 
-                out.println("<tr><td><div class=\"cellule\"style=\"" + style + "\"><div class=\"dayNumber\">");
-                out.println(heureActuelle.format(heureFormatter));
+        //         out.println("<tr><td><div class=\"cellule\"style=\"" + style + "\"><div class=\"dayNumber\">");
+        //         out.println(heureActuelle.format(heureFormatter));
 
-                System.out.println(heureActuelle);
+        //         System.out.println(heureActuelle);
                 
-                out.println("</div>");
-                out.println("<div class=\"event\">");
-                out.println(etat + priseRDV + "</div></td>");
-                out.println("</tr>");
+        //         out.println("</div>");
+        //         out.println("<div class=\"event\">");
+        //         out.println(etat + priseRDV + "</div></td>");
+        //         out.println("</tr>");
 
-                heureActuelle = heureActuelle.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
-            }
+        //         heureActuelle = heureActuelle.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
+        //     }
 
-        }
+        // }
         
         out.println("</table>");
 

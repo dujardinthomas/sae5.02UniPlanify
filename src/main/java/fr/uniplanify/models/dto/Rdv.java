@@ -6,8 +6,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Rdv {
+    @Id
     LocalDate jour;
+    @Id
     LocalTime heure;
     String etat;
     List<Client> clients;
@@ -19,6 +25,8 @@ public class Rdv {
         this.clients = clients;
     }
 
+    public Rdv() {
+    }
 
     public LocalDate getJour(){
         return jour;

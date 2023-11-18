@@ -1,11 +1,19 @@
 package fr.uniplanify.controllers;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import fr.uniplanify.models.CreateDataBase;
-import fr.uniplanify.models.constraints.Medecin;
-import fr.uniplanify.models.dao.ClientDAO;
-import fr.uniplanify.models.dto.Client;
+import fr.uniplanify.models.dto.Constraints;
+import fr.uniplanify.models.dto.JourneeTypePro;
+
+// import fr.uniplanify.models.constraints.Medecin;
+// import fr.uniplanify.models.dao.ClientDAO;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,21 +25,31 @@ public class Initialisation extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        String[] joursTravailles = req.getParameterValues("jour_travaille[]");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistencexml");
+        EntityManager em = emf.createEntityManager();
 
-        CreateDataBase cdb = new CreateDataBase();
-        cdb.createnewdatabase();
+        String[] joursTravailles = req.getParameterValues("jour_travaille[]");
 
         if (joursTravailles != null) {
 
+            Constraints cons = new Constraints();
+
             int dureeDefaut = Integer.parseInt(req.getParameter("dureeDefaut"));
             int nbPersonneMax = Integer.parseInt(req.getParameter("nbPersonneMax"));
+            cons.setDureeDefaultMinutes(dureeDefaut);
+            cons.setNbPersonneMaxDefault(nbPersonneMax);
+
+            em.getTransaction().begin();
+            em.persist(cons);
+            em.getTransaction().commit();
+            System.out.println("contraintes enregistrées : " + dureeDefaut + " min par rdv avec " + nbPersonneMax
+                    + " personnes maxi/rdv");
 
             int nbJours = joursTravailles.length;
 
-            String[] jours = new String[nbJours];
-            int[][] debuts = new int[nbJours][2];
-            int[][] fins = new int[nbJours][2];
+            String[] joursWork = new String[nbJours];
+            int[][] heuresStartWork = new int[nbJours][2]; //heure + min
+            int[][] heuresEndWork = new int[nbJours][2];
 
             for (int i = 0; i < nbJours; i++) {
                 // Traitez chaque jour coché ici
@@ -41,26 +59,35 @@ public class Initialisation extends HttpServlet {
 
                 System.out.println("Jour travaillé : " + joursTravailles[i] + " de " + debut + " a " + fin);
 
-                jours[i] = joursTravailles[i];
-                debuts[i][0] = Integer.parseInt(debut.split(":")[0].toString());
-                debuts[i][1] = Integer.parseInt(debut.split(":")[1].toString());
+                joursWork[i] = joursTravailles[i];
+                heuresStartWork[i][0] = Integer.parseInt(debut.split(":")[0].toString());
+                heuresStartWork[i][1] = Integer.parseInt(debut.split(":")[1].toString());
 
-                fins[i][0] = Integer.parseInt(fin.split(":")[0].toString());
-                fins[i][1] = Integer.parseInt(fin.split(":")[1].toString());
+                heuresEndWork[i][0] = Integer.parseInt(fin.split(":")[0].toString());
+                heuresEndWork[i][1] = Integer.parseInt(fin.split(":")[1].toString());
 
             }
 
-            Medecin patrice = new Medecin(dureeDefaut, nbPersonneMax, jours, debuts, fins);
+            List<JourneeTypePro> weekWork = new ArrayList<>();
+            for (int j = 0; j < joursWork.length; j++) {
+                weekWork.add(new JourneeTypePro(joursWork[j].toLowerCase(),
+                        LocalTime.of(heuresStartWork[j][0], heuresStartWork[j][1]),
+                        LocalTime.of(heuresEndWork[j][0], heuresEndWork[j][1])));
+            }
+            System.out.println(weekWork.toString());
+
+            for (JourneeTypePro journeeTypePro : weekWork) {
+                em.getTransaction().begin();
+                em.persist(journeeTypePro);
+                em.getTransaction().commit();
+                System.out.println(journeeTypePro + " ajouté dans la base de donnée !");
+            }
+
+            System.out.println("toute la semaine type à été ajouté a la bdd !");
 
         } else {
             System.out.println("Aucun jour sélectionné");
         }
-
-        ClientDAO c = new ClientDAO();
-        c.createClient(new Client("dujardin", "thomas", "thomas.dujardin2.etu@univ-lille.fr", "moi", true));
-
-        // TestsAleaData tests = new TestsAleaData();
-        // tests.createClient(10);
 
         res.sendRedirect("../Deconnect");
 

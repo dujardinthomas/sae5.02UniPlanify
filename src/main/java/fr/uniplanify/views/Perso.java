@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import fr.uniplanify.models.dao.RdvDAO;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Rdv;
 import jakarta.servlet.ServletException;
@@ -20,7 +19,7 @@ public class Perso extends HttpServlet {
     // private DS ds = new DS();
 	// private Connection con;
 
-    RdvDAO r = new RdvDAO();
+    // RdvDAO r = new RdvDAO();
     
 
 
@@ -28,7 +27,7 @@ public class Perso extends HttpServlet {
 
         HttpSession session = req.getSession(true);
         Client c = (Client) session.getAttribute("clientDTO");
-        List<Rdv> getAllMyRDV = r.getAllMyRDV(c);
+        //List<Rdv> getAllMyRDV = r.getAllMyRDV(c);
         // // Authentifie
         //HttpSession session = req.getSession(true);
         //c = (Client) session.getAttribute("client");
@@ -57,31 +56,31 @@ public class Perso extends HttpServlet {
         out.println("<td>Nom</td>");
         out.println("<td>Prenom</td>");
         out.println("</tr>");
-        for (Rdv rdv : getAllMyRDV) {
-            out.println("<tr>");
+        // for (Rdv rdv : getAllMyRDV) {
+        //     out.println("<tr>");
             
-            out.println("<td>" + rdv.getJour() + "</td>");
-            out.println("<td>" + rdv.getHeure() + "</td>");
-            out.println("<td>" + rdv.getClients().size() + "</td>");
-            out.println("<td><table>");
-            for (Client client : rdv.getClients()) {
-                out.println("<tr>");
-                out.println("<td>" + client.getNomC() + "</td>");
-                out.println("</tr>");
-            }
-            out.println("</table></td>");
+        //     out.println("<td>" + rdv.getJour() + "</td>");
+        //     out.println("<td>" + rdv.getHeure() + "</td>");
+        //     out.println("<td>" + rdv.getClients().size() + "</td>");
+        //     out.println("<td><table>");
+        //     for (Client client : rdv.getClients()) {
+        //         out.println("<tr>");
+        //         out.println("<td>" + client.getNomC() + "</td>");
+        //         out.println("</tr>");
+        //     }
+        //     out.println("</table></td>");
 
-            out.println("<td><table>");
-            for (Client client : rdv.getClients()) {
-                out.println("<tr>");
-                out.println("<td>" + client.getPrenomC() + "</td>");
-                out.println("</tr>");
-            }
-            out.println("</table></td>");
+        //     out.println("<td><table>");
+        //     for (Client client : rdv.getClients()) {
+        //         out.println("<tr>");
+        //         out.println("<td>" + client.getPrenomC() + "</td>");
+        //         out.println("</tr>");
+        //     }
+        //     out.println("</table></td>");
 
-            out.println("<tr>");
-        }
-        out.println("</table>");
+        //     out.println("<tr>");
+        // }
+        // out.println("</table>");
 
         Footer footer = new Footer(req, "");
         out.println(footer.toString());

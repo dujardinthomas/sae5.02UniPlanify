@@ -6,7 +6,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-import fr.uniplanify.models.dao.ClientDAO;
+
 import fr.uniplanify.models.dto.Client;
 
 // N'est appelée QUE par la page de login
@@ -19,18 +19,26 @@ public class Verif extends HttpServlet
             String login = req.getParameter("login");
             String pwd = req.getParameter("pwd");
 
-            ClientDAO c = new ClientDAO();
-            Client client = c.getClientByMailAndPwd(login, pwd);
+            // ClientDAO c = new ClientDAO();
+            // Client client = c.getClientByMailAndPwd(login, pwd);
         
-            System.out.println("Verif : "+login+" "+pwd);
-            if (login != null && pwd != null && client!= null)
-            {   // le login est correct, on fournit la page demandée
-                HttpSession session=req.getSession(true);
-                session.invalidate();
-                session=req.getSession(true);
-                session.setAttribute("clientDTO", client);
-                System.out.println("bienvenue " + client.getPrenomC() + " " + client.getNomC());
-                System.out.println("Redirection vers "+req.getParameter("origine"));
+            // System.out.println("Verif : "+login+" "+pwd);
+            // if (login != null && pwd != null && client!= null)
+            // {   // le login est correct, on fournit la page demandée
+            //     HttpSession session=req.getSession(true);
+            //     session.invalidate();
+            //     session=req.getSession(true);
+            //     session.setAttribute("clientDTO", client);
+            //     System.out.println("bienvenue " + client.getPrenomC() + " " + client.getNomC());
+            //     System.out.println("Redirection vers "+req.getParameter("origine"));
+            //     String redirection = req.getParameter("origine");
+            //     if(redirection == ""){
+            //         res.sendRedirect(getServletContext().getInitParameter("accueil"));
+            //     }
+            //     else{
+            //         res.sendRedirect(redirection);
+            //     }
+            if(true){
                 String redirection = req.getParameter("origine");
                 if(redirection == ""){
                     res.sendRedirect(getServletContext().getInitParameter("accueil"));
@@ -38,7 +46,6 @@ public class Verif extends HttpServlet
                 else{
                     res.sendRedirect(redirection);
                 }
-                 
             } else
             {
                 // non authentifié, on repart au login

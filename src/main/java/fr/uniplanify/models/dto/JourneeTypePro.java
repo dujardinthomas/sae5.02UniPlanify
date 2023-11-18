@@ -3,7 +3,12 @@ package fr.uniplanify.models.dto;
 import java.sql.Time;
 import java.time.LocalTime;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class JourneeTypePro {
+    @Id
     String jour;
     LocalTime heureDebut;
     LocalTime heureFin;
@@ -13,6 +18,13 @@ public class JourneeTypePro {
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
     }
+
+    
+
+    public JourneeTypePro() {
+    }
+
+
 
     public String getJour() {
         return jour;

@@ -6,7 +6,6 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-import fr.uniplanify.models.dao.ClientDAO;
 import fr.uniplanify.models.dto.Client;
 
 // N'est appelée QUE par la page de login
@@ -22,18 +21,18 @@ public class inscription extends HttpServlet
             String pwd = req.getParameter("pwd");
             
 
-            ClientDAO c = new ClientDAO();
+            // ClientDAO c = new ClientDAO();
             
         
-            if (c.createClient(new Client(nom, prenom, login, pwd, false)))
-            {   // compte créé
+            // if (c.createClient(new Client(nom, prenom, login, pwd, false)))
+            // {   // compte créé
                 
-                System.out.println("compte créé");
-                res.sendRedirect("login.jsp?mess=Votre compte à été créé avec le login "+login);
-            } else
-            {
+            //     System.out.println("compte créé");
+            //     res.sendRedirect("login.jsp?mess=Votre compte à été créé avec le login "+login);
+            // } else
+            // {
                 // non authentifié, on repart au login
                 res.sendRedirect("login.jsp?mess=impossible de créer votre compte "+login+" "+pwd);
-            }
+            // }
     }
 }

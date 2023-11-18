@@ -1,6 +1,11 @@
 package fr.uniplanify.models.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Constraints {
+    @Id
     int dureeDefaultMinutes = 15;
     int nbPersonneMaxDefault = 1;
 
@@ -8,6 +13,11 @@ public class Constraints {
         this.dureeDefaultMinutes = dureeDefaultMinutes;
         this.nbPersonneMaxDefault = nbPersonneMaxDefault;
     }
+
+    
+    public Constraints() {
+    }
+
 
     public int getDureeDefaultMinutes() {
         return dureeDefaultMinutes;

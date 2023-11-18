@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import fr.uniplanify.models.dao.JourneeTypeProDAO;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.JourneeTypePro;
 
@@ -117,11 +116,12 @@ public class Calendrier extends HttpServlet {
             calendarHTML.append("<td></td>");
         }
 
-        JourneeTypeProDAO semDAO = new JourneeTypeProDAO();
+        // JourneeTypeProDAO semDAO = new JourneeTypeProDAO();
         List<String> dayWork = new ArrayList<>();
-        for (JourneeTypePro journee : semDAO.getSemaineTypePro()) {
-            dayWork.add(journee.getJour());
-        }
+        // for (JourneeTypePro journee : semDAO.getSemaineTypePro()) {
+        //     dayWork.add(journee.getJour());
+        // }
+        dayWork.add("Lundi");
 
         LocalDate currentDate = firstDayOfMonth;
         for (int day = 1; day <= daysInMonth; day++) {
