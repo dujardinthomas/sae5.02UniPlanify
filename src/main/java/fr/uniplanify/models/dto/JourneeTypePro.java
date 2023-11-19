@@ -5,8 +5,10 @@ import java.time.LocalTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name="JourneeTypePro.findAll", query="SELECT j from JourneeTypePro j")
 public class JourneeTypePro {
     @Id
     String jour;

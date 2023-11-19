@@ -25,7 +25,7 @@ public class Initialisation extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("persistencexml");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("reinitialisation");
         EntityManager em = emf.createEntityManager();
 
         String[] joursTravailles = req.getParameterValues("jour_travaille[]");

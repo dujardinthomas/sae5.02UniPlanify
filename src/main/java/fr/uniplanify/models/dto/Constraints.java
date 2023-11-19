@@ -2,8 +2,10 @@ package fr.uniplanify.models.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name="Constraints.findAll", query="SELECT c from Constraints c")
 public class Constraints {
     @Id
     int dureeDefaultMinutes = 15;

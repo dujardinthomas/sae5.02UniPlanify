@@ -67,32 +67,6 @@
                 <version>1.10.9</version>
             </plugin>
 
-            <!-- POUR COPIER LE FICHIER LOGIN FILE DATABASE.TXT DANS TARGET-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/configuration</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/configuration</directory>
-                                    <includes>
-                                        <include>loginFileDataBase.txt</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

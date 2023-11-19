@@ -7,7 +7,7 @@ import jakarta.servlet.annotation.WebFilter;
 
 // Attention : le pattern est recherché dans l'URL, pas dans le chemin unix
 // Pour les JSP, le repertoire Unix est aussi cité dans l'URL, pas pour les Servlets !
-@WebFilter(urlPatterns = { "/desactive/*" })
+@WebFilter(urlPatterns = { "/Perso/*" })
 public class AuthentFilterPerso extends HttpFilter {
 
     // Attention : HTTPFilter est introduit dans servlet4.0, donc Tomcat9.0

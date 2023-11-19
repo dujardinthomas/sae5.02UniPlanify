@@ -1,5 +1,8 @@
 package fr.uniplanify.views;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -15,15 +18,19 @@ import java.util.Locale;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.JourneeTypePro;
 
-
 @WebServlet("/Calendrier")
 public class Calendrier extends HttpServlet {
 
     int year;
-    int month; 
+    int month;
+
+    EntityManagerFactory emf;
+    EntityManager em;
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        emf = Persistence.createEntityManagerFactory("no-action-bdd");
+        em = emf.createEntityManager();
 
         // // VERIFIE AUTENFIFIE
         // HttpSession session = req.getSession(true);
@@ -31,7 +38,6 @@ public class Calendrier extends HttpServlet {
         // if (c == null || c.getPro() == true) {
         // res.sendRedirect("Deconnect");
         // }
-
 
         res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
@@ -72,10 +78,10 @@ public class Calendrier extends HttpServlet {
             nextYear++;
         }
 
-
         out.println("<div class=\"settingsCalendar\">");
         out.println("<a href=\"?year=" + previousYear + "&month=" + previousMonth + "\">Mois précedent</a>");
-        out.println("<a href=\"?year=" + dateActuelle.getYear() + "&month=" + dateActuelle.getMonth().getValue() + "\">Aujourd'hui</a>");
+        out.println("<a href=\"?year=" + dateActuelle.getYear() + "&month=" + dateActuelle.getMonth().getValue()
+                + "\">Aujourd'hui</a>");
         out.println("<a href=\"?year=" + nextYear + "&month=" + nextMonth + "\">Mois suivant</a>");
         out.println("</div>");
 
@@ -85,8 +91,6 @@ public class Calendrier extends HttpServlet {
         out.println("</html>");
     }
 
-
- 
     private String generateCalendarManuel(int year, int month) {
 
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
@@ -116,36 +120,37 @@ public class Calendrier extends HttpServlet {
             calendarHTML.append("<td></td>");
         }
 
-        // JourneeTypeProDAO semDAO = new JourneeTypeProDAO();
+        List<JourneeTypePro> semainePro = em.createNamedQuery("JourneeTypePro.findAll", JourneeTypePro.class)
+                .getResultList();
         List<String> dayWork = new ArrayList<>();
-        // for (JourneeTypePro journee : semDAO.getSemaineTypePro()) {
-        //     dayWork.add(journee.getJour());
-        // }
-        dayWork.add("Lundi");
+        for (JourneeTypePro journee : semainePro) {
+            dayWork.add(journee.getJour());
+        }
 
         LocalDate currentDate = firstDayOfMonth;
         for (int day = 1; day <= daysInMonth; day++) {
             // Ajouter une cellule pour le jour courant
-           
-            //if journee type == true alord
-            
+
+            // if journee type == true alord
 
             LocalDate now = LocalDate.of(year, month, day);
             String dayOfWeek = now.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRENCH);
-            if(dayWork.contains(dayOfWeek.toString())){
+            if (dayWork.contains(dayOfWeek.toString())) {
                 calendarHTML.append("<td><div class=\"cellule\">");
                 calendarHTML.append("<div class=\"dayNumber\">");
-                calendarHTML.append("<a href=Jour?day="+day+"&month="+month+"&year="+year+">"+day+"</a>");
-            }else{
+                calendarHTML
+                        .append("<a href=Jour?day=" + day + "&month=" + month + "&year=" + year + ">" + day + "</a>");
+            } else {
                 calendarHTML.append("<td><div class=\"celluleClose\">");
                 calendarHTML.append("<div class=\"dayNumber\">");
                 calendarHTML.append(day);
             }
-            
+
             calendarHTML.append("</div>");
 
             // calendarHTML.append("<div class=\"event\">");
-            // calendarHTML.append("<a href=\"?year=" + year + "&month=" + month + "&day=").append("\"></a>");
+            // calendarHTML.append("<a href=\"?year=" + year + "&month=" + month +
+            // "&day=").append("\"></a>");
             // calendarHTML.append("</div>");
             calendarHTML.append("</div></td>");
 

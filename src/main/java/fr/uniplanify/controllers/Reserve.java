@@ -7,10 +7,14 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import fr.uniplanify.models.dto.CleCompositeRDV;
 import fr.uniplanify.models.dto.Client;
+import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Rdv;
 import fr.uniplanify.views.Footer;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,23 +33,17 @@ public class Reserve extends HttpServlet {
         int hours = Integer.parseInt(req.getParameter("hours"));
         int minute = Integer.parseInt(req.getParameter("minutes"));
 
-        HttpSession session=req.getSession(true);
-        Client user = (Client) session.getAttribute("clientDTO");
+        HttpSession session = req.getSession(true);
+        Client client = (Client) session.getAttribute("clientDTO");
 
-        // HttpSession session = req.getSession(true);
-        // Client user = (Client) session.getAttribute("user");
+        LocalDate dateDuRdv = LocalDate.of(year, month, day);
+        LocalTime heureDuRdv = LocalTime.of(hours, minute, 0);
 
-        LocalDate date = LocalDate.of(year, month, day);
-        LocalTime time = LocalTime.of(hours, minute, 0);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
+        EntityManager em = emf.createEntityManager();
 
-        // ConstraintsDAO cDAO = new ConstraintsDAO();
-        // int nbPersonne = cDAO.getConstraints().getNbPersonneMaxDefault();
-
-        List<Client> clients = new ArrayList<>();
-        clients.add(user);
-
-        // RdvDAO rdvDAO = new RdvDAO();
-        // Rdv rdvTrouve = rdvDAO.getRDVByDateAndHeure(date, time);
+        Constraints constraints = em.createNamedQuery("Constraints.findAll", Constraints.class).getSingleResult();
+        int nbPersonne = constraints.getNbPersonneMaxDefault();
 
         res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
@@ -56,35 +54,56 @@ public class Reserve extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
 
-
         String etat = "reservé";
-        // if (nbPersonne > 1) {
-        //     if (rdvTrouve != null) {
-        //         // rdv a déja été reservé mais peut etre qu'on peut ajouter des gens
-        //         if (rdvTrouve.getClients().size() < nbPersonne) {
-        //             // on peut ajouter un client
-        //             RdvClientDAO rdvClientDAO = new RdvClientDAO();
-        //             boolean statut = rdvClientDAO.createRdvClient(date, time, user.getIdC());
-        //             out.println("<h1>client " + clients.get(0).getIdC() + (statut ? " à été " : "n'a pas été ") + " ajouté au rendez-vous du " + date + " à " + time + "</h1>");
-        //         }
-        //         else{
-        //             out.println("<h1>Impossible de prendre un rendez-vous pour ce " + date + " à " + time + " !<h1>");
-        //             out.println("<h2>Il n'y a malheureusement plus de places disponible pour ce rendez-vous.</h2>");
-        //         }
-        //     } else {
-        //         boolean statut = rdvDAO.createRDV(new Rdv(date, time, etat, clients));
-        //         out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
-        //     }
-        // } else {
-        //     boolean statut = rdvDAO.createRDV(new Rdv(date, time, etat, clients));
-        //     out.println("<h1>rendez-vous du " + date + " à " + time + (statut ? " à été crée " : "n'a pas été crée ") + " avec le client "+ clients.get(0).getIdC() +"</h1>");
-        // }
-        
+
+        CleCompositeRDV cleRDV = new CleCompositeRDV();
+        cleRDV.setHeure(heureDuRdv);
+        cleRDV.setJour(dateDuRdv);
+        Rdv rdvExistant = em.find(Rdv.class, cleRDV);
+
+        if (rdvExistant != null) {
+            // rdv a déja été reservé mais peut etre qu'on peut ajouter des gens
+            if (rdvExistant.getClients().size() < nbPersonne) {
+                // on peut ajouter un client
+
+                rdvExistant.addClient(client);
+                em.getTransaction().begin();
+                em.persist(rdvExistant);
+                em.getTransaction().commit();
+
+                boolean statut = em.contains(rdvExistant);
+
+                out.println("<h1>client " + client.getIdC() + (statut ? " à été " : "n'a pas été ")
+                        + " ajouté au rendez-vous du " + dateDuRdv + " à " + heureDuRdv + "</h1>");
+
+            } else {
+                out.println("<h1>Impossible de prendre un rendez-vous pour ce " + dateDuRdv + " à " + heureDuRdv
+                        + " !<h1>");
+                out.println("<h2>Il n'y a malheureusement plus de places disponible pour ce rendez-vous.</h2>");
+            }
+        } else {
+
+            Rdv nouveauRdv = new Rdv();
+            nouveauRdv.setCleCompositeRDV(cleRDV);
+            nouveauRdv.addClient(client);
+
+            em.getTransaction().begin();
+            em.persist(nouveauRdv);
+            em.getTransaction().commit();
+
+            boolean statut = em.contains(nouveauRdv);
+
+            out.println(
+                    "<h1>rendez-vous du " + dateDuRdv + " à " + heureDuRdv
+                            + (statut ? " à été crée " : "n'a pas été crée ")
+                            + " avec le client " + client.getIdC() + "</h1>");
+        }
+
         String monEspace = "Perso";
-        if(user.getPro() == true){
+        if (client.getPro() == true) {
             monEspace = "Pro";
         }
-        out.println("<h2><a href=\"../"+ monEspace +"\">Accéder à mon espace</a></h2>");
+        out.println("<h2><a href=\"../" + monEspace + "\">Accéder à mon espace</a></h2>");
 
         Footer footer = new Footer(req, "../");
         out.println(footer.toString());
