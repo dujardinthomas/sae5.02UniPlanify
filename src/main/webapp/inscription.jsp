@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscription</title>
-</head>
-
-<body>
     <h1><a href="inscription.jsp">Inscription</a></h1>
 
     <% String mess=request.getParameter("mess"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
@@ -40,5 +29,6 @@
 
         <h1><a href="login.jsp">Login</a></h1>
 </body>
+</html>
 
 </html>

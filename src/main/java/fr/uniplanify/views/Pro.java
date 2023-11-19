@@ -22,16 +22,16 @@ public class Pro extends HttpServlet {
     
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        //a mettre dans toutes les servlets !
+        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
+        req.setAttribute("pageTitle", "Espace Pro - UniPlanity");
+        req.setAttribute("cheminAccueil", "");
+
         HttpSession session = req.getSession(true);
         Client c = (Client) session.getAttribute("clientDTO");
         PrintWriter out = res.getWriter();
         res.setContentType("text/html; charset=UTF-8");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset=\"UTF-8\"><title>Espace Pro</title>");
-        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
-        out.println("</head>");
-        out.println("<body>");
+    
         out.println("<center>");
 
         out.println("<h1> MES RENDEZ-VOUS PROFESSIONELS</h1>");
@@ -78,11 +78,6 @@ public class Pro extends HttpServlet {
             out.println("<tr>");
         }
         out.println("</table>");
-
-        Footer footer = new Footer(req, "");
-        out.println(footer.toString());
-        out.println("</body>");
-        out.println("</html>");
     }
 
 }

@@ -31,6 +31,11 @@ public class Jour extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        //a mettre dans toutes les servlets !
+        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
+        req.setAttribute("pageTitle", "Choisir un jour - UniPlanity");
+        req.setAttribute("cheminAccueil", "");
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
         EntityManager em = emf.createEntityManager();
         
@@ -43,15 +48,12 @@ public class Jour extends HttpServlet {
 
         LocalDate dateSelectionnee = LocalDate.of(year, month, day);
 
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset=\"UTF-8\"><title>Jour</title>");
-        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
-        out.println("</head>");
-        out.println("<body>");
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH);
         String dateFormatee = dateSelectionnee.format(formatter);
+
+        // out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"");
+        // out.println(req.getContextPath()); // Ajout du context path s'il est utilisé
+        // out.println("/style/style.css\">");
 
         out.println("<table> <tr> <td>" + dateFormatee + "</td> </tr>");
 
@@ -122,12 +124,6 @@ public class Jour extends HttpServlet {
         }
         
         out.println("</table>");
-
-        Footer footer = new Footer(req, "");
-        out.println(footer.toString());
-        
-        out.println("</body>");
-        out.println("</html>");
     }
 
 }

@@ -13,7 +13,7 @@ import fr.uniplanify.models.dto.CleCompositeRDV;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Rdv;
-import fr.uniplanify.views.Footer;
+import fr.uniplanify.views.Menu;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -28,6 +28,12 @@ import jakarta.servlet.http.HttpSession;
 public class Reserve extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+        //a mettre dans toutes les servlets !
+        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
+        req.setAttribute("pageTitle", "Confirmation de RDV - UniPlanify");
+        req.setAttribute("cheminAccueil", "../");
+
         // soit on fait passer les parametres en url ou en session
         int year = Integer.parseInt(req.getParameter("year"));
         int month = Integer.parseInt(req.getParameter("month"));
@@ -49,12 +55,6 @@ public class Reserve extends HttpServlet {
 
         res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset=\"UTF-8\"><title>Reservation</title>");
-        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"../style/style.css\">");
-        out.println("</head>");
-        out.println("<body>");
 
         LocalDateTime heureActuelle = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yy");
@@ -111,11 +111,6 @@ public class Reserve extends HttpServlet {
             monEspace = "Pro";
         }
         out.println("<h2><a href=\"../" + monEspace + "\">Accéder à mon espace</a></h2>");
-
-        Footer footer = new Footer(req, "../");
-        out.println(footer.toString());
-        out.println("</body>");
-        out.println("</html>");
     }
 
 }

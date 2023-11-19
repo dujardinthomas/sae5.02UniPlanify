@@ -29,6 +29,11 @@ public class Calendrier extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
+        //a mettre dans toutes les servlets !
+        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
+        req.setAttribute("pageTitle", "Calendrier UniPlanity");
+        req.setAttribute("cheminAccueil", "");
+        System.out.println("enregistrement dans la requete ...");
         emf = Persistence.createEntityManagerFactory("no-action-bdd");
         em = emf.createEntityManager();
 
@@ -54,12 +59,6 @@ public class Calendrier extends HttpServlet {
 
         String calendarHTML = generateCalendarManuel(year, month);
 
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset=\"UTF-8\"><title>Calendrier</title>");
-        out.println("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
-        out.println("</head>");
-        out.println("<body>");
         out.println(calendarHTML);
 
         // Gérer le cas du mois précédent
@@ -84,11 +83,6 @@ public class Calendrier extends HttpServlet {
                 + "\">Aujourd'hui</a>");
         out.println("<a href=\"?year=" + nextYear + "&month=" + nextMonth + "\">Mois suivant</a>");
         out.println("</div>");
-
-        Footer footer = new Footer(req, "");
-        out.println(footer.toString());
-        out.println("</body>");
-        out.println("</html>");
     }
 
     private String generateCalendarManuel(int year, int month) {
