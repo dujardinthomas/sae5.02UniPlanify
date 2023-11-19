@@ -68,6 +68,120 @@ public class HeaderFooterFilter extends HttpFilter {
     }
 
     private String generateHeader(Client user, String pageTitle, String cheminServlet, String contextPath) {
+
+         // Déclaration du contenu CSS en ligne
+    String cssContent = "body {\r\n" + //
+            "    margin: 0;\r\n" + //
+            "    padding: 0;\r\n" + //
+            "    font-family: Arial, sans-serif;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            ".calendar {\r\n" + //
+            "    width: 100%;\r\n" + //
+            "    border-collapse: collapse;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "td {\r\n" + //
+            "    border: 1px solid #ccc;\r\n" + //
+            "    padding: 0px;\r\n" + //
+            "    text-align: center;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            ".cellule{\r\n" + //
+            "    background-color: #a25e5e;\r\n" + //
+            "    padding: 10px;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            ".celluleClose{\r\n" + //
+            "    background-color: #696969;\r\n" + //
+            "    padding: 10px;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            ".dayNumber {\r\n" + //
+            "    padding: 10px;\r\n" + //
+            "    font-weight: bold;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            ".event {\r\n" + //
+            "    /* Personnalisez le style de votre texte centré ici */\r\n" + //
+            "    padding: 10px;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            ".settingsCalendar{\r\n" + //
+            "    position: fixed;\r\n" + //
+            "    bottom: 30;\r\n" + //
+            "    background-color: #a25e5e;\r\n" + //
+            "    width: 90%;\r\n" + //
+            "    text-align: center;\r\n" + //
+            "    padding: 10px;\r\n" + //
+            "\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            "footer {\r\n" + //
+            "    position: fixed;\r\n" + //
+            "    bottom: 0;\r\n" + //
+            "    width: 100%;\r\n" + //
+            "    background-color: #333;\r\n" + //
+            "    color: #fff;\r\n" + //
+            "    text-align: center;\r\n" + //
+            "    padding: 10px 0;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            "body {\r\n" + //
+            "    font-family: Tahoma, Arial, sans-serif;\r\n" + //
+            "    background-color: lavender;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "th {\r\n" + //
+            "    color: white;\r\n" + //
+            "    background-color: darkgray;\r\n" + //
+            "    padding: 5px;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "table,\r\n" + //
+            "tr {\r\n" + //
+            "    border: solid black 2px;\r\n" + //
+            "    border-collapse: collapse;\r\n" + //
+            "    text-align: center;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "tr:nth-child(2n+1) {\r\n" + //
+            "    background-color: lightgray;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "tr:hover {\r\n" + //
+            "    background-color: lightgreen;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            "form {\r\n" + //
+            "  border: 3px solid #f1f1f1;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            ".container {\r\n" + //
+            "  padding: 36px;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "input[type=text], input[type=password] {\r\n" + //
+            "  width: 100%;\r\n" + //
+            "  padding: 12px 20px;\r\n" + //
+            "  margin: 8px 0;\r\n" + //
+            "  display: inline-block;\r\n" + //
+            "  border: 1px solid #ccc;\r\n" + //
+            "  box-sizing: border-box;\r\n" + //
+            "}\r\n" + //
+            "\r\n" + //
+            "\r\n" + //
+            ""; // Votre CSS ici
+
+
         StringBuilder sb = new StringBuilder();
         sb.append("<!DOCTYPE html>");
         sb.append("<html lang=\"fr\">");
@@ -77,6 +191,9 @@ public class HeaderFooterFilter extends HttpFilter {
         sb.append("<title>");
         sb.append(pageTitle);
         sb.append("</title>");
+        sb.append("<style>");
+        sb.append(cssContent);
+        sb.append("</style>");
         //sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + contextPath + "/style/style.css\">");
         //sb.append("<LINK rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">");
         sb.append("</header>");
