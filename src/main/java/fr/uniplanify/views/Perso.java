@@ -2,10 +2,14 @@ package fr.uniplanify.views;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Rdv;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,25 +20,10 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/Perso")
 public class Perso extends HttpServlet {
 
-    // private DS ds = new DS();
-	// private Connection con;
-
-    // RdvDAO r = new RdvDAO();
-    
-
-
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         HttpSession session = req.getSession(true);
         Client c = (Client) session.getAttribute("clientDTO");
-        //List<Rdv> getAllMyRDV = r.getAllMyRDV(c);
-        // // Authentifie
-        //HttpSession session = req.getSession(true);
-        //c = (Client) session.getAttribute("client");
-        // if (c == null || c.getPro() == false) {
-        // res.sendRedirect("Deconnect");
-        // }
-
         PrintWriter out = res.getWriter();
         res.setContentType("text/html; charset=UTF-8");
         out.println("<html>");
@@ -56,31 +45,39 @@ public class Perso extends HttpServlet {
         out.println("<td>Nom</td>");
         out.println("<td>Prenom</td>");
         out.println("</tr>");
-        // for (Rdv rdv : getAllMyRDV) {
-        //     out.println("<tr>");
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
+        EntityManager em = emf.createEntityManager();
+
+        List<Rdv> myRDVS = new ArrayList<>();
+        // myRDVS = em.createQuery("select r from rdv_client r where r.clients_idc = " + c.getIdC() + " ORDER BY r.jour ASC, r.heure ASC", Rdv.class).getResultList();
+        myRDVS = em.createNativeQuery("select * from rdv_client where clients_idc = " + c.getIdC() + " ORDER BY jour ASC, heure ASC", Rdv.class).getResultList();
+
+        for (Rdv rdv : myRDVS) {
+            out.println("<tr>");
             
-        //     out.println("<td>" + rdv.getJour() + "</td>");
-        //     out.println("<td>" + rdv.getHeure() + "</td>");
-        //     out.println("<td>" + rdv.getClients().size() + "</td>");
-        //     out.println("<td><table>");
-        //     for (Client client : rdv.getClients()) {
-        //         out.println("<tr>");
-        //         out.println("<td>" + client.getNomC() + "</td>");
-        //         out.println("</tr>");
-        //     }
-        //     out.println("</table></td>");
+            out.println("<td>" + rdv.getCleCompositeRDV().getJour() + "</td>");
+            out.println("<td>" + rdv.getCleCompositeRDV().getHeure() + "</td>");
+            out.println("<td>" + rdv.getClients().size() + "</td>");
+            out.println("<td><table>");
+            for (Client client : rdv.getClients()) {
+                out.println("<tr>");
+                out.println("<td>" + client.getNomC() + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table></td>");
 
-        //     out.println("<td><table>");
-        //     for (Client client : rdv.getClients()) {
-        //         out.println("<tr>");
-        //         out.println("<td>" + client.getPrenomC() + "</td>");
-        //         out.println("</tr>");
-        //     }
-        //     out.println("</table></td>");
+            out.println("<td><table>");
+            for (Client client : rdv.getClients()) {
+                out.println("<tr>");
+                out.println("<td>" + client.getPrenomC() + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table></td>");
 
-        //     out.println("<tr>");
-        // }
-        // out.println("</table>");
+            out.println("<tr>");
+        }
+        out.println("</table>");
 
         Footer footer = new Footer(req, "");
         out.println(footer.toString());

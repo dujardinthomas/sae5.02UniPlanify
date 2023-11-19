@@ -2,35 +2,28 @@ package fr.uniplanify.views;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Rdv;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/Pro")
 public class Pro extends HttpServlet {
-
-    // private DS ds = new DS();
-	// private Connection con;
-
-    // RdvDAO r = new RdvDAO();
     
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-    
-        // List<Rdv> getAllMyRDV = r.getAllRDV();
-        // // Authentifie
-        //HttpSession session = req.getSession(true);
-        //c = (Client) session.getAttribute("client");
-        // if (c == null || c.getPro() == false) {
-        // res.sendRedirect("Deconnect");
-        // }
-
+        HttpSession session = req.getSession(true);
+        Client c = (Client) session.getAttribute("clientDTO");
         PrintWriter out = res.getWriter();
         res.setContentType("text/html; charset=UTF-8");
         out.println("<html>");
@@ -41,7 +34,8 @@ public class Pro extends HttpServlet {
         out.println("<body>");
         out.println("<center>");
 
-        out.println("<h1> LES RENDEZ-VOUS PROFESSIONELS </h1>");
+        out.println("<h1> MES RENDEZ-VOUS PROFESSIONELS</h1>");
+
 
         out.println("<table>");
         out.println("<tr>");
@@ -51,33 +45,39 @@ public class Pro extends HttpServlet {
         out.println("<td>Nom</td>");
         out.println("<td>Prenom</td>");
         out.println("</tr>");
-        // for (Rdv rdv : getAllMyRDV) {
-        //     out.println("<tr>");
+
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
+        EntityManager em = emf.createEntityManager();
+
+        List<Rdv> myRDVS = new ArrayList<>();
+        myRDVS = em.createNamedQuery("Rdv.findAll", Rdv.class).getResultList();
+
+        for (Rdv rdv : myRDVS) {
+            out.println("<tr>");
             
-        //     out.println("<td>" + rdv.getJour() + "</td>");
-        //     out.println("<td>" + rdv.getHeure() + "</td>");
-        //     out.println("<td>" + rdv.getClients().size() + "</td>");
-        //     out.println("<td><table>");
-        //     for (Client client : rdv.getClients()) {
-        //         out.println("<tr>");
-        //         out.println("<td>" + client.getNomC() + "</td>");
-        //         out.println("</tr>");
-        //     }
-        //     out.println("</table></td>");
+            out.println("<td>" + rdv.getCleCompositeRDV().getJour() + "</td>");
+            out.println("<td>" + rdv.getCleCompositeRDV().getHeure() + "</td>");
+            out.println("<td>" + rdv.getClients().size() + "</td>");
+            out.println("<td><table>");
+            for (Client client : rdv.getClients()) {
+                out.println("<tr>");
+                out.println("<td>" + client.getNomC() + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table></td>");
 
-        //     out.println("<td><table>");
-        //     for (Client client : rdv.getClients()) {
-        //         out.println("<tr>");
-        //         out.println("<td>" + client.getPrenomC() + "</td>");
-        //         out.println("</tr>");
-        //     }
-        //     out.println("</table></td>");
+            out.println("<td><table>");
+            for (Client client : rdv.getClients()) {
+                out.println("<tr>");
+                out.println("<td>" + client.getPrenomC() + "</td>");
+                out.println("</tr>");
+            }
+            out.println("</table></td>");
 
-        //     out.println("<tr>");
-        // }
-        // out.println("</table>");
+            out.println("<tr>");
+        }
+        out.println("</table>");
 
-        out.println("</center>");
         Footer footer = new Footer(req, "");
         out.println(footer.toString());
         out.println("</body>");

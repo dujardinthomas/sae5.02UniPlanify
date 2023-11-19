@@ -11,8 +11,10 @@ import java.util.List;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name="Rdv.findAll", query="SELECT r from Rdv r")
 public class Rdv implements Serializable {
 
     @EmbeddedId // Annotation pour indiquer l'utilisation d'une clé primaire composite
