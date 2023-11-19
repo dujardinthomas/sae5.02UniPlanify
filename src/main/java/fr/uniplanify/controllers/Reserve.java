@@ -3,7 +3,9 @@ package fr.uniplanify.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +56,10 @@ public class Reserve extends HttpServlet {
         out.println("</head>");
         out.println("<body>");
 
-        String etat = "reservé";
+        LocalDateTime heureActuelle = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yy");
+        String jjMMyy = heureActuelle.format(format);
+        String etat = "reservé le " + jjMMyy;
 
         CleCompositeRDV cleRDV = new CleCompositeRDV();
         cleRDV.setHeure(heureDuRdv);
@@ -67,6 +72,7 @@ public class Reserve extends HttpServlet {
                 // on peut ajouter un client
 
                 rdvExistant.addClient(client);
+                rdvExistant.setEtat(client.getNomC() + " ajouté le " + jjMMyy);
                 em.getTransaction().begin();
                 em.persist(rdvExistant);
                 em.getTransaction().commit();
@@ -86,6 +92,7 @@ public class Reserve extends HttpServlet {
             Rdv nouveauRdv = new Rdv();
             nouveauRdv.setCleCompositeRDV(cleRDV);
             nouveauRdv.addClient(client);
+            nouveauRdv.setEtat(etat);
 
             em.getTransaction().begin();
             em.persist(nouveauRdv);

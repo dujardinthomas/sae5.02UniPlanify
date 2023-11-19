@@ -93,12 +93,22 @@ Pour vérifier si le créneau est disponible, je regarde si ma méthode dans mon
 
 J'ai hiérarchisé le code pour qu'il respecte les principes d'un modèle MVC WEB.
 
-## 4e semaine : Authentification, passage à JPA
+## 4e semaine : Authentification, Espace Personnel et passage à JPA,
 
-L'objectif est de rendre le calendrier accessible au public tout en exigeant une authentification pour la réservation et la consultation de son espace. Pour cela, j'ai mis en place 2 filtres ; un qui écoute chaque requête débutant par "Perso" et le second par "Pro" : *@WebFilter(urlPatterns = { "/Perso/*" }).
+L'objectif premier à été de rendre le calendrier accessible au public tout en exigeant une authentification pour la réservation et la consultation de son espace perso (affiche de ses rdv, modification du profil, ...). Pour cela, j'ai mis en place 2 filtres ; un qui écoute chaque requête débutant par "Perso" et le second par "Pro" : *@WebFilter(urlPatterns = { "/Perso/*" }) (tout ce qui touche aux données personnels est rangé derrière Perso/ ou Pro/).
 
 Ces filtres regardent dans la session si un objet client existe. 
-- Pour un client, si il existe, le filtre permet l'accès à la page demandé 
-- Pour un admin, le filtre regarde si l'attribut pro est à true. 
+- Pour un client lambda, si il existe, le filtre permet l'accès à la page demandé 
+- Pour un admin, le filtre regarde si l'attribut pro du client est à true. 
 
-Si le client n'existe pas ou qu'il n'est pas pro, le filtre redirige vers la page de connexion, puis vers la servlet de vérification de connexion. Cette servlet va créer l'objet client, depuis la bdd et rediriger vers la page souhaité (L'url de la page intial et ses paramètres sont passés au formulaire de connexion en champ caché permettant la redirection souhaité).
+Si le client n'existe pas ou qu'il n'est pas pro, le filtre redirige vers la page de connexion, puis vers la servlet de vérification de connexion. Cette servlet va créer l'objet client, depuis la bdd, le mettre dans un objet HTTPSession et rediriger vers la page souhaité (L'url de la page intial et ses paramètres sont passés au formulaire de connexion en champ caché permettant la redirection souhaité). Si l'utilisateur n'a pas de compte, il peut s'en créer un automatiquement en remplissant le formulaire accessible sur la page login.
+
+Ensuite, j'ai crée une servlet permettant d'afficher pour le client tous ses rendez-vous et pour le pro tout les rendez-vous de tout le monde. L'utilisateur peut également sur cette même page, modifier son profil, et administrer ses rendez-vous.
+
+Enfin, j'ai passé tout le projet en JPA. J'ai supprimé tous mes DAO manuels et les ai remplacés par l'utilisation des EntityManagers. J'ai principalement utilisé les méthodes *find* et *createNamedQuery* pour récupérer un objet et *persit* pour insérer un objet dans la base de données. 
+
+Voici les étapes :
+1. J'ai ajouté la dépendance JPA dans le pom.xml
+2. J'ai crée le persistence.xml où j'y ait défini 2 persistence-unit, 1 pour l'initialisation (il recrée le schéma de la base de données avec 1 seul client : l'administrateur) et l'autre qui permet de ne pas le modifier.
+3. J'ai supprimé mes DAO et redefinis mes POJO de manière à ce qu'il fonctionne avec un entityManager.
+4. J'ai enfin remplacé tous les appels aux DAO par des entityManager.

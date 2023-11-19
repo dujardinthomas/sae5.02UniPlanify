@@ -4,11 +4,11 @@ Thomas Dujardin
 Début : 14/09/2023
 
 ## Démarrer le projet Maven
-- télécharger le projet
-- Vérifier si maven est installé sur votre machine par ***mvn -v*** sinon l'extraire (https://maven.apache.org/download.cgi), puis créer la variable systeme ***M2_HOME*** pointant sur la racine du dossier maven et ajouter dans votre path ***%M2_HOME%\bin***
-- ajouter le fichier configuration/loginFileDataBase.txt avec les infos de connexion psql
-- Compiler le projet avec ***mvn clean package*** : cela va créer le dossier target
-- Lancer le serveur avec ***mvn cargo:run***
+1) télécharger le projet
+2) Vérifier si maven est installé sur votre machine par ***mvn -v***, sinon l'extraire (https://maven.apache.org/download.cgi), puis créer la variable systeme ***M2_HOME*** pointant sur la racine du dossier maven et ajouter dans votre path ***%M2_HOME%\bin***
+3) modifier le fichier ***resources/META-INF/persistence.xml*** avec les infos de connexion à la base de données.
+4) Compiler le projet avec ***mvn clean package*** : cela va créer le dossier target
+5) Lancer le serveur avec ***mvn cargo:run***
 
 ## Objectif : 
 A la manière de prendreunrendezvous, de Doctolib ou de nombreux sites de prise de rendez-vous mis en place
@@ -121,7 +121,7 @@ Table :
 
     rdv(#jour, #heure, duree, nbPersonneMax, etat);
 
-    rdvClient([#jour], [#heure] [idC]);
+    rdvClient([#jour], [#heure] [#idC]);
     
     Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
 
@@ -161,3 +161,7 @@ Voir pour la vérif si il peut reserver, tester à l'affichage de la page (et en
 quand prise de rdv,
 1) insert rdv avec date choisit
 2) insert rdvclient avec idC et date choisit
+
+
+## Suivi du projet 
+[suiviHebdoSAE-N5.md](suiviHebdoSAE-N5.md)

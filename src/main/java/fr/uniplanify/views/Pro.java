@@ -44,6 +44,7 @@ public class Pro extends HttpServlet {
         out.println("<td>Nombre de personne</td>");
         out.println("<td>Nom</td>");
         out.println("<td>Prenom</td>");
+        out.println("<td>Dernière modification</td>");
         out.println("</tr>");
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
@@ -73,7 +74,7 @@ public class Pro extends HttpServlet {
                 out.println("</tr>");
             }
             out.println("</table></td>");
-
+            out.println("<td>" + rdv.getEtat() + "</td>");
             out.println("<tr>");
         }
         out.println("</table>");
