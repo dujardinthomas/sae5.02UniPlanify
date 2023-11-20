@@ -1,3 +1,6 @@
+<!-- 1. COPIER CE FICHIER EN PERSISTENCE.XML
+     2. MODIFIER LES LIGNES 12,13,14 PAR VOS INFO SQL POUR LE 1ER PERSISTENCE-UNIT
+     3. DE MEME POUR LES LIGNES 35,36,37 POUR LE SECOND PERSISTENCE-UNIT  -->
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemalocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
     <persistence-unit name="reinitialisation" transaction-type="RESOURCE_LOCAL">
@@ -7,9 +10,9 @@
         <class>fr.uniplanify.models.dto.Rdv</class>
 
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost/uniplanify"/>
-            <property name="jakarta.persistence.jdbc.user" value="thoma"/>
-            <property name="jakarta.persistence.jdbc.password" value="thoma"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://NomDuServeur/NomDeLaBase"/>
+            <property name="jakarta.persistence.jdbc.user" value="user"/>
+            <property name="jakarta.persistence.jdbc.password" value="password"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
@@ -19,10 +22,9 @@
             <property name="jakarta.persistence.schema-generation.scripts.action" value="drop-and-create"/>
             <property name="jakarta.persistence.schema-generation.scripts.create-target" value="./creerINIT.sql"/>
             <property name="jakarta.persistence.schema-generation.scripts.drop-target" value="./detruireINIT.sql"/>
-
-
         </properties>
     </persistence-unit>
+
     <persistence-unit name="no-action-bdd" transaction-type="RESOURCE_LOCAL">
         <class>fr.uniplanify.models.dto.Client</class>
         <class>fr.uniplanify.models.dto.Constraints</class>
@@ -30,9 +32,9 @@
         <class>fr.uniplanify.models.dto.Rdv</class>
 
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost/uniplanify"/>
-            <property name="jakarta.persistence.jdbc.user" value="thoma"/>
-            <property name="jakarta.persistence.jdbc.password" value="thoma"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://NomDuServeur/NomDeLaBase"/>
+            <property name="jakarta.persistence.jdbc.user" value="user"/>
+            <property name="jakarta.persistence.jdbc.password" value="password"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <property name="jakarta.persistence.schema-generation.database.action" value="none"/>

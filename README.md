@@ -6,7 +6,7 @@ Début : 14/09/2023
 ## Démarrer le projet Maven
 1) télécharger le projet
 2) Vérifier si maven est installé sur votre machine par ***mvn -v***, sinon l'extraire (https://maven.apache.org/download.cgi), puis créer la variable systeme ***M2_HOME*** pointant sur la racine du dossier maven et ajouter dans votre path ***%M2_HOME%\bin***
-3) modifier le fichier ***resources/META-INF/persistence.xml*** avec les infos de connexion à la base de données.
+3) copier le fichier ***src/main/java/resources/META-INF/persistence.sample.xml*** en ***src/main/java/resources/META-INF/persistence.xml*** avec les infos de connexion à la base de données.
 4) Compiler le projet avec ***mvn clean package*** : cela va créer le dossier target
 5) Lancer le serveur avec ***mvn cargo:run***
 
