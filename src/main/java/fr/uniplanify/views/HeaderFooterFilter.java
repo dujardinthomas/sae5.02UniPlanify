@@ -33,6 +33,10 @@ public class HeaderFooterFilter extends HttpFilter {
         String servletResponse = wrapper.toString();
         String pageTitle = (String) req.getAttribute("pageTitle");
         String cheminAccueil = (String) req.getAttribute("cheminAccueil");
+        if(cheminAccueil == null){
+            //mettre en requete dans jsp comme dans les servlet : flemme
+            cheminAccueil = "";
+        }
         HttpSession session = req.getSession(true);
         Client user = (Client) session.getAttribute("clientDTO");
 
@@ -67,7 +71,7 @@ public class HeaderFooterFilter extends HttpFilter {
 
     }
 
-    private String generateHeader(Client user, String pageTitle, String cheminServlet, String contextPath) {
+    private String generateHeader(Client user, String pageTitle, String cheminAccueil, String contextPath) {
 
          // Déclaration du contenu CSS en ligne
     String cssContent = "body {\r\n" + //
@@ -201,14 +205,14 @@ public class HeaderFooterFilter extends HttpFilter {
 
         sb.append("<nav>");
         sb.append("<ul class=\"nav-menu\">");
-        sb.append("<li><a href=\"Calendrier\">Accueil</a></li>");
+        sb.append("<li><a href=" + cheminAccueil + "Calendrier + \">Accueil</a></li>");
 
         if (user != null && user.getPro()) {
-            sb.append("<li><a href=\"Pro\">Mon espace pro</a></li>");
-            sb.append("<li><a href=\"Pro\\initialisation.html\">Initialisation</a></li>");
-            sb.append("<li><a href=\"Pro\\indisponibilite.html\">Ajouter des indisponibilités</a></li>");
+            sb.append("<li><a href=" + cheminAccueil + "Pro>Mon espace pro</a></li>");
+            sb.append("<li><a href=" + cheminAccueil + "Pro\\initialisation.html>Initialisation</a></li>");
+            sb.append("<li><a href=" + cheminAccueil + "Pro\\indisponibilite.html>Ajouter des indisponibilités</a></li>");
         } else {
-            sb.append("<li><a href=\"Perso\">Mon espace perso</a></li>");
+            sb.append("<li><a href=" + cheminAccueil + "Perso>Mon espace perso</a></li>");
         }
         sb.append("</ul>");
         sb.append("</nav>");

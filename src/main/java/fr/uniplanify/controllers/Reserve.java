@@ -6,14 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.uniplanify.models.dto.CleCompositeRDV;
 import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Rdv;
-import fr.uniplanify.views.Menu;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
