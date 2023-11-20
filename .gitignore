@@ -2,3 +2,4 @@ target/
 /configuration/
 .vscode/
 /META-INF/persistence.xml
+src/main/resources/META-INF/persistence.xml
