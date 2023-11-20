@@ -26,7 +26,7 @@ public class inscription extends HttpServlet {
         String pwd = req.getParameter("pwd");
 
         Client c = new Client();
-        c.setNomC(prenom);
+        c.setNomC(nom);
         c.setPrenomC(prenom);
         c.setPro(false);
         c.setMailC(login);

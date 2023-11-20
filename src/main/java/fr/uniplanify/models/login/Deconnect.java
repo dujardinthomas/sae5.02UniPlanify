@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/Deconnect")
+
 public class Deconnect extends HttpServlet{
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

@@ -4,6 +4,11 @@
 
         String origine=(String)session.getAttribute("origine");
         if (origine==null) origine="" ;
+
+        //a mettre dans toutes les servlets !
+        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
+        request.setAttribute("pageTitle", "Créer mon compte - UniPlanity");
+        request.setAttribute("cheminAccueil", "");
         %>
 
         <form action="inscription" method="post">

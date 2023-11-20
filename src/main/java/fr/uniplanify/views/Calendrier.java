@@ -14,8 +14,6 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import fr.uniplanify.models.dto.Client;
 import fr.uniplanify.models.dto.JourneeTypePro;
 
 @WebServlet("/Calendrier")
@@ -29,20 +27,14 @@ public class Calendrier extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        //a mettre dans toutes les servlets !
-        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
+        // a mettre dans toutes les servlets !
+        // on ecrit que l'interieur de la balise body le header, footer c'est dans
+        // HeaderFooterFilter !!
         req.setAttribute("pageTitle", "Calendrier UniPlanity");
         req.setAttribute("cheminAccueil", "");
-        System.out.println("enregistrement dans la requete ...");
+
         emf = Persistence.createEntityManagerFactory("no-action-bdd");
         em = emf.createEntityManager();
-
-        // // VERIFIE AUTENFIFIE
-        // HttpSession session = req.getSession(true);
-        // Client c = (Client) session.getAttribute("client");
-        // if (c == null || c.getPro() == true) {
-        // res.sendRedirect("Deconnect");
-        // }
 
         res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
@@ -95,7 +87,6 @@ public class Calendrier extends HttpServlet {
         StringBuilder calendarHTML = new StringBuilder();
         calendarHTML.append("<table class=\"calendar\">");
         calendarHTML.append("<h1>" + monthName + " " + year + "</h1>");
-        // Ajouter l'en-tête du calendrier avec les jours de la semaine
         calendarHTML.append("<tr>");
         calendarHTML.append("<th>Lundi</th>");
         calendarHTML.append("<th>Mardi</th>");
@@ -106,11 +97,10 @@ public class Calendrier extends HttpServlet {
         calendarHTML.append("<th>Dimanche</th>");
         calendarHTML.append("</tr>");
 
-        // Ajouter les lignes pour les jours du calendrier
         calendarHTML.append("<tr>");
 
-        // Ajouter des cellules vides pour les jours précédant le premier jour du mois
         for (int i = 1; i < startDayOfWeek; i++) {
+            // case vide pour faire un rectangle = lundi au 1er jour
             calendarHTML.append("<td></td>");
         }
 
@@ -123,13 +113,12 @@ public class Calendrier extends HttpServlet {
 
         LocalDate currentDate = firstDayOfMonth;
         for (int day = 1; day <= daysInMonth; day++) {
-            // Ajouter une cellule pour le jour courant
-
-            // if journee type == true alord
+            // chaque jour
 
             LocalDate now = LocalDate.of(year, month, day);
             String dayOfWeek = now.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRENCH);
             if (dayWork.contains(dayOfWeek.toString())) {
+                // si ouvert lien cliquable
                 calendarHTML.append("<td><div class=\"cellule\">");
                 calendarHTML.append("<div class=\"dayNumber\">");
                 calendarHTML
@@ -141,15 +130,8 @@ public class Calendrier extends HttpServlet {
             }
 
             calendarHTML.append("</div>");
-
-            // calendarHTML.append("<div class=\"event\">");
-            // calendarHTML.append("<a href=\"?year=" + year + "&month=" + month +
-            // "&day=").append("\"></a>");
-            // calendarHTML.append("</div>");
             calendarHTML.append("</div></td>");
 
-            // Passer à la prochaine ligne chaque fois que nous atteignons le Dimanche (jour
-            // 7)
             if (currentDate.getDayOfWeek().getValue() == 7) {
                 calendarHTML.append("</tr>");
                 // Vérifier si nous avons encore des jours à ajouter
@@ -160,7 +142,7 @@ public class Calendrier extends HttpServlet {
             currentDate = currentDate.plusDays(1);
         }
 
-        // Ajouter des cellules vides pour les jours suivant le dernier jour du mois
+        // //case vide pour faire un rectangle = dernier jour au dimanche
         int lastDayOfWeek = currentDate.minusDays(1).getDayOfWeek().getValue();
         if (lastDayOfWeek != 7) {
             for (int i = lastDayOfWeek + 1; i <= 7; i++) {

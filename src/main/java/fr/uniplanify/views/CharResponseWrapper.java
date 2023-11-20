@@ -1,9 +1,6 @@
 package fr.uniplanify.views;
 
-
 import java.io.*;
-import java.util.*;
-
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
 

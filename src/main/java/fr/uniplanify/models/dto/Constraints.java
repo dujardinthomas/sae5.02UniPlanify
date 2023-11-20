@@ -8,8 +8,8 @@ import jakarta.persistence.NamedQuery;
 @NamedQuery(name="Constraints.findAll", query="SELECT c from Constraints c")
 public class Constraints {
     @Id
-    int dureeDefaultMinutes = 15;
-    int nbPersonneMaxDefault = 1;
+    private int dureeDefaultMinutes = 15;
+    private int nbPersonneMaxDefault = 1;
 
     public Constraints(int dureeDefaultMinutes, int nbPersonneMaxDefault) {
         this.dureeDefaultMinutes = dureeDefaultMinutes;

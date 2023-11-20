@@ -1,6 +1,7 @@
 <!-- 1. COPIER CE FICHIER EN PERSISTENCE.XML
      2. MODIFIER LES LIGNES 12,13,14 PAR VOS INFO SQL POUR LE 1ER PERSISTENCE-UNIT
-     3. DE MEME POUR LES LIGNES 35,36,37 POUR LE SECOND PERSISTENCE-UNIT  -->
+     3. DE MEME POUR LES LIGNES 35,36,37 POUR LE SECOND PERSISTENCE-UNIT
+!!!! 4. ENLEVER CES LIGNES DE COMMENTAIRES SUR LE FICHIER COPIE !!!! -->
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemalocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
     <persistence-unit name="reinitialisation" transaction-type="RESOURCE_LOCAL">
