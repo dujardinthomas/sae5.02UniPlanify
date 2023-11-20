@@ -1,4 +1,4 @@
 target/
 /configuration/
 .vscode/
-META-INF/persistence.xml
+/META-INF/persistence.xml
