@@ -7,8 +7,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
+import fr.uniplanify.models.dto.CleCompositeIndisponibilite;
 import fr.uniplanify.models.dto.CleCompositeRDV;
 import fr.uniplanify.models.dto.Constraints;
+import fr.uniplanify.models.dto.Indisponibilite;
 import fr.uniplanify.models.dto.JourneeTypePro;
 import fr.uniplanify.models.dto.Rdv;
 import jakarta.persistence.EntityManager;
@@ -67,7 +69,14 @@ public class Jour extends HttpServlet {
             int dureeRDV = constraints.getDureeDefaultMinutes();
             System.out.println("duree rdv : " + dureeRDV);
 
+            //CleCompositeIndisponibilite cle = new CleCompositeIndisponibilite(selectedDate, endTimeDay, selectedDate, timeNow)
+
+            //Indisponibilite indispoExistant = em.find(Indisponibilite.class, ) 
+
             while (!timeNow.plusMinutes(dureeRDV).isAfter(endTimeDay)) {
+
+                //IF INDISPO
+                
                 System.out.println(timeNow);
                 // tant que il y a encore des creneaux
                 String etat = "";
