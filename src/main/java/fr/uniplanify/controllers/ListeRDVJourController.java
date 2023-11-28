@@ -1,15 +1,12 @@
 package fr.uniplanify.controllers;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import fr.uniplanify.models.dto.CleCompositeRDV;
 import fr.uniplanify.models.dto.Constraints;
@@ -30,6 +27,8 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/Jour")
 public class ListeRDVJourController extends HttpServlet {
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH);
+
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         int day = Integer.parseInt(req.getParameter("day"));
@@ -38,7 +37,7 @@ public class ListeRDVJourController extends HttpServlet {
 
         LocalDate selectedDate = LocalDate.of(year, month, day);
         HttpSession session = req.getSession(true);
-        session.setAttribute("selectedDate", selectedDate);
+        session.setAttribute("selectedDate", selectedDate.format(formatter));
 
         List<Rdv> allRdvToday = getRdvStatus(selectedDate);
         session.setAttribute("listRdvDay", allRdvToday);
@@ -46,20 +45,20 @@ public class ListeRDVJourController extends HttpServlet {
         res.sendRedirect("jour.jsp");
     }
 
+
     public List<Rdv> getRdvStatus(LocalDate selectedDate) {
+        List<Rdv> listRdvDay = new ArrayList<>();
+
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
         EntityManager em = emf.createEntityManager();
-
-        List<Rdv> listRdvDay = new ArrayList<>();
 
         // Récupération des contraintes
         Constraints constraints = em.createNamedQuery("Constraints.findAll", Constraints.class).getSingleResult();
         int nbPersonneMax = constraints.getNbPersonneMaxDefault();
         int dureeRDV = constraints.getDureeDefaultMinutes();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH);
         String dayStringNumberMonthYear = selectedDate.format(formatter);
-        JourneeTypePro dayTime = em.find(JourneeTypePro.class, dayStringNumberMonthYear.split(" ")[0]);// on recupere le jour string (lundi par exemple) ds la bdd
+        JourneeTypePro dayTime = em.find(JourneeTypePro.class, dayStringNumberMonthYear.split(" ")[0]);
 
         if (dayTime == null) {
             System.out.println("jour fermé!");

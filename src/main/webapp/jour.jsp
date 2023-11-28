@@ -4,8 +4,12 @@
 <%@ page import="fr.uniplanify.models.dto.Rdv" %>
 
 
-<% List<Rdv> listRdvDay = (List<Rdv>) session.getAttribute("listRdvDay"); %>
+<% List<Rdv> listRdvDay = (List<Rdv>) session.getAttribute("listRdvDay");; 
 
+if (listRdvDay == null){
+    listRdvDay = new ArrayList<Rdv>();
+}
+%>
 
 <table>
     <tr>
@@ -13,14 +17,23 @@
     </tr>
 
     <%
-    for (Rdv rdvNow : listRdvDay) {
+    if (listRdvDay.isEmpty()) {
     %>
-        <tr>
-            <td>
-                <%= rdvNow.toStringJour() %>
-            </td>
-        </tr>
-    <% } %>
-
+        <p>La journée est actuellement fermée, aucun rendez-vous disponible.</p>
+    <%
+    } else {
+        try {
+            for (Rdv rdvNow : listRdvDay) { %>
+                <tr>
+                    <td>
+                        <%= rdvNow.toStringJour() %>
+                    </td>
+                </tr>
+            <% } %>
+        <% 
+        } catch (Exception e) { %>
+            <p>Une erreur s'est produite lors de la récupération de la journée</p>
+        <% }
+    } %>
 
 </table>
