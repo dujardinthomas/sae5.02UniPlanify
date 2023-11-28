@@ -26,8 +26,9 @@ public class Reserve extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        //a mettre dans toutes les servlets !
-        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
+        // a mettre dans toutes les servlets !
+        // on ecrit que l'interieur de la balise body le header, footer c'est dans
+        // HeaderFooterFilter !!
         req.setAttribute("pageTitle", "Confirmation de RDV - UniPlanify");
         req.setAttribute("cheminAccueil", "../");
 
@@ -56,7 +57,7 @@ public class Reserve extends HttpServlet {
         LocalDateTime heureActuelle = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yy");
         String jjMMyy = heureActuelle.format(format);
-        String etat = "reservé le " + jjMMyy;
+        String commentaire = "reservé le " + jjMMyy;
 
         CleCompositeRDV cleRDV = new CleCompositeRDV();
         cleRDV.setHeure(heureDuRdv);
@@ -68,11 +69,15 @@ public class Reserve extends HttpServlet {
             if (rdvExistant.getClients().size() < nbPersonne) {
                 // on peut ajouter un client
 
-                rdvExistant.addClient(client);
-                rdvExistant.setEtat(client.getNomC() + " ajouté le " + jjMMyy);
-                em.getTransaction().begin();
-                em.persist(rdvExistant);
-                em.getTransaction().commit();
+                try {
+                    rdvExistant.addClient(client);
+                    rdvExistant.setCommentaire(client.getNomC() + " ajouté le " + jjMMyy);
+                    em.getTransaction().begin();
+                    em.persist(rdvExistant);
+                    em.getTransaction().commit();
+                } catch (Exception e) {
+                    out.println("<h1>Vous avez déja résérvé ce rendez-vous du " + dateDuRdv + " à " + heureDuRdv + " !</h1>");
+                }
 
                 boolean statut = em.contains(rdvExistant);
 
@@ -89,7 +94,8 @@ public class Reserve extends HttpServlet {
             Rdv nouveauRdv = new Rdv();
             nouveauRdv.setCleCompositeRDV(cleRDV);
             nouveauRdv.addClient(client);
-            nouveauRdv.setEtat(etat);
+            nouveauRdv.setCommentaire(commentaire);
+            nouveauRdv.setEtat("Réservé");
 
             em.getTransaction().begin();
             em.persist(nouveauRdv);

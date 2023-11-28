@@ -24,7 +24,8 @@ public class AuthentFilterPro extends HttpFilter {
             System.out.println("L'utilisateur est présent, et est admin, poursuite...");
             chain.doFilter(req, res);
         } else {
-            System.out.println("Le token n'est pas présent, on envoie sur login...");
+            System.out.println(c.getNomC() + " pro: " + c.getPro());
+            System.out.println("L'utilisateur n'est pas présent, ou n'est pas admin, on envoie sur login...");
             // non authentifié, on range l'appel dans la session
             // et on appelle la page de login
 

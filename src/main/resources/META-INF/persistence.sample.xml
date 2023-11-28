@@ -32,6 +32,8 @@
         <class>fr.uniplanify.models.dto.Constraints</class>
         <class>fr.uniplanify.models.dto.JourneeTypePro</class>
         <class>fr.uniplanify.models.dto.Rdv</class>
+        <class>fr.uniplanify.models.dto.Indisponibilite</class>
+
 
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://NomDuServeur/NomDeLaBase"/>
