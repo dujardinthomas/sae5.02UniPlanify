@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import fr.uniplanify.models.dto.CleCompositeIndisponibilite;
 import fr.uniplanify.models.dto.CleCompositeRDV;
 import fr.uniplanify.models.dto.Constraints;
 import fr.uniplanify.models.dto.Creneau;
@@ -45,7 +46,6 @@ public class ListeRDVJourController extends HttpServlet {
         res.sendRedirect("jour.jsp");
     }
 
-
     public List<Rdv> getRdvStatus(LocalDate selectedDate) {
         List<Rdv> listRdvDay = new ArrayList<>();
 
@@ -60,16 +60,50 @@ public class ListeRDVJourController extends HttpServlet {
         String dayStringNumberMonthYear = selectedDate.format(formatter);
         JourneeTypePro dayTime = em.find(JourneeTypePro.class, dayStringNumberMonthYear.split(" ")[0]);
 
+        // CleCompositeIndisponibilite cleCompositeIndisponibilite = new
+        // CleCompositeIndisponibilite();
+        // cleCompositeIndisponibilite.setDebutJour(selectedDate);
+        // Indisponibilite indisponibilite = em.find(Indisponibilite.class,
+        // selectedDate);
+
+        String query = "SELECT * FROM indisponibilite WHERE " +
+                "debutjour >= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " +
+                "AND finjour <= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
+
+        List<Indisponibilite> indisponibilites = em.createNativeQuery(query, Indisponibilite.class).getResultList();
+
         if (dayTime == null) {
             System.out.println("jour fermé!");
 
         } else {
+
+            for (Indisponibilite indispo : indisponibilites) {
+                CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
+                if (selectedDate.isAfter(i.getDebutJour())
+                        || selectedDate.isEqual(i.getDebutJour())
+                                && selectedDate.isBefore(i.getFinJour())
+                        || selectedDate.isEqual(i.getFinJour())) {
+                    System.out.println("jour fermé car indispo!");
+                }
+            }
 
             LocalTime startTimeDay = dayTime.getHeureDebut();
             LocalTime endTimeDay = dayTime.getHeureFin();
             LocalTime timeNow = startTimeDay;
 
             while (!timeNow.plusMinutes(dureeRDV).isAfter(endTimeDay)) {
+
+                for (Indisponibilite indispo : indisponibilites) {
+                    CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
+                    if (timeNow.isAfter(i.getDebutHeure())
+                            && timeNow.isBefore(i.getFinHeure())
+                            || timeNow.equals(i.getDebutHeure())
+                            || timeNow.equals(i.getFinHeure())) {
+                        System.out.println("heure indispo!");
+                        timeNow = timeNow.plusMinutes(dureeRDV);
+                        continue;
+                    }
+                }
 
                 CleCompositeRDV cleRDV = new CleCompositeRDV();
                 cleRDV.setHeure(timeNow);

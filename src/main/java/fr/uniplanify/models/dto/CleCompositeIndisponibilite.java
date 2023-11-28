@@ -3,71 +3,53 @@ package fr.uniplanify.models.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class CleCompositeIndisponibilite {
-    @Id
-    private LocalDate debutjour;
-    @Id
-    private LocalTime debutheure;
-    @Id
-    private LocalDate finjour;
-    @Id
-    private LocalTime finheure;
-
-
-    public CleCompositeIndisponibilite(LocalDate debutjour, LocalTime debutheure, LocalDate finjour, LocalTime finheure) {
-        this.debutjour = debutjour;
-        this.debutheure = debutheure;
-        this.finjour = finjour;
-        this.finheure = finheure;
-    }
-
-    
+    private LocalDate debutJour;
+    private LocalTime debutHeure;
+    private LocalDate finJour;
+    private LocalTime finHeure;
 
     public CleCompositeIndisponibilite() {
     }
 
-
-
-    public LocalDate getDebutjour() {
-        return debutjour;
+    public CleCompositeIndisponibilite(LocalDate debutJour, LocalTime debutHeure, LocalDate finJour,
+            LocalTime finHeure) {
+        this.debutJour = debutJour;
+        this.debutHeure = debutHeure;
+        this.finJour = finJour;
+        this.finHeure = finHeure;
     }
 
-    public void setDebutjour(LocalDate debutjour) {
-        this.debutjour = debutjour;
+    public LocalDate getDebutJour() {
+        return debutJour;
+    }
+    public void setDebutJour(LocalDate debutJour) {
+        this.debutJour = debutJour;
+    }
+    public LocalTime getDebutHeure() {
+        return debutHeure;
+    }
+    public void setDebutHeure(LocalTime debutHeure) {
+        this.debutHeure = debutHeure;
+    }
+    public LocalDate getFinJour() {
+        return finJour;
+    }
+    public void setFinJour(LocalDate finJour) {
+        this.finJour = finJour;
+    }
+    public LocalTime getFinHeure() {
+        return finHeure;
+    }
+    public void setFinHeure(LocalTime finHeure) {
+        this.finHeure = finHeure;
     }
 
-    public LocalTime getDebutheure() {
-        return debutheure;
-    }
+   
 
-    public void setDebutheure(LocalTime debutheure) {
-        this.debutheure = debutheure;
-    }
-
-    public LocalDate getFinjour() {
-        return finjour;
-    }
-
-    public void setFinjour(LocalDate finjour) {
-        this.finjour = finjour;
-    }
-
-    public LocalTime getFinheure() {
-        return finheure;
-    }
-
-    public void setFinheure(LocalTime finheure) {
-        this.finheure = finheure;
-    }
-
-    @Override
-    public String toString() {
-        return "CleCompositeIndisponibilite [debutjour=" + debutjour + ", debutheure=" + debutheure + ", finjour=" + finjour
-                + ", finheure=" + finheure + "]";
-    }
+    
 
 }

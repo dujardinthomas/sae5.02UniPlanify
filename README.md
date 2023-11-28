@@ -138,11 +138,11 @@ on definie une semaine type du pro par défaut (ouvert tout les lundi de 8h à 1
 
 ### Mise en pratique
 
-Init : 
+#### Init : 
 new calendrier(durée, nbPersonneMax, semaineType);
 A chaque insert de rdv, insert durée et nbPersonneMax
 
-
+#### Fonctionnement :
 Quand user selectionne une journée : 
     - affiche en vert les créneaux dispo  (select * from semaineType where jourSemaine = now())
     - en rouge les créneaux indispo (si select debutHeure from Indispo where debutJour = now())
@@ -161,6 +161,30 @@ Voir pour la vérif si il peut reserver, tester à l'affichage de la page (et en
 quand prise de rdv,
 1) insert rdv avec date choisit
 2) insert rdvclient avec idC et date choisit
+
+
+#### Indisponibilités :
+Pour les indisponibilités, quand le pro déclare une indispo (par une date de début, une heure de début, une date de fin et une heure de fin) il faut que tout les rdv déja réservés soit supprimés (ou annuler pour garder trace , a voir ...). 
+=> Faire requete sql des rdv pendant l'indispo. on obtient une liste et on supprime cette liste de la bdd.
+
+Pour les rdv à venir, supprimer les propositions qui sont dans la plage.
+
+On propose pas l'horaire 
+Si(
+(jourProposé >= jourDebutIndispo) &&
+(jourProposé <= jourFinIndispo))
+
+et si( 
+(horaireProposé >= heureDebutIndispo)
+(horaireProposé <= heureFinIndispo)) 
+
+On commence par regarder la journée et si est dedans on regarde l'heure pour eviter des calculs inutiles !
+
+requete sql des propositions de rdv pendant l'indispo. on obtient une liste et on skip quand timeNow
+soit on crée une liste du jour avec tout les rdv a ne pas mettre
+soit on crée une liste d'indispo correspondant avec la date actuel
+
+
 
 
 ## Suivi du projet 
