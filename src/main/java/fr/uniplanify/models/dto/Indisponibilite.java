@@ -1,11 +1,7 @@
 package fr.uniplanify.models.dto;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
 @Entity
 public class Indisponibilite {

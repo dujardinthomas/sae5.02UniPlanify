@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.uniplanify.models.dto.Rdv;
@@ -124,8 +123,8 @@ public class Indispo extends HttpServlet {
 
         // // Remove the time slots from the list
         // timeSlots.removeAll(timeSlotsToRemove);
-
-        return true;
+        res = true;
+        return res;
     }
 
 }

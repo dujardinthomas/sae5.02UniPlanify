@@ -48,6 +48,15 @@ public class CleCompositeIndisponibilite {
         this.finHeure = finHeure;
     }
 
+    @Override
+    public String toString() {
+        return "CleCompositeIndisponibilite [debutJour=" + debutJour + ", debutHeure=" + debutHeure + ", finJour="
+                + finJour + ", finHeure=" + finHeure + "]";
+    }
+
+
+    
+
    
 
     

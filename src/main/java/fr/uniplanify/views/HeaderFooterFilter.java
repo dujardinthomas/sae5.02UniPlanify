@@ -241,9 +241,9 @@ public class HeaderFooterFilter extends HttpFilter {
         sb.append("<button> <a href=" + cheminAccueil + "Calendrier" + ">" + "Accueil" + "</a></button>");
         if (user != null) {
             sb.append("Bienvenue " + user.getPrenomC() + " !");
-            sb.append(" <button> <a href= " + cheminAccueil + "Deconnect>Se déconnecter</a> <button> ");
+            sb.append(" <button> <a href= " + cheminAccueil + "Deconnect>Se déconnecter</a></button> ");
         } else {
-            sb.append(" <button> <a href=login.jsp>Se connecter</a> <button> ");
+            sb.append(" <button> <a href=login.jsp>Se connecter</a> </button> ");
         }
 
         sb.append("ca vient du filtre !");

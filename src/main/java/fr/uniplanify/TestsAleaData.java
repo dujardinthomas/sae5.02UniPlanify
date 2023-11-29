@@ -34,7 +34,6 @@
 //     public boolean createRDVForYear(int year) {
 //         List<LocalDate> joursDeLannee = listerJoursAnnee(year);
 //         for (int j = 0; j < joursDeLannee.size(); j++) {
-//             //TODO RECUPERER LES PLAGES DE DEBUT ET FIN DE JOURNEE
 //             for (int h = 8; h <= 17; h++) {
 //                 for (int m = 0; m < 60; m = m + 15) {
 //                     LocalDate d = joursDeLannee.get(j);
