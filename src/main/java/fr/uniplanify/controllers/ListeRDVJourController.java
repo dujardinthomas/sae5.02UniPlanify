@@ -68,8 +68,8 @@ public class ListeRDVJourController extends HttpServlet {
         // selectedDate);
 
         String query = "SELECT * FROM indisponibilite WHERE " +
-                "debutjour >= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " +
-                "AND finjour <= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
+                "debutjour = '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " ;
+                //"AND finjour <= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
 
         List<Indisponibilite> indisponibilites = em.createNativeQuery(query, Indisponibilite.class).getResultList();
 
@@ -78,15 +78,16 @@ public class ListeRDVJourController extends HttpServlet {
 
         } else {
 
-            for (Indisponibilite indispo : indisponibilites) {
-                CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-                if (selectedDate.isAfter(i.getDebutJour())
-                        || selectedDate.isEqual(i.getDebutJour())
-                                && selectedDate.isBefore(i.getFinJour())
-                        || selectedDate.isEqual(i.getFinJour())) {
-                    System.out.println("jour fermé car indispo!");
-                }
-            }
+            // for (Indisponibilite indispo : indisponibilites) {
+            //     CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
+            //     if ( (selectedDate.isAfter(i.getDebutJour()) || selectedDate.isEqual(i.getDebutJour()))
+            //                     && (selectedDate.isBefore(i.getFinJour())
+            //             || selectedDate.isEqual(i.getFinJour())) ) {
+            //         System.out.println("jour fermé car indispo!");
+            //         return listRdvDay;
+            //     }
+            // }
+            
 
             LocalTime startTimeDay = dayTime.getHeureDebut();
             LocalTime endTimeDay = dayTime.getHeureFin();
@@ -96,10 +97,11 @@ public class ListeRDVJourController extends HttpServlet {
 
                 for (Indisponibilite indispo : indisponibilites) {
                     CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-                    if (timeNow.isAfter(i.getDebutHeure())
-                            && timeNow.isBefore(i.getFinHeure())
-                            || timeNow.equals(i.getDebutHeure())
-                            || timeNow.equals(i.getFinHeure())) {
+                    if (   
+                        ((timeNow.isAfter(i.getDebutHeure())) || (timeNow.equals(i.getDebutHeure())))
+                         &&  (timeNow.isBefore(i.getFinHeure())
+                            
+                            || timeNow.equals(i.getFinHeure()))) {
                         System.out.println("heure indispo!");
                         timeNow = timeNow.plusMinutes(dureeRDV);
                         continue;

@@ -50,11 +50,17 @@ public class Indispo extends HttpServlet {
         CleCompositeIndisponibilite cle = new CleCompositeIndisponibilite(startDay, startTime, endDay, endTime);
         Indisponibilite indispo = new Indisponibilite(cle, "motif");
 
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
-        EntityManager em = emf.createEntityManager();
+        // a mettre dans toutes les servlets !
+        // on ecrit que l'interieur de la balise body le header, footer c'est dans
+        // HeaderFooterFilter !!
+        req.setAttribute("pageTitle", "Confirmation d'ajout d'une indisponibilité - UniPlanify");
+        req.setAttribute("cheminAccueil", "../");
 
         res.setContentType("text/html; charset=UTF-8");
         PrintWriter out = res.getWriter();
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("no-action-bdd");
+        EntityManager em = emf.createEntityManager();
 
         try {
             em.getTransaction().begin();
@@ -85,6 +91,7 @@ public class Indispo extends HttpServlet {
                         "AND heure <= '" + endTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")) +"' ";
 
         List<Rdv> allRdvInIndispo = em.createNativeQuery(query, Rdv.class).getResultList();
+        
 
         em.getTransaction().begin();
         for (Rdv rdv : allRdvInIndispo) {
