@@ -1,3 +1,7 @@
+<%  request.setAttribute("pageTitle", "Renseignez vos indisponibilités - UniPlanity");
+        request.setAttribute("cheminAccueil", "../");
+%> 
+    
     <form action="Indisponibilite" method="get">
 
         <h1>Ajout d'une Indisponibilité</h1>
@@ -23,11 +27,3 @@
 
         <input type="submit" value="Enregistrer">
     </form>
-
-    <footer> 
-        <button> <a href=../Deconnect>Se déconnecter</a></button>
-        <button> <a href=../>Accueil</a></button>
-    </footer 
-
-</body>
-</html>

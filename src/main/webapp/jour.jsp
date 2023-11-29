@@ -1,19 +1,26 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.time.LocalTime" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ page import="fr.uniplanify.models.dto.Rdv" %>
+<%@ page import="fr.uniplanify.controllers.ListeRDVJourController" %>
 
 
-<% List<Rdv> listRdvDay = (List<Rdv>) session.getAttribute("listRdvDay");; 
+<% 
 
-if (listRdvDay == null){
-    listRdvDay = new ArrayList<Rdv>();
+ListeRDVJourController listeRDVJourController = new ListeRDVJourController();
+
+LocalDate today = (LocalDate) session.getAttribute("selectedDate");
+if(today == null){
+    today = LocalDate.now();
 }
+
+List<Rdv> listRdvDay = listeRDVJourController.getRdvStatus(today);
 %>
 
 <table>
     <tr>
-        <td><%= session.getAttribute("selectedDate") %></td>
+        <td><%= session.getAttribute("selectedDateString") %></td>
     </tr>
 
     <%

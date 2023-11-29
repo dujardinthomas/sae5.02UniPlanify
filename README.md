@@ -142,6 +142,10 @@ on definie une semaine type du pro par défaut (ouvert tout les lundi de 8h à 1
 new calendrier(durée, nbPersonneMax, semaineType);
 A chaque insert de rdv, insert durée et nbPersonneMax
 
+L'admin pour sa 1ère fois accède à Pro/initialisation.html pour renseigner sa semaine type, la durée de rdv et le nombre de personne. Lors du traitement, la base de données sera crée !
+
+Le token est le
+
 #### Fonctionnement :
 Quand user selectionne une journée : 
     - affiche en vert les créneaux dispo  (select * from semaineType where jourSemaine = now())

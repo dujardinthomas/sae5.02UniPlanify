@@ -87,7 +87,7 @@ public class Rdv implements Serializable {
     private String getStyle() {
         if (this.etat.contains("ENCORE")) {
             return "background-color:#FFA500";
-        } else if (this.etat.contains("PLUS")) {
+        } else if (this.etat.contains("COMPLET")) {
             return "background-color:#ff0000";
         } else {
             return "background-color:#88ff00";

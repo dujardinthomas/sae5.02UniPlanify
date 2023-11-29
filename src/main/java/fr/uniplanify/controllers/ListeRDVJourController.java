@@ -38,7 +38,8 @@ public class ListeRDVJourController extends HttpServlet {
 
         LocalDate selectedDate = LocalDate.of(year, month, day);
         HttpSession session = req.getSession(true);
-        session.setAttribute("selectedDate", selectedDate.format(formatter));
+        session.setAttribute("selectedDate", selectedDate);
+        session.setAttribute("selectedDateString", selectedDate.format(formatter));
 
         List<Rdv> allRdvToday = getRdvStatus(selectedDate);
         session.setAttribute("listRdvDay", allRdvToday);

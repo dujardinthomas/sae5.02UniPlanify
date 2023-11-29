@@ -221,9 +221,9 @@ public class HeaderFooterFilter extends HttpFilter {
 
         if (user != null && user.getPro()) {
             sb.append("<li><a href=" + cheminAccueil + "Pro>Mon espace pro</a></li>");
-            sb.append("<li><a href=" + cheminAccueil + "Pro\\initialisation.html>Initialisation</a></li>");
+            sb.append("<li><a href=" + cheminAccueil + "Pro\\initialisation.jsp>Initialisation</a></li>");
             sb.append(
-                    "<li><a href=" + cheminAccueil + "Pro\\indisponibilite.html>Ajouter des indisponibilités</a></li>");
+                    "<li><a href=" + cheminAccueil + "Pro\\indisponibilite.jsp>Ajouter des indisponibilités</a></li>");
         } else {
             sb.append("<li><a href=" + cheminAccueil + "Perso>Mon espace perso</a></li>");
         }
