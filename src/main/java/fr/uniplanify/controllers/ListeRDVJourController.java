@@ -102,11 +102,16 @@ public class ListeRDVJourController extends HttpServlet {
             for (Indisponibilite indispo : indisponibilites) {
                 CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
                 while (((timeNow.isAfter(i.getDebutHeure())) || (timeNow.equals(i.getDebutHeure())))
-                        && (timeNow.isBefore(i.getFinHeure()) || timeNow.equals(i.getFinHeure()))) {
+                        && (timeNow.isBefore(i.getFinHeure()) )) {
+                            //|| timeNow.equals(i.getFinHeure())
                     System.out.println("heure indispo!");
                     timeNow = timeNow.plusMinutes(dureeRDV);
                     //continue;
                 }
+            }
+
+            if((timeNow.isAfter(endTimeDay)) || timeNow.equals(endTimeDay)) {
+                break;
             }
 
             CleCompositeRDV cleRDV = new CleCompositeRDV();
