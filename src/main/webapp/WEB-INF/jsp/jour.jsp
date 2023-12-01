@@ -2,35 +2,41 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.time.LocalTime" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="fr.uniplanify.models.dto.Rdv" %>
-<%@ page import="fr.uniplanify.controllers.ListeRDVJourController" %>
+<%@ page import="fr.sae502.uniplanify.models.Rdv" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choisir un créneau - UniPlanify</title>
+    <link rel="stylesheet" href="css/style.css">
 
+</head>
+<body>
 
-<% 
+    <% 
 
-ListeRDVJourController listeRDVJourController = new ListeRDVJourController();
-
-LocalDate today = (LocalDate) session.getAttribute("selectedDate");
+List<Rdv> today = (List<Rdv>) request.getAttribute("listRDV");
 if(today == null){
-    today = LocalDate.now();
+    today = new ArrayList<Rdv>();
 }
 
-List<Rdv> listRdvDay = listeRDVJourController.getRdvStatus(today);
 %>
 
 <table>
     <tr>
-        <td><%= session.getAttribute("selectedDateString") %></td>
+        <td>${selectedDate}</td>
     </tr>
 
     <%
-    if (listRdvDay.isEmpty()) {
+    if (today.isEmpty()) {
     %>
         <p>La journée est actuellement fermée, aucun rendez-vous disponible.</p>
     <%
     } else {
         try {
-            for (Rdv rdvNow : listRdvDay) { %>
+            for (Rdv rdvNow : today) { %>
                 <tr>
                     <td>
                         <%= rdvNow.toStringJour() %>
@@ -44,3 +50,24 @@ List<Rdv> listRdvDay = listeRDVJourController.getRdvStatus(today);
     } %>
 
 </table>
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-package fr.sae502.uniplanify;
+package fr.sae502.uniplanify.controllers;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -7,22 +7,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import fr.sae502.uniplanify.models.JourneeTypePro;
+import fr.sae502.uniplanify.repository.JourneeTypeProRepository;
+
+@Component
 @Controller
-public class ControlerCalendrier {
+public class Calendrier {
 
-    @Autowired
     private JourneeTypeProRepository journeeTypeProRepository;
 
-    @GetMapping("/calendrier")
-    @ResponseBody
-    public String calendrier(){
-         return generateCalendarManuel(2021, 9);
-        //return "BRAVO TOTO !!!!!!!!!! t'es le meilleur !!!!";
+    public Calendrier(JourneeTypeProRepository journeeTypeProRepository) {
+        this.journeeTypeProRepository = journeeTypeProRepository;
+    }
+
+    @RequestMapping(value = "/")
+    public ModelAndView calendrier(@RequestParam(defaultValue = "0") int year, 
+                                    @RequestParam(defaultValue = "0") int month) {
+
+        LocalDate currentDate = LocalDate.now();
+        if (month == 0) {
+            year = currentDate.getYear();
+            month = currentDate.getMonthValue();
+        }
+        String calendarHTML = generateCalendarManuel(year, month);
+
+        // Gestion des mois précédents et suivants
+        int previousMonth = month == 1 ? 12 : month - 1;
+        int previousYear = month == 1 ? year - 1 : year;
+        
+        int nextMonth = month == 12 ? 1 : month + 1;
+        int nextYear = month == 12 ? year + 1 : year;
+
+        ModelAndView mav = new ModelAndView("calendrier");
+        mav.addObject("calendrierHTML", calendarHTML);
+        mav.addObject("previousYear", previousYear);
+        mav.addObject("previousMonth", previousMonth);
+        mav.addObject("nextYear", nextYear);
+        mav.addObject("nextMonth", nextMonth);
+
+        return mav;
     }
 
     private String generateCalendarManuel(int year, int month) {
@@ -45,7 +74,7 @@ public class ControlerCalendrier {
         calendarHTML.append("<th>Dimanche</th>");
         calendarHTML.append("</tr>");
 
-        calendarHTML.append("<tr>");
+        calendarHTML.append("\n<tr>");
 
         for (int i = 1; i < startDayOfWeek; i++) {
             // case vide pour faire un rectangle = lundi au 1er jour
@@ -66,7 +95,7 @@ public class ControlerCalendrier {
             String dayOfWeek = now.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRENCH);
             if (dayWork.contains(dayOfWeek.toString())) {
                 // si ouvert lien cliquable
-                calendarHTML.append("<td><div class=\"cellule\">");
+                calendarHTML.append("\n<td><div class=\"cellule\">");
                 calendarHTML.append("<div class=\"dayNumber\">");
                 calendarHTML
                         .append("<a href=Jour?day=" + day + "&month=" + month + "&year=" + year + ">" + day + "</a>");
@@ -76,7 +105,7 @@ public class ControlerCalendrier {
                 calendarHTML.append(day);
             }
 
-            calendarHTML.append("</div>");
+            calendarHTML.append("\n</div>");
             calendarHTML.append("</div></td>");
 
             if (currentDate.getDayOfWeek().getValue() == 7) {
@@ -102,5 +131,5 @@ public class ControlerCalendrier {
 
         return calendarHTML.toString();
     }
-    
+
 }

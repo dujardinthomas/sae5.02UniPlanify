@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.calendar {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid #ccc;
+    padding: 0px;
+    text-align: center;
+}
+
+.cellule{
+    background-color: #a25e5e;
+    padding: 10px;
+}
+
+.celluleClose{
+    background-color: #696969;
+    padding: 10px;
+}
+
+.dayNumber {
+    padding: 10px;
+    font-weight: bold;
+}
+
+.event {
+    /* Personnalisez le style de votre texte centré ici */
+    padding: 10px;
+}
+
+
+.settingsCalendar{
+    position: fixed;
+    bottom: 30;
+    background-color: #a25e5e;
+    width: 90%;
+    text-align: center;
+    padding: 10px;
+
+}
+
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+    background-color: lavender;
+}
+
+th {
+    color: white;
+    background-color: darkgray;
+    padding: 5px;
+}
+
+table,
+tr {
+    border: solid black 2px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+tr:nth-child(2n+1) {
+    background-color: lightgray;
+}
+
+tr:hover {
+    background-color: lightgreen;
+}
+
+
+
+
+form {
+  border: 3px solid #f1f1f1;
+}
+
+.container {
+  padding: 36px;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+

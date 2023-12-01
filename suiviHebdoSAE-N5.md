@@ -112,3 +112,13 @@ Voici les étapes :
 2. J'ai crée le persistence.xml où j'y ait défini 2 persistence-unit, 1 pour l'initialisation (il recrée le schéma de la base de données avec 1 seul client : l'administrateur) et l'autre qui permet de ne pas le modifier.
 3. J'ai supprimé mes DAO et redefinis mes POJO de manière à ce qu'il fonctionne avec un entityManager.
 4. J'ai enfin remplacé tous les appels aux DAO par des entityManager.
+
+
+## 5e semaine : Spring MVC, Indisponibilite
+
+J'ai recrée le projet en me basant sur le framework spring boot mvc. J'ai effectué les configurations necessaires (moteur jsp, web, base de donnée h2).
+J'ai recrée des controler (qui étaient les servlets avant) et qui renvoient sur les vues correspondantes en jsp.
+
+J'ai mis en place la base de données h2 en mode mémoire. Plus besoin de se soucier des connexions ! Les tables sont crées et remplis via le fichier import.sql à chaque démarrage du projet.
+
+J'ai autoriser le professionel à prendre des indisponibilités. Lorsqu'il sélectionne son jour, l'heure de début et son jour et l'heure de fin, c'est enregistré dans la base de donnée. Tout les rendez-vous déja réservés sont automatiquement supprimés (voir pour une alerte envoie de mail...) et l'application ne propose plus de créneaux sur la plage de l'indisponibilité.

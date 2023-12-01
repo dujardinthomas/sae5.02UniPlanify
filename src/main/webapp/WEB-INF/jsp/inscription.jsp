@@ -1,4 +1,16 @@
-    <h1><a href="inscription.jsp">Inscription</a></h1>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - UniPlanify</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+    <h1><a href="inscription">Inscription</a></h1>
 
     <% String mess=request.getParameter("mess"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
 
@@ -32,8 +44,6 @@
 
         </form>
 
-        <h1><a href="login.jsp">Login</a></h1>
+        <h1><a href="login">Login</a></h1>
 </body>
-</html>
-
-</html>
+</html>    
