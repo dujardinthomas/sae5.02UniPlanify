@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,9 +23,6 @@ import fr.sae502.uniplanify.repository.ContraintesRepository;
 import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
 import fr.sae502.uniplanify.repository.JourneeTypeProRepository;
 import fr.sae502.uniplanify.repository.RdvRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 @Component
 @Controller
@@ -96,9 +92,9 @@ public class Jour {
         // Indisponibilite indisponibilite = em.find(Indisponibilite.class,
         // selectedDate);
 
-        String query = "SELECT * FROM indisponibilite WHERE " +
-                "debutjour <= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " +
-                "AND finjour >= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
+        // String query = "SELECT * FROM indisponibilite WHERE " +
+        //         "debutjour <= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " +
+        //         "AND finjour >= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
 
         Iterable<Indisponibilite> indisponibiliteIterator = indisponibiliteRepository.findAll();
         List<Indisponibilite> indisponibilites = new ArrayList<>();
@@ -117,9 +113,9 @@ public class Jour {
         // }
         // }
 
-        System.out.println(indisponibilites.size());
+        System.out.println("il y a : " + indisponibilites.size() + " indisponibilites");
         for (Indisponibilite indisponibilite : indisponibilites) {
-            System.out.println(indisponibilite);
+            System.out.println("indispo " + indisponibilite);
         }
 
         LocalTime startTimeDay = dayTime.getHeureDebut();

@@ -62,8 +62,8 @@ public class Calendrier {
         String monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.getDefault());
 
         StringBuilder calendarHTML = new StringBuilder();
-        calendarHTML.append("<table class=\"calendar\">");
         calendarHTML.append("<h1>" + monthName + " " + year + "</h1>");
+        calendarHTML.append("<table class=\"calendar\">");
         calendarHTML.append("<tr>");
         calendarHTML.append("<th>Lundi</th>");
         calendarHTML.append("<th>Mardi</th>");
@@ -98,21 +98,21 @@ public class Calendrier {
                 calendarHTML.append("\n<td><div class=\"cellule\">");
                 calendarHTML.append("<div class=\"dayNumber\">");
                 calendarHTML
-                        .append("<a href=Jour?day=" + day + "&month=" + month + "&year=" + year + ">" + day + "</a>");
+                        .append("<a href=\"Jour?day=" + day + "&month=" + month + "&year=" + year + "\">" + day + "</a>");
             } else {
-                calendarHTML.append("<td><div class=\"celluleClose\">");
+                calendarHTML.append("\n<td><div class=\"celluleClose\">");
                 calendarHTML.append("<div class=\"dayNumber\">");
                 calendarHTML.append(day);
             }
 
-            calendarHTML.append("\n</div>");
+            calendarHTML.append("</div>");
             calendarHTML.append("</div></td>");
 
             if (currentDate.getDayOfWeek().getValue() == 7) {
                 calendarHTML.append("</tr>");
                 // Vérifier si nous avons encore des jours à ajouter
                 if (day < daysInMonth) {
-                    calendarHTML.append("<tr>");
+                    calendarHTML.append("\n<tr>");
                 }
             }
             currentDate = currentDate.plusDays(1);
