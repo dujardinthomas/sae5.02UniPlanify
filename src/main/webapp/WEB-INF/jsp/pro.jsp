@@ -9,7 +9,9 @@
 </head>
 <body>
 
-    <h1>Bienveue ${user} !</h1>
+    <h1>Bienvenue ${user} !</h1>
+
+    <h2>Voici tous les rendez-vous à venir :</h2>
     
 </body>
 </html>

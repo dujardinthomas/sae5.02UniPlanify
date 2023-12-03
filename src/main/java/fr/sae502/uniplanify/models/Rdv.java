@@ -36,7 +36,7 @@ public class Rdv {
 
     public String toStringTakeRdv() {
         LocalDateTime dateTime = this.cleCompositeRDV.getJour().atTime(this.cleCompositeRDV.getHeure());
-        String href = "<a href=\"Perso/Reserve?"
+        String href = "<a href=\"perso/reserve?"
                 + "year=" + dateTime.getYear()
                 + "&month=" + dateTime.getMonthValue()
                 + "&day=" + dateTime.getDayOfMonth()

@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.sae502.uniplanify.models.Utilisateur;
 
 @Controller
-@RequestMapping(value = "/perso")
+@RequestMapping(value = "/my")
 public class Perso {
 
     private Utilisateur user;
