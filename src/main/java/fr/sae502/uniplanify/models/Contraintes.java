@@ -14,6 +14,14 @@ public class Contraintes {
     @Column(name = "nb_personne_max_default")
     private int nbPersonneMaxDefault;
 
+    public Contraintes() {
+    }
+
+    public Contraintes(int dureeDefaultMinutes, int nbPersonneMaxDefault) {
+        this.dureeDefaultMinutes = dureeDefaultMinutes;
+        this.nbPersonneMaxDefault = nbPersonneMaxDefault;
+    }
+
     public int getDureeDefaultMinutes() {
         return dureeDefaultMinutes;
     }

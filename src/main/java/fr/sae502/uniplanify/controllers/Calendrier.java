@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,6 +28,7 @@ public class Calendrier {
     }
 
     @RequestMapping(value = "/")
+    @Transactional
     public ModelAndView calendrier(@RequestParam(defaultValue = "0") int year, 
                                     @RequestParam(defaultValue = "0") int month) {
 
@@ -85,6 +87,7 @@ public class Calendrier {
         List<String> dayWork = new ArrayList<>();
         for (JourneeTypePro journee : semainePro) {
             dayWork.add(journee.getJour());
+            System.out.println(journee.getJour());
         }
 
         LocalDate currentDate = firstDayOfMonth;

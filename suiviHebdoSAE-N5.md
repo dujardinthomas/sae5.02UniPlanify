@@ -116,8 +116,9 @@ Voici les étapes :
 
 ## 5e semaine : Spring MVC, Indisponibilite
 
-J'ai recrée le projet en me basant sur le framework spring boot mvc. J'ai effectué les configurations necessaires (moteur jsp, web, base de donnée h2).
-J'ai recrée des controler (qui étaient les servlets avant) et qui renvoient sur les vues correspondantes en jsp.
+J'ai recrée le projet en me basant sur le framework spring boot mvc avec ses dépendances nécessaires. J'ai effectué les configurations necessaires (moteur jsp, web, base de donnée h2).
+J'ai crée les controlers (qui étaient les servlets avant) et qui renvoient sur les vues correspondantes en jsp.
+Chaque controleur qui a besoin de la base de données, est un Composant spring (pour permettre l'accès à l'interface CRUDRepository)
 
 J'ai mis en place la base de données h2 en mode mémoire. Plus besoin de se soucier des connexions ! Les tables sont crées et remplis via le fichier import.sql à chaque démarrage du projet.
 

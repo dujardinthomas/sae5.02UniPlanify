@@ -32,7 +32,7 @@ public class Inscription {
                                 @RequestParam("prenom") String prenom,
                                 @RequestParam("email") String email, 
                                 @RequestParam("password") String password) {
-        //UtilisateurRepository.save(new Utilisateur(nom, prenom, email, password, false));
+        utilisateurRepository.save(new Utilisateur(nom, prenom, email, password, false));
 
     }
 }
