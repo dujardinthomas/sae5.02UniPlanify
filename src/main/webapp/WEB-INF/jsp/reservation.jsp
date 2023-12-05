@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="fr.sae502.uniplanify.models.Rdv" %>
+<%@ page import="fr.sae502.uniplanify.models.Utilisateur" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,21 +13,28 @@
 </head>
 <body>
 
-    <h1>Félicitation ${user.getNom}, votre rendez-vous du ${rdv.getJour} à ${rdv.getHeure} est confirmé !</h1>
-
-    <%if(statut){%>
-        <h1>client ${user.getId()} ${statut ? " à été " : "n'a pas été "}
-        ajouté au rendez-vous du ${dateDuRdv} à ${heureDuRdv}</h1>
+    <% String statut = (String)request.getAttribute("status"); %>
+    <% Utilisateur user = (Utilisateur)request.getAttribute("user"); %>
 
 
-        out.println(
-                    "<h1>rendez-vous du " + dateDuRdv + " à " + heureDuRdv
-                            + (statut ? " à été crée " : "n'a pas été crée ")
-                            + " avec le client " + client.getIdC() + "</h1>");
+      <%if(statut.equals("created")){%>
+        <h1>Félicitation ${user.getPrenom()} ${user.getNom()}, votre rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()} à été crée !</h1>
 
-    <% if()
+    <%}else if(statut.equals("add")){%>
+        <h1> ${user.getPrenom()} ${user.getNom()} à été 
+        ajouté au rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()}</h1>
+    
+    <%}else if(statut.equals("plein")){%>
+        <h1>Le rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()} est plein !</h1>
 
-        out.println("<h1>Vous avez déja résérvé ce rendez-vous du " + dateDuRdv + " à " + heureDuRdv + " !</h1>");
+
+    <%}else{
+        out.println("erreur de recuperation de statut");
+    } %>
+
+    
+
+  
     
 </body>
 </html>

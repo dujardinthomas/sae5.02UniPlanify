@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.swing.SpringLayout.Constraints;
-
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +18,7 @@ import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
 import fr.sae502.uniplanify.repository.RdvRepository;
+import fr.sae502.uniplanify.repository.UtilisateurRepository;
 
 @Controller
 @Component
@@ -28,10 +27,12 @@ public class Reserve {
 
     private RdvRepository rdvRepository;
     private ContraintesRepository contraintesRepository;
+    private UtilisateurRepository utilisateurRepository;
 
-    public Reserve(RdvRepository rdvRepository, ContraintesRepository contraintesRepository) {
+    public Reserve(RdvRepository rdvRepository, ContraintesRepository contraintesRepository, UtilisateurRepository utilisateurRepository) {
         this.rdvRepository = rdvRepository;
         this.contraintesRepository = contraintesRepository;
+        this.utilisateurRepository = utilisateurRepository;
     }
 
     @GetMapping(value = "/reserve")
@@ -65,7 +66,9 @@ public class Reserve {
             nbPersonne = contrainte.getNbPersonneMaxDefault();
         }
 
-        Utilisateur user = new Utilisateur();
+        //TODO : récupérer l'utilisateur connecté
+        Utilisateur user = utilisateurRepository.findById(1).orElse(null);
+        mav.addObject("user", user);
         String etat = "";
 
         if (rdvExistant != null) {
@@ -81,15 +84,13 @@ public class Reserve {
                     etat = "add";
                     
                 } catch (Exception e) {
-                    mav.addObject("erreur", "Vous avez déja résérvé");
+                    etat = "plein";
                 }
-
-                boolean statut = rdvRepository.existsById(cleRDV);
-                mav.addObject("status", statut);
                 
             } else {
-                mav.addObject("erreur", "plein");
+                etat = "plein";
             }
+            mav.addObject("status", etat);
             mav.addObject("rdv", rdvExistant);
         } else {
 
@@ -101,8 +102,7 @@ public class Reserve {
 
             
             rdvRepository.save(nouveauRdv);
-
-            boolean statut = rdvRepository.existsById(cleRDV);
+            String statut = "created";
             mav.addObject("status", statut);
             mav.addObject("rdv", nouveauRdv);
         }

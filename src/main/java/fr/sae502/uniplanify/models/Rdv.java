@@ -1,6 +1,8 @@
 package fr.sae502.uniplanify.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,18 @@ public class Rdv {
     public List<Utilisateur> getClients() {
         return this.participants;
     }
+
+    
+
+    public LocalTime getHeure() {
+        return this.cleCompositeRDV.getHeure();
+    }
+
+    public LocalDate getJour() {
+        return this.cleCompositeRDV.getJour();
+    }
+
+
 
     public void addParticipant(Utilisateur user) {
         if (this.participants == null) {
