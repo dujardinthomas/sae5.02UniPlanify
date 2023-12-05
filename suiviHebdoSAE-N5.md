@@ -116,10 +116,10 @@ Voici les étapes :
 
 ## 5e semaine : Spring MVC, Indisponibilite
 
-J'ai recrée le projet en me basant sur le framework spring boot mvc avec ses dépendances nécessaires. J'ai effectué les configurations necessaires (moteur jsp, web, base de donnée h2).
+J'ai recrée le projet en me basant sur le framework spring boot mvc avec ses dépendances nécessaires. J'ai effectué les configurations nécessaires (moteur jsp, web, base de donnée h2).
 J'ai crée les controlers (qui étaient les servlets avant) et qui renvoient sur les vues correspondantes en jsp.
 Chaque controleur qui a besoin de la base de données, est un Composant spring (pour permettre l'accès à l'interface CRUDRepository)
 
-J'ai mis en place la base de données h2 en mode mémoire. Plus besoin de se soucier des connexions ! Les tables sont crées et remplis via le fichier import.sql à chaque démarrage du projet.
+J'ai mis en place la base de données h2 en mode mémoire. Plus besoin de se soucier des connexions ! Les tables sont crées via JPA et remplis via le fichier import.sql à chaque démarrage du projet.
 
-J'ai autoriser le professionel à prendre des indisponibilités. Lorsqu'il sélectionne son jour, l'heure de début et son jour et l'heure de fin, c'est enregistré dans la base de donnée. Tout les rendez-vous déja réservés sont automatiquement supprimés (voir pour une alerte envoie de mail...) et l'application ne propose plus de créneaux sur la plage de l'indisponibilité.
+J'ai autorisé le professionel à prendre des indisponibilités. Lorsqu'il sélectionne son jour, l'heure de début et son jour et l'heure de fin, c'est enregistré dans la base de donnée. Tout les rendez-vous déja réservés sont automatiquement supprimés (voir pour une alerte envoie de mail...) et l'application ne propose plus de créneaux sur la plage de l'indisponibilité.
