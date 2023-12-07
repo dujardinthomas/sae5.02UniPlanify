@@ -17,20 +17,36 @@
     <% Utilisateur user = (Utilisateur)request.getAttribute("user"); %>
 
 
-      <%if(statut.equals("created")){%>
+    <% if(statut.equals("created")){ %>
         <h1>Félicitation ${user.getPrenom()} ${user.getNom()}, votre rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()} à été crée !</h1>
 
-    <%}else if(statut.equals("add")){%>
-        <h1> ${user.getPrenom()} ${user.getNom()} à été 
+    <% }else if(statut.equals("add")){ %>
+        <h1> Félicitation ${user.getPrenom()} ${user.getNom()} à été 
         ajouté au rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()}</h1>
     
-    <%}else if(statut.equals("plein")){%>
-        <h1>Le rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()} est plein !</h1>
+    <% }else if(statut.equals("plein")){ %>
+        <h1>Malheureusement, le rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()} est plein !</h1>
+        <h2>Impossible de réserver le rdv !</h2>
+
+    <% }else if(statut.equals("error")){ %>
+        <h1> Malheureusement ${user.getPrenom()} ${user.getNom()} à déja été 
+        ajouté au rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()}</h1>
+        <h2>Impossible de re-réserver le rdv !</h2>
+
+    <% }else{ %>
+        <h1>Nous rencontrons une erreur lors de la réservation de votre rendez-vous.</h1>
+        <h2>Nous vous invitons à ressayer via la page d'accueil.</h2>
+    <% } %>
 
 
-    <%}else{
-        out.println("erreur de recuperation de statut");
-    } %>
+
+    <% if(user.isPro()){ %>
+
+        Acceder à votre <a href="/pro">profil</a> ou retourner à la <a href="/">page d'accueil</a>
+        
+    <% }else{ %>
+        Acceder à votre <a href="/my">profil</a> ou retourner à la <a href="/">page d'accueil</a>
+    <% } %>
 
     
 

@@ -29,4 +29,8 @@ public class Utilisateur {
 
     public Utilisateur() {
     }
+
+    public boolean isPro() {
+        return pro;
+    }
 }

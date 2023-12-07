@@ -7,12 +7,12 @@ import org.springframework.web.servlet.ModelAndView;
 import fr.sae502.uniplanify.models.Utilisateur;
 
 @Controller
-@RequestMapping(value = "/my")
+@RequestMapping(value = "/perso")
 public class Perso {
 
     private Utilisateur user;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "")
     public ModelAndView espacePro() {
         ModelAndView mav = new ModelAndView("perso");
         mav.addObject("user", user);

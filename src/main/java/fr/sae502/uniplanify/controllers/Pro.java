@@ -5,17 +5,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.sae502.uniplanify.models.Utilisateur;
+import fr.sae502.uniplanify.repository.UtilisateurRepository;
 
 @Controller
 @RequestMapping(value = "/pro")
 public class Pro {
 
-    private Utilisateur proUser;
+    UtilisateurRepository utilisateurRepository;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "")
     public ModelAndView espacePro() {
         ModelAndView mav = new ModelAndView("pro");
-        mav.addObject("user", proUser);
+        mav.addObject("user", "f");
         return mav;
     }
 }

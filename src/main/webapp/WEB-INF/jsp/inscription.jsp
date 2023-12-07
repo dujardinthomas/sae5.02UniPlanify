@@ -12,7 +12,7 @@
 
     <h1><a href="inscription">Inscription</a></h1>
 
-    <% String mess=request.getParameter("mess"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
+    <% String mess = (String) request.getParameter("message"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
 
         String origine=(String)session.getAttribute("origine");
         if (origine==null) origine="" ;

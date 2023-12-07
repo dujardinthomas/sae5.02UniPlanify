@@ -84,7 +84,7 @@ public class Reserve {
                     etat = "add";
                     
                 } catch (Exception e) {
-                    etat = "plein";
+                    etat = "error";
                 }
                 
             } else {

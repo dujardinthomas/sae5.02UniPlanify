@@ -9,7 +9,9 @@ import java.util.List;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 
 @Entity
@@ -23,6 +25,7 @@ public class Rdv {
     private String commentaire;
 
     @ManyToMany
+    @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"participants_id", "rdv_heure", "rdv_jour"}))
     private List<Utilisateur> participants;
 
     public List<Utilisateur> getClients() {
