@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,20 +29,17 @@ import fr.sae502.uniplanify.repository.RdvRepository;
 @Controller
 public class Jour {
 
+    @Autowired
     private JourneeTypeProRepository journeeTypeProRepository;
+    @Autowired
     private ContraintesRepository constraintRepository;
+    @Autowired
     private IndisponibiliteRepository indisponibiliteRepository;
+    @Autowired
     private RdvRepository rdvRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH);
 
-    public Jour(JourneeTypeProRepository journeeTypeProRepository, ContraintesRepository constraintRepository,
-            IndisponibiliteRepository indisponibiliteRepository, RdvRepository rdvRepository) {
-        this.journeeTypeProRepository = journeeTypeProRepository;
-        this.constraintRepository = constraintRepository;
-        this.indisponibiliteRepository = indisponibiliteRepository;
-        this.rdvRepository = rdvRepository;
-    }
 
     @RequestMapping(value = "/Jour")
     public ModelAndView jour(@RequestParam(defaultValue = "0") int year,

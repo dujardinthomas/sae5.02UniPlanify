@@ -12,7 +12,7 @@
 
     <h1><a href="inscription">Inscription</a></h1>
 
-    <% String mess = (String) request.getParameter("message"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
+    <% String mess = (String) request.getParameter("msg"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
 
         String origine=(String)session.getAttribute("origine");
         if (origine==null) origine="" ;
@@ -32,12 +32,12 @@
                 <input type="text" placeholder="Entrer votre prénom" name="prenom" required>
 
                 <label for="uname"><b>Mail (identifiant)</b></label>
-                <input type="text" placeholder="Entrer votre mail" name="mail" required>
+                <input type="text" placeholder="Entrer votre mail" name="email" required>
 
                 <label for="psw"><b>Mot de passe</b></label>
                 <input type="password" placeholder="Entrer votre mot de passe" name="password" required>
 
-                <input type="hidden" name="origine" value=<%=origine%> >
+                <input type="hidden" name="origine" value="<%=origine%>" >
 
                 <button type="submit">Créer mon compte</button>
             </div>

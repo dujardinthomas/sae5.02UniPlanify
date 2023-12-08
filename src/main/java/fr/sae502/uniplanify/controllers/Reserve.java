@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.sae502.uniplanify.SessionBean;
 import fr.sae502.uniplanify.models.CleCompositeRDV;
 import fr.sae502.uniplanify.models.Contraintes;
 import fr.sae502.uniplanify.models.Rdv;
@@ -25,15 +27,13 @@ import fr.sae502.uniplanify.repository.UtilisateurRepository;
 @RequestMapping(value = "/perso")
 public class Reserve {
 
+    @Autowired
     private RdvRepository rdvRepository;
+    @Autowired
     private ContraintesRepository contraintesRepository;
-    private UtilisateurRepository utilisateurRepository;
 
-    public Reserve(RdvRepository rdvRepository, ContraintesRepository contraintesRepository, UtilisateurRepository utilisateurRepository) {
-        this.rdvRepository = rdvRepository;
-        this.contraintesRepository = contraintesRepository;
-        this.utilisateurRepository = utilisateurRepository;
-    }
+    @Autowired
+    private SessionBean sessionBean;
 
     @GetMapping(value = "/reserve")
     public ModelAndView reserve(@RequestParam(value = "year", required = false) int year,
@@ -66,8 +66,8 @@ public class Reserve {
             nbPersonne = contrainte.getNbPersonneMaxDefault();
         }
 
-        //TODO : récupérer l'utilisateur connecté
-        Utilisateur user = utilisateurRepository.findById(1).orElse(null);
+        Utilisateur user = sessionBean.getUtilisateur();
+        // Utilisateur user = utilisateurRepository.findById(1).orElse(null);
         mav.addObject("user", user);
         String etat = "";
 

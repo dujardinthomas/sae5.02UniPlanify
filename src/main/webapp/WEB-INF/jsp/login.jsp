@@ -12,9 +12,11 @@
 
  <h1><a href="login">Login</a></h1>
 
-  <% String mess=request.getParameter("message"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
+  <% String mess=request.getParameter("msg"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
 
     String origine=(String)session.getAttribute("origine");
+    //SessionBean sb=(SessionBean)session.getAttribute("sessionBean");
+    
     if (origine==null) origine="" ;
 
 
@@ -27,12 +29,12 @@
     <form action="login" method="post">
       <div class="container">
         <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="login" required>
+        <input type="text" placeholder="Enter Username" name="email" required>
 
         <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="pwd" required>
+        <input type="password" placeholder="Enter Password" name="password" required>
 
-        <input type="hidden" name="origine" value=<%=origine%> >
+        <input type="hidden" name="origine" value="${sessionScope['scopedTarget.sessionBean'].getOrigine()}" >
 
         <button type="submit">Login</button>
       </div>

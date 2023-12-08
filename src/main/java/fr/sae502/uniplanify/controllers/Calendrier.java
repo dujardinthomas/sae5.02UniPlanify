@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +22,8 @@ import fr.sae502.uniplanify.repository.JourneeTypeProRepository;
 @Controller
 public class Calendrier {
 
+    @Autowired
     private JourneeTypeProRepository journeeTypeProRepository;
-
-    public Calendrier(JourneeTypeProRepository journeeTypeProRepository) {
-        this.journeeTypeProRepository = journeeTypeProRepository;
-    }
 
     @RequestMapping(value = "/")
     @Transactional

@@ -15,7 +15,7 @@
         </div>
         <nav>
             <ul>
-                <li><a href="my/">Mon espace</a></li>
+                <li><a href="perso">Mon espace</a></li>
                 <li><a href="">Calendrier</a></li>
                 <li><a href="contact">Contact</a></li>
             </ul>

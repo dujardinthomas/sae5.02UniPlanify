@@ -9,7 +9,7 @@
 </head>
 <body>
 
-    <h1>Bienvenue ${user} !</h1>
+    <h1>Bienvenue ${user.getPrenom()} ${user.getNom()} sur votre espace administration !</h1>
 
     <h2>Voici tous les rendez-vous à venir :</h2>
     

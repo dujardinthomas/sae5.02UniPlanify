@@ -45,7 +45,7 @@
         Acceder à votre <a href="/pro">profil</a> ou retourner à la <a href="/">page d'accueil</a>
         
     <% }else{ %>
-        Acceder à votre <a href="/my">profil</a> ou retourner à la <a href="/">page d'accueil</a>
+        Acceder à votre <a href="/perso">profil</a> ou retourner à la <a href="/">page d'accueil</a>
     <% } %>
 
     

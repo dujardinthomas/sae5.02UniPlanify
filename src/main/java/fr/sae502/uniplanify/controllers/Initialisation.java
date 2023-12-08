@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +22,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class Initialisation {
 
+    @Autowired
     private JourneeTypeProRepository journeeTypeProRepository;
+    
+    @Autowired
     private ContraintesRepository contraintesRepository;
-
-    public Initialisation(JourneeTypeProRepository journeeTypeProRepository,
-            ContraintesRepository contraintesRepository) {
-        this.journeeTypeProRepository = journeeTypeProRepository;
-        this.contraintesRepository = contraintesRepository;
-    }
 
     @GetMapping(value = "/initialisation")
     public String initialisation() {
