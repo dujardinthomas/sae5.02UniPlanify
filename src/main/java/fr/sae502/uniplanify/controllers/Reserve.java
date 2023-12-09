@@ -73,7 +73,7 @@ public class Reserve {
 
         if (rdvExistant != null) {
             // rdv a déja été reservé mais peut etre qu'on peut ajouter des gens
-            if (rdvExistant.getClients().size() < nbPersonne) {
+            if (rdvExistant.getParticipants().size() < nbPersonne) {
                 // on peut ajouter un client
 
                 try {

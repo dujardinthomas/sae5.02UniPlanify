@@ -28,14 +28,13 @@ public class Rdv {
     @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"participants_id", "rdv_heure", "rdv_jour"}))
     private List<Utilisateur> participants;
 
-    public List<Utilisateur> getClients() {
-        return this.participants;
-    }
-
-    
 
     public LocalTime getHeure() {
         return this.cleCompositeRDV.getHeure();
+    }
+    
+    public List<Utilisateur> getParticipants() {
+        return this.participants;
     }
 
     public LocalDate getJour() {

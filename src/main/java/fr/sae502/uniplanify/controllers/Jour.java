@@ -147,10 +147,10 @@ public class Jour {
                 rdvActuelle = new Rdv();
                 rdvActuelle.setCleCompositeRDV(cleRDV);
                 rdvActuelle.setEtat("DISPONIBLE POUR LE MOMENT ");
-            } else if (rdvActuelle.getClients().size() < nbPersonneMax) {
+            } else if (rdvActuelle.getParticipants().size() < nbPersonneMax) {
                 // Si des places sont disponibles dans le rendez-vous
                 rdvActuelle.setEtat(
-                        "ENCORE " + (nbPersonneMax - rdvActuelle.getClients().size()) + " PLACES DISPONIBLES SUR "
+                        "ENCORE " + (nbPersonneMax - rdvActuelle.getParticipants().size()) + " PLACES DISPONIBLES SUR "
                                 + nbPersonneMax + " POUR LE MOMENT ");
             } else {
                 // Si le rendez-vous est complet
