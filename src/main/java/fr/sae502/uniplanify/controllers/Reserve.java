@@ -20,7 +20,6 @@ import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
 import fr.sae502.uniplanify.repository.RdvRepository;
-import fr.sae502.uniplanify.repository.UtilisateurRepository;
 
 @Controller
 @Component
@@ -99,24 +98,12 @@ public class Reserve {
             nouveauRdv.addParticipant(user);
             nouveauRdv.setCommentaire(commentaire);
             nouveauRdv.setEtat("Réservé");
-
             
             rdvRepository.save(nouveauRdv);
             String statut = "created";
             mav.addObject("status", statut);
             mav.addObject("rdv", nouveauRdv);
-        }
-
-        // String monEspace = "Perso";
-        // if (client.getPro() == true) {
-        //     monEspace = "Pro";
-        // }
-        // out.println("<h2><a href=\"../" + monEspace + "\">Accéder à mon espace</a></h2>");
-
-
-        
-        
-        
+        }        
         return mav;
     }
     

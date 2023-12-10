@@ -40,7 +40,6 @@ public class Jour {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH);
 
-
     @RequestMapping(value = "/Jour")
     public ModelAndView jour(@RequestParam(defaultValue = "0") int year,
             @RequestParam(defaultValue = "0") int month,
@@ -75,7 +74,7 @@ public class Jour {
             nbPersonneMax = contraintes.getNbPersonneMaxDefault();
             dureeRDV = contraintes.getDureeDefaultMinutes();
         }
-        
+
         String dayStringNumberMonthYear = selectedDate.format(formatter);
         JourneeTypePro dayTime = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get();
 
@@ -91,8 +90,10 @@ public class Jour {
         // selectedDate);
 
         // String query = "SELECT * FROM indisponibilite WHERE " +
-        //         "debutjour <= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " +
-        //         "AND finjour >= '" + selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
+        // "debutjour <= '" +
+        // selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " +
+        // "AND finjour >= '" +
+        // selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
 
         Iterable<Indisponibilite> indisponibiliteIterator = indisponibiliteRepository.findAll();
         List<Indisponibilite> indisponibilites = new ArrayList<>();
@@ -102,14 +103,17 @@ public class Jour {
 
         // for (Indisponibilite indispo : indisponibilites) {
         // CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-        // if ( (selectedDate.isAfter(i.getDebutJour()) ||
+        // if ((selectedDate.isAfter(i.getDebutJour()) ||
         // selectedDate.isEqual(i.getDebutJour()))
         // && (selectedDate.isBefore(i.getFinJour())
-        // || selectedDate.isEqual(i.getFinJour())) ) {
+        // || selectedDate.isEqual(i.getFinJour()))) {
         // System.out.println("jour fermé car indispo!");
         // return listRdvDay;
         // }
         // }
+
+
+        System.out.println("Le jour actuel est disponible.");
 
         System.out.println("il y a : " + indisponibilites.size() + " indisponibilites");
         for (Indisponibilite indisponibilite : indisponibilites) {
@@ -124,12 +128,18 @@ public class Jour {
 
             for (Indisponibilite indispo : indisponibilites) {
                 CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-                while (((timeNow.isAfter(i.getDebutHeure())) || (timeNow.equals(i.getDebutHeure())))
-                        && (timeNow.isBefore(i.getFinHeure()))) {
-                    // || timeNow.equals(i.getFinHeure())
-                    System.out.println("heure indispo!");
+                
+                // Vérifier si le jour et l'heure actuels sont dans une période d'indisponibilité
+                while ((selectedDate.isEqual(i.getDebutJour()) || selectedDate.isAfter(i.getDebutJour()))
+                        && (selectedDate.isEqual(i.getFinJour()) || selectedDate.isBefore(i.getFinJour()))
+                        && ((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
+                        && timeNow.isBefore(i.getFinHeure()))) {
+                    
+                    // Faire quelque chose si le jour et l'heure actuels sont indisponibles
+                    // Par exemple, passer au prochain moment disponible ou autre traitement nécessaire
+                    System.out.println("Le jour et l'heure actuels sont indisponibles !");
+                    //return listRdvDay; // ou autre action à effectuer si le moment est indisponible
                     timeNow = timeNow.plusMinutes(dureeRDV);
-                    // continue;
                 }
             }
 

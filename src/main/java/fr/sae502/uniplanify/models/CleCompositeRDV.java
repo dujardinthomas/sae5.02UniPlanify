@@ -10,6 +10,14 @@ import jakarta.persistence.Embeddable;
 public class CleCompositeRDV implements Serializable{
     private LocalDate jour;
     private LocalTime heure;
+
+    public CleCompositeRDV() {
+    }
+
+    public CleCompositeRDV(LocalDate jour, LocalTime heure) {
+        this.jour = jour;
+        this.heure = heure;
+    }
     
     public LocalDate getJour() {
         return jour;

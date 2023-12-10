@@ -16,10 +16,11 @@
         <nav>
             <ul>
                 <li><a href="perso">Mon espace</a></li>
-                <li><a href="">Calendrier</a></li>
+                <li><a href="/">Calendrier</a></li>
                 <li><a href="contact">Contact</a></li>
             </ul>
         </nav>
+    </header>
 
     <h1>Bienvenue sur le calendrier</h1>
 
