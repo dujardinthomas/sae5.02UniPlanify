@@ -8,10 +8,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmation de reservation - UniPlanify</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
 </head>
 <body>
+
+    <header>
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo UniPlanify">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../perso">Mon espace</a></li>
+                <li><a href="/">Calendrier</a></li>
+                <li><a href="../contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <% String statut = (String)request.getAttribute("status"); %>
     <% Utilisateur user = (Utilisateur)request.getAttribute("user"); %>

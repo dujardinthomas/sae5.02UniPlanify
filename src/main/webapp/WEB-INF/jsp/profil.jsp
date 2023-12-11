@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="fr.sae502.uniplanify.models.Utilisateur" %>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editer mon profil - UniPlanify</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo UniPlanify">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../perso">Mon espace</a></li>
+                <li><a href="/">Calendrier</a></li>
+                <li><a href="../contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <h1> Edition du profil </h1>
+
+    
+
+    <div class="update-profile">
+        <h2>Mettre à jour les informations de compte</h2>
+        <form action="profil" method="post">
+            <div class="container">
+                <label for="uname"><b>Nom</b></label>
+                <input type="text" placeholder="Enter votre nom" name="nom" value="${user.getNom()}" required>
+
+                <label for="uname"><b>Prenom</b></label>
+                <input type="text" placeholder="Entrer votre prénom" name="prenom" value="${user.getPrenom()}" required>
+
+                <label for="uname"><b>Mail (identifiant)</b></label>
+                <input type="text" placeholder="Entrer votre mail" name="email" value="${user.getEmail()}" required>
+
+                <label for="psw"><b>Mot de passe</b></label>
+                <input type="password" placeholder="Entrer votre mot de passe" name="password" value="${user.getPassword()}" required>
+
+                <input type="hidden" name="origine" value="${origine}" >
+
+                <button type="submit">Appliquer les changements</button>
+            </div>
+
+        </form>
+    </div>
+
+
+    
+    
+    
+</body>
+</html>

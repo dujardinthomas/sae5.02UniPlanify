@@ -10,9 +10,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espace Personnel - UniPlanify</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+    <header>
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo UniPlanify">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../perso">Mon espace</a></li>
+                <li><a href="/">Calendrier</a></li>
+                <li><a href="../contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <h1>Bienvenue Mr ${user.getPrenom()} !</h1>
     <h2>Voici vos rendez-vous à venir :</h2>
@@ -62,6 +75,8 @@
         <% } %>
     </tbody>
     </table>
+
+     <h1> Vous souhaitez changer vos informations de compte ? C'est par <a href="/perso/profil">ici</a> !</h1>
     
 </body>
 </html>

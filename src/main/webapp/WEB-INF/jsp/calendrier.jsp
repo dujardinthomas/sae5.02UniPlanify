@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil - UniPlanify</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
@@ -15,9 +15,9 @@
         </div>
         <nav>
             <ul>
-                <li><a href="perso">Mon espace</a></li>
+                <li><a href="../perso">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
-                <li><a href="contact">Contact</a></li>
+                <li><a href="../contact">Contact</a></li>
             </ul>
         </nav>
     </header>
