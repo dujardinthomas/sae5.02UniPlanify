@@ -6,7 +6,6 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -14,13 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import fr.sae502.uniplanify.models.JourneeTypePro;
 import fr.sae502.uniplanify.repository.JourneeTypeProRepository;
 
 @Component
 @Controller
-public class Calendrier {
+public class CalendrierController {
 
     @Autowired
     private JourneeTypeProRepository journeeTypeProRepository;

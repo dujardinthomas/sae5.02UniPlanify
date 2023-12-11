@@ -10,14 +10,13 @@
 <body>
 
     <header>
-        <div class="logo">
-            <img src="img/logo.png" alt="Logo UniPlanify">
-        </div>
         <nav>
             <ul>
+                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
                 <li><a href="../perso">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
                 <li><a href="../contact">Contact</a></li>
+                <li><a href="../deconnexion">Deconnexion</a></li>
             </ul>
         </nav>
     </header>
@@ -28,10 +27,22 @@
 %> 
     <form action="init" method="post">
 
-        <h1>Sélection des contraintes de RDV</h1>
 
-        Durée d'un rdv : <input type="number" name="dureeDefaut" id="dureeDefaut">
-        Nombre de personne maximum dans un rdv : <input type="number" name="nbPersonneMax" id="nbPersonneMax">
+        <h1>Définition du lieu</h1>
+        <ul>
+            <li>Nom du lieu : <input type="text" name="nom" id="nom" value="${contraintes.getNom()}"></li>
+            <li>Description du lieu : <input type="text" name="description" id="description" value="${contraintes.getDescription()}"></li>
+            <li>Adresse du lieu : <input type="text" name="adresse" id="adresse" value="${contraintes.getAdresse()}"></li>
+            <li>Telephone du lieu : <input type="text" name="telephone" id="telephone" value="${contraintes.getTelephone()}"></li>
+            <li>Email du lieu : <input type="text" name="email" id="email" value="${contraintes.getEmail()}"></li>
+        </ul>
+
+
+        <h1>Sélection des contraintes de RDV</h1>
+        <ul>
+            <li>Durée d'un rdv : <input type="number" name="dureeDefaut" id="dureeDefaut" value="${contraintes.getDureeDefaultMinutes()}"></li>
+            <li>Nombre de personne maximum dans un rdv : <input type="number" name="nbPersonneMax" id="nbPersonneMax" value="${contraintes.getNbPersonneMaxDefault()}"></li>
+        </ul>
 
         <h1>Sélection des jours travaillés</h1>
 

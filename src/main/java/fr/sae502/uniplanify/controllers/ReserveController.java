@@ -24,7 +24,7 @@ import fr.sae502.uniplanify.repository.RdvRepository;
 @Controller
 @Component
 @RequestMapping(value = "/perso")
-public class Reserve {
+public class ReserveController {
 
     @Autowired
     private RdvRepository rdvRepository;

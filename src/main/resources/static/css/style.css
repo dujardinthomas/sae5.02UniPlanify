@@ -1,8 +1,42 @@
 body {
-    margin: 0;
-    padding: 0;
+    margin: 10;
+    padding: 10;
     font-family: Arial, sans-serif;
 }
+
+
+nav {
+    background-color: #333;
+    padding: 10px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+nav ul li img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
 
 .calendar {
     width: 100%;

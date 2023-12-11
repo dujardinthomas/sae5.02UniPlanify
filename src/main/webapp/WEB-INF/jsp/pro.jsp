@@ -3,6 +3,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="fr.sae502.uniplanify.models.Rdv" %>
 <%@ page import="fr.sae502.uniplanify.models.Utilisateur" %>
+<%@ page import="fr.sae502.uniplanify.models.Indisponibilite" %>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -15,19 +16,20 @@
 <body>
 
     <header>
-        <div class="logo">
-            <img src="img/logo.png" alt="Logo UniPlanify">
-        </div>
         <nav>
             <ul>
+                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
                 <li><a href="../perso">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
                 <li><a href="../contact">Contact</a></li>
+                <li><a href="../deconnexion">Deconnexion</a></li>
             </ul>
         </nav>
     </header>
 
     <h1>Bienvenue ${user.getPrenom()} ${user.getNom()} sur votre espace administration !</h1>
+
+    <div class="rdv">
     <h2>Voici tous les rendez-vous à venir :</h2>
 
     <table border="1">
@@ -40,6 +42,7 @@
             <th>Prenom</th>
             <th>Etat</th>
             <th>Commentaire</th>
+            <th colspan=2>Gestion</th>
         </tr>
     </thead>
     <tbody>
@@ -71,15 +74,45 @@
                 </td>
                 <td><%= rdv.getEtat() %></td>
                 <td><%= rdv.getCommentaire() %></td>
+                <td><a href="">✏</a></td>
+                <td><a href="">❌</a></td>
             </tr>
         <% } %>
     </tbody>
     </table>
+    </div>
 
 
-    <h1> Vous souhaitez changer vos informations de compte ? C'est par <a href="/pro/profil">ici</a> !</h1>
+    <h2> Vous souhaitez changer vos informations de compte ? C'est par <a href="/pro/profil">ici</a> !</h2>
+
+    <h2> Vous souhaitez ajouter une indisponibilité ? C'est par <a href="/pro/indisponibilite">ici</a> !</h2>
+
+
+    <div class="indisponibilite">
+    <table>
+        <th>Début</th>
+        <th>Fin</th>
+
+        <% List<Indisponibilite> listIndispo = (List<Indisponibilite>) request.getAttribute("listIndispo"); %>
+
+        <% for (Indisponibilite indispo : listIndispo) { %>
+            <tr>
+                <td>
+                    <%= indispo.getDebutJour() %>
+                    <%= indispo.getDebutHeure() %>
+                </td>
+                <td>
+                    <%= indispo.getFinJour() %>
+                    <%= indispo.getFinHeure() %>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+    </div>
 
     
+    <h2>Redefinir les contraintes</h2>
+    <a href="/pro/initialisation">Initialisation</a>
     
 </body>
 </html>

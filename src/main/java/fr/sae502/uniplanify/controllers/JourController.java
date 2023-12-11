@@ -27,7 +27,7 @@ import fr.sae502.uniplanify.repository.RdvRepository;
 
 @Component
 @Controller
-public class Jour {
+public class JourController {
 
     @Autowired
     private JourneeTypeProRepository journeeTypeProRepository;

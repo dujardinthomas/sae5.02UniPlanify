@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import fr.sae502.uniplanify.models.Contraintes;
 import fr.sae502.uniplanify.models.JourneeTypePro;
@@ -20,34 +22,42 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 @Controller
-public class Initialisation {
+@RequestMapping(value = "/pro")
+public class InitialisationController {
 
     @Autowired
     private JourneeTypeProRepository journeeTypeProRepository;
-    
+
     @Autowired
     private ContraintesRepository contraintesRepository;
 
     @GetMapping(value = "/initialisation")
-    public String initialisation() {
-        return "initialisation";
+    public ModelAndView initialisation() {
+        ModelAndView mav = new ModelAndView("initialisation");
+        mav.addObject("contraintes", contraintesRepository.findAll().iterator().next());
+        return mav;
     }
 
     @PostMapping(value = "init")
     @Transactional
     public String initialisationPost(HttpServletRequest req,
-            @RequestParam(value = "jour_travaille[]") String[] joursTravailles,
+            @RequestParam(value = "nom") String nom,
+            @RequestParam(value = "description") String description,
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "telephone") String telephone,
+            @RequestParam(value = "adresse") String adresse,
+            @RequestParam(value = "jour_travaille[]", required = false) String[] joursTravailles,
             @RequestParam(value = "dureeDefaut") int dureeDefaut,
             @RequestParam(value = "nbPersonneMax") int nbPersonneMax) {
 
+        contraintesRepository.deleteAll();
+
+        contraintesRepository
+                .save(new Contraintes(dureeDefaut, nbPersonneMax, nom, description, email, telephone, adresse));
+        System.out.println("contraintes enregistrées : " + dureeDefaut + " min par rdv avec " + nbPersonneMax
+                + " personnes maxi/rdv");
 
         if (joursTravailles != null) {
-
-            contraintesRepository.deleteAll();
-
-            contraintesRepository.save(new Contraintes(dureeDefaut, nbPersonneMax));
-            System.out.println("contraintes enregistrées : " + dureeDefaut + " min par rdv avec " + nbPersonneMax
-                    + " personnes maxi/rdv");
 
             int nbJours = joursTravailles.length;
 
@@ -92,6 +102,6 @@ public class Initialisation {
             System.out.println("Aucun jour sélectionné");
         }
 
-        return "calendrier";
+        return "redirect:/";
     }
 }

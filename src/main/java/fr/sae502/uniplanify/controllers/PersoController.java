@@ -17,8 +17,8 @@ import fr.sae502.uniplanify.repository.RdvRepository;
 import fr.sae502.uniplanify.repository.UtilisateurRepository;
 
 @Controller
-@RequestMapping(value = "/pro")
-public class Pro {
+@RequestMapping(value = "/perso")
+public class PersoController {
 
     @Autowired
     private SessionBean sessionBean;
@@ -32,11 +32,16 @@ public class Pro {
     private Utilisateur user;
 
     @RequestMapping(value = {"", "/"})
-    public ModelAndView espacePro() {
+    public ModelAndView espacePerso() {
         user = sessionBean.getUtilisateur();
-        ModelAndView mav = new ModelAndView("pro");
+        if(user.isPro()){
+            return new ModelAndView("redirect:/pro");
+        }
+        ModelAndView mav = new ModelAndView("perso");
         mav.addObject("user", user);
-        mav.addObject("rdvs", (List<Rdv>) rdvRepository.findAll());
+        List<Rdv> rdvs = rdvRepository.findRdvsByClientId(user.getId());
+        mav.addObject("rdvs", rdvs);
+        
         return mav;
     }
 
@@ -44,7 +49,7 @@ public class Pro {
     public ModelAndView getProfil(){
         ModelAndView mav = new ModelAndView("profil");
         mav.addObject("user", user);
-        mav.addObject("origine", "redirect:/pro");
+        mav.addObject("origine", "redirect:/perso");
         return mav;
     }
 
@@ -56,18 +61,15 @@ public class Pro {
         @RequestParam(value="password", defaultValue = "") String password,
         @RequestParam(value="origine", defaultValue = "/") String origine){
         
-        System.out.println("nom : " + nom);
-        System.out.println("prenom : " + prenom);
-        System.out.println("email : " + email);
-        System.out.println("password : " + password);
-        System.out.println("origine : " + origine);
-        
         ModelAndView mav = new ModelAndView(origine);
-
         user = sessionBean.getUtilisateur();
-        System.out.println("user a modifier : " + user);
-        utilisateurRepository.updateUser(user.getId(), prenom, nom, email, password);
-        
+        user.setNom(nom);
+        user.setPrenom(prenom);
+        user.setEmail(email);
+        user.setPassword(password);
+        sessionBean.setUtilisateur(user);
+        System.out.println("dans la base : ? " + utilisateurRepository.save(user));
         return mav;
     }
+
 }

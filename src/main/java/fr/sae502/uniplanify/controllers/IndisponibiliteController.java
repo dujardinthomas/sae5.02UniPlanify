@@ -2,7 +2,6 @@ package fr.sae502.uniplanify.controllers;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.sae502.uniplanify.SessionBean;
 import fr.sae502.uniplanify.models.CleCompositeIndisponibilite;
-import fr.sae502.uniplanify.models.CleCompositeRDV;
 import fr.sae502.uniplanify.models.Indisponibilite;
 import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;
 import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
 import fr.sae502.uniplanify.repository.RdvRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 
 @Controller
 @RequestMapping(value = "/pro")
@@ -79,15 +74,11 @@ public class IndisponibiliteController {
      * supprimer les rdv deja existant dans la base de donnée qui sont dans la plage de temps de l'indisponibilité
      */
     private List<Rdv> removeRdvsReserves(LocalDate startDay, LocalTime startTime, LocalDate endDay, LocalTime endTime) {
-        boolean res = false;
         List<Rdv> allRdvInIndispo = rdvRepository.findInIndispo(startDay, startTime, endDay, endTime);
         for (Rdv rdv : allRdvInIndispo) {
-            //CleCompositeRDV cleCompositeRDV = new CleCompositeRDV(rdv.getJour(), rdv.getHeure());
-            System.out.println("on essaye de supprimer le rdv : " + rdv);
             rdvRepository.delete(rdv);
             System.out.println("Rdv supprimé : " + rdv);
         }
-        res = true;
         return allRdvInIndispo;
     }
 
