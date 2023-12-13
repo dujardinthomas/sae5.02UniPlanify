@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sae502.uniplanify.SessionBean;
+import fr.sae502.uniplanify.login.SessionBean;
 import fr.sae502.uniplanify.models.Indisponibilite;
 import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;

@@ -75,7 +75,7 @@
                 <td><%= rdv.getEtat() %></td>
                 <td><%= rdv.getCommentaire() %></td>
                 <td><a href="">✏</a></td>
-                <td><a href="rdv/confirmSuppressionRDV?heure=<%= rdv.getHeure() %>&jour=<%= rdv.getJour() %>">❌</a></td>
+                <td><a href="rdv/confirmSuppressionRDV?year=<%= rdv.getYear() %>&month=<%= rdv.getMonth() %>&day=<%= rdv.getDay()%>&hours=<%= rdv.getHours() %>&minutes=<%= rdv.getMinutes() %>">❌</a></td>
 
             </tr>
         <% } %>

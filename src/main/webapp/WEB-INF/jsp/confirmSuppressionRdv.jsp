@@ -28,11 +28,23 @@
     </header>
 
 <h2> Vous souhaitez vraiment supprimer ce rdv 
-du ${rdv.getHeure()} ${rdv.getJour()} ? </h2>
+du ${rdv.getJour()} ${rdv.getHeure()} ? </h2>
+
+<h3> Un e-mail sera envoyé a chaque participant de son annulation. </h3>
 
 <form action="suppressionRdv" method="post">
+    
+
+    <input type="hidden" name="year" value="${rdv.getYear()}">
+    <input type="hidden" name="month" value="${rdv.getMonth()}">
+    <input type="hidden" name="day" value="${rdv.getDay()}">
+    <input type="hidden" name="hours" value="${rdv.getHours()}"><input type="hidden" name="year" value="${rdv.getYear()}">
+    <input type="hidden" name="minutes" value="${rdv.getMinutes()}">
+
+    <label for="raison">Raison de la suppression qui sera communiqué aux clients :</label>
+    <input type="text" name="raison">
+
     <input type="submit" name="reponse" value="oui">
     <input type="submit" name="reponse" value="non">
+</form>
 
-    <input type="hidden" name="heure" value="${rdv.getHeure()}">
-    <input type="hidden" name="jour" value="${rdv.getJour()}">

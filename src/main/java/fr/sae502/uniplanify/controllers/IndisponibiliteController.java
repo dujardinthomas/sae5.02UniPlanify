@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sae502.uniplanify.SessionBean;
+import fr.sae502.uniplanify.login.SessionBean;
 import fr.sae502.uniplanify.models.CleCompositeIndisponibilite;
+import fr.sae502.uniplanify.models.EnvoieUnMail;
 import fr.sae502.uniplanify.models.Indisponibilite;
 import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;
 import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
 import fr.sae502.uniplanify.repository.RdvRepository;
-import jakarta.mail.internet.MimeMessage;
 
 @Controller
 @RequestMapping(value = "/pro")
@@ -82,9 +81,10 @@ public class IndisponibiliteController {
      */
     private List<Rdv> removeRdvsReserves(LocalDate startDay, LocalTime startTime, LocalDate endDay, LocalTime endTime) {
         List<Rdv> allRdvInIndispo = rdvRepository.findInIndispo(startDay, startTime, endDay, endTime);
+        EnvoieUnMail envoieUnMail = new EnvoieUnMail();
         for (Rdv rdv : allRdvInIndispo) {
             for (Utilisateur user : rdv.getParticipants()) {
-                System.out.println("mail envoyé à " + user.getEmail() + " : " + envoieMail(user.getEmail(), "Rdv supprimé",
+                System.out.println("mail envoyé à " + user.getEmail() + " : " + envoieUnMail.envoieMail(sender, user.getEmail(), "Rdv supprimé",
                         "Votre rdv " + rdv + " a été supprimé car il est dans une indisponibilité"));
             }
             rdvRepository.delete(rdv);
@@ -93,22 +93,7 @@ public class IndisponibiliteController {
         return allRdvInIndispo;
     }
 
-    public boolean envoieMail(String to, String subject, String text) {
-        try {
-            MimeMessage message = sender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
-            helper.setFrom("thomas.dujardin2.etu@univ-lille.fr");
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText("supprime");
-            System.out.println("on va envoyer le mail à " + to + " : avec comme contenu :\n" + text + "");
-            sender.send(message);
-            return true;
-        } catch (Exception e) {
-            System.out.println("Erreur lors de l'envoie du mail : " + e.getMessage());
-            return false;
-        }
-    }
+    
 
 
     @GetMapping("/confirmSuppressionIndispo")
@@ -143,6 +128,8 @@ public class IndisponibiliteController {
             System.out.println("Indisponibilité supprimée : " + indisponibilite);
             mav.addObject("indispo", indisponibilite);
         } catch (Exception e) {
+            System.out.println("Erreur lors de la suppression de l'indisponibilité : " + indisponibilite);
+            System.out.println(e.getMessage());
             mav.addObject("indispo", null);
         }
 

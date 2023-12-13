@@ -38,3 +38,4 @@ du ${indispo.getDebutJour()} ${indispo.getDebutHeure()} au ${indispo.getFinJour(
     <input type="hidden" name="debutHeure" value="${indispo.getDebutHeure()}">
     <input type="hidden" name="finJour" value="${indispo.getFinJour()}">
     <input type="hidden" name="finHeure" value="${indispo.getFinHeure()}">
+</form>

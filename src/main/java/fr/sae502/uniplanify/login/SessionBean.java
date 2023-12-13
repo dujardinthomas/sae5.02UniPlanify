@@ -1,4 +1,4 @@
-package fr.sae502.uniplanify;
+package fr.sae502.uniplanify.login;
 
 import java.util.UUID;
 

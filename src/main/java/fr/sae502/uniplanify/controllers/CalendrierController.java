@@ -1,11 +1,6 @@
 package fr.sae502.uniplanify.controllers;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -15,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.sae502.uniplanify.models.Calendrier;
-import fr.sae502.uniplanify.models.JourneeTypePro;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
 import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
 import fr.sae502.uniplanify.repository.JourneeTypeProRepository;

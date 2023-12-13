@@ -101,6 +101,7 @@ public class JourController {
             indisponibilites.add(indisponibilite);
         }
 
+        //TODO:  VOIR POUR LES INDISPONIBILITES !!!!
         // for (Indisponibilite indispo : indisponibilites) {
         // CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
         // if ((selectedDate.isAfter(i.getDebutJour()) ||

@@ -28,6 +28,34 @@ public class Rdv {
     @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"participants_id", "rdv_heure", "rdv_jour"}))
     private List<Utilisateur> participants;
 
+    public Rdv() {
+    }
+
+    public Rdv(CleCompositeRDV cleCompositeRDV, String etat, String commentaire) {
+        this.cleCompositeRDV = cleCompositeRDV;
+        this.etat = etat;
+        this.commentaire = commentaire;
+    }
+
+    public int getYear() {
+        return this.cleCompositeRDV.getJour().getYear();
+    }
+
+    public int getMonth() {
+        return this.cleCompositeRDV.getJour().getMonthValue();
+    }
+
+    public int getDay() {
+        return this.cleCompositeRDV.getJour().getDayOfMonth();
+    }
+
+    public int getHours() {
+        return this.cleCompositeRDV.getHeure().getHour();
+    }
+
+    public int getMinutes() {
+        return this.cleCompositeRDV.getHeure().getMinute();
+    }
 
     public LocalTime getHeure() {
         return this.cleCompositeRDV.getHeure();
@@ -52,7 +80,7 @@ public class Rdv {
 
     public String toStringTakeRdv() {
         LocalDateTime dateTime = this.cleCompositeRDV.getJour().atTime(this.cleCompositeRDV.getHeure());
-        String href = "<a href=\"perso/reserve?"
+        String href = "<a href=\"rdv/reserve?"
                 + "year=" + dateTime.getYear()
                 + "&month=" + dateTime.getMonthValue()
                 + "&day=" + dateTime.getDayOfMonth()
