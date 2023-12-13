@@ -31,4 +31,13 @@ public class Indisponibilite {
     public LocalTime getFinHeure() {
         return CleCompositeIndisponibilite.getFinHeure();
     }
+
+    public Indisponibilite(fr.sae502.uniplanify.models.CleCompositeIndisponibilite cleCompositeIndisponibilite) {
+        CleCompositeIndisponibilite = cleCompositeIndisponibilite;
+    }
+
+    public Indisponibilite() {
+    }
+
+    
 }

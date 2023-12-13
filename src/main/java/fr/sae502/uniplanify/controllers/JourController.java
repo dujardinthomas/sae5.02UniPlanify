@@ -76,7 +76,7 @@ public class JourController {
         }
 
         String dayStringNumberMonthYear = selectedDate.format(formatter);
-        JourneeTypePro dayTime = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get();
+        JourneeTypePro dayTime = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).orElse(null);
 
         if (dayTime == null) {
             System.out.println("jour fermé!");

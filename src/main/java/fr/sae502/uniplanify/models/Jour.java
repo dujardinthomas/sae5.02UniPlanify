@@ -26,7 +26,6 @@ public class Jour {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH);
 
-    
     public boolean getOuvert() {
         return ouvert;
     }
@@ -39,15 +38,15 @@ public class Jour {
         return date;
     }
 
-    public int getDay(){
+    public int getDay() {
         return date.getDayOfMonth();
     }
 
-    public int getMonth(){
+    public int getMonth() {
         return date.getMonthValue();
     }
 
-    public int getYear(){
+    public int getYear() {
         return date.getYear();
     }
 
@@ -75,16 +74,16 @@ public class Jour {
                 + ", rdvRepository=" + rdvRepository + ", formatter=" + formatter + "]";
     }
 
-    public Jour(LocalDate date, boolean ouvert){
+    public Jour(LocalDate date, boolean ouvert) {
         this.date = date;
         this.ouvert = ouvert;
         this.rdvs = null;
     }
 
-    public Jour(LocalDate date, boolean ouvert, ContraintesRepository constraintRepository, 
-    JourneeTypeProRepository journeeTypeProRepository,
-    IndisponibiliteRepository indisponibiliteRepository,
-    RdvRepository rdvRepository) {
+    public Jour(LocalDate date, boolean ouvert, ContraintesRepository constraintRepository,
+            JourneeTypeProRepository journeeTypeProRepository,
+            IndisponibiliteRepository indisponibiliteRepository,
+            RdvRepository rdvRepository) {
         this.ouvert = ouvert;
         this.date = date;
         this.constraintRepository = constraintRepository;
@@ -111,7 +110,7 @@ public class Jour {
 
         if (dayTime == null) {
             System.out.println("jour fermé!");
-            return null;
+            return listRdvDay;
         }
 
         // CleCompositeIndisponibilite cleCompositeIndisponibilite = new
@@ -132,17 +131,16 @@ public class Jour {
             indisponibilites.add(indisponibilite);
         }
 
-        // for (Indisponibilite indispo : indisponibilites) {
-        // CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-        // if ((selectedDate.isAfter(i.getDebutJour()) ||
-        // selectedDate.isEqual(i.getDebutJour()))
-        // && (selectedDate.isBefore(i.getFinJour())
-        // || selectedDate.isEqual(i.getFinJour()))) {
-        // System.out.println("jour fermé car indispo!");
-        // return listRdvDay;
-        // }
-        // }
-
+        for (Indisponibilite indispo : indisponibilites) {
+            CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
+            if ((selectedDate.isAfter(i.getDebutJour()) ||
+                    selectedDate.isEqual(i.getDebutJour()))
+                    && (selectedDate.isBefore(i.getFinJour())
+                            || selectedDate.isEqual(i.getFinJour()))) {
+                System.out.println("jour fermé car indispo!");
+                return listRdvDay;
+            }
+        }
 
         System.out.println("Le jour actuel est disponible.");
 
@@ -159,18 +157,20 @@ public class Jour {
 
             for (Indisponibilite indispo : indisponibilites) {
                 CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-                
-                
-                // Vérifier si le jour et l'heure actuels sont dans une période d'indisponibilité
+
+                // Vérifier si le jour et l'heure actuels sont dans une période
+                // d'indisponibilité
                 while ((selectedDate.isEqual(i.getDebutJour()) || selectedDate.isAfter(i.getDebutJour()))
                         && (selectedDate.isEqual(i.getFinJour()) || selectedDate.isBefore(i.getFinJour()))
                         && ((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
-                        && timeNow.isBefore(i.getFinHeure()))) {
-                    
+                                && timeNow.isBefore(i.getFinHeure()))) {
+
                     // Faire quelque chose si le jour et l'heure actuels sont indisponibles
-                    // Par exemple, passer au prochain moment disponible ou autre traitement nécessaire
+                    // Par exemple, passer au prochain moment disponible ou autre traitement
+                    // nécessaire
                     System.out.println("Le jour et l'heure actuels sont indisponibles !");
-                    //return listRdvDay; // ou autre action à effectuer si le moment est indisponible
+                    // return listRdvDay; // ou autre action à effectuer si le moment est
+                    // indisponible
                     timeNow = timeNow.plusMinutes(dureeRDV);
                 }
             }

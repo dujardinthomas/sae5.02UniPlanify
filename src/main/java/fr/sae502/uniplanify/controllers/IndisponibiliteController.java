@@ -110,4 +110,44 @@ public class IndisponibiliteController {
         }
     }
 
+
+    @GetMapping("/confirmSuppressionIndispo")
+    public ModelAndView confirmSuppressionIndispo(@RequestParam(value = "debutJour") LocalDate debutJour,
+            @RequestParam(value = "debutHeure") LocalTime debutHeure,
+            @RequestParam(value = "finJour") LocalDate finJour,
+            @RequestParam(value = "finHeure") LocalTime finHeure) {
+        ModelAndView mav = new ModelAndView("confirmSuppressionIndispo");
+        mav.addObject("indispo", new Indisponibilite(new CleCompositeIndisponibilite(debutJour, debutHeure, finJour, finHeure)));
+        return mav;
+    }
+
+    @PostMapping("/suppressionIndispo")
+    public ModelAndView suppressionIndispo(
+            @RequestParam(value = "debutJour") LocalDate debutjour,
+            @RequestParam(value = "debutHeure") LocalTime debutheure,
+            @RequestParam(value = "finJour") LocalDate finjour,
+            @RequestParam(value = "finHeure") LocalTime finheure,
+            @RequestParam(value = "reponse") String reponse) {
+        ModelAndView mav = new ModelAndView("redirect:/pro");
+
+        if(reponse.equals("non")) {
+            return mav;
+        }
+
+        Indisponibilite indisponibilite = new Indisponibilite();
+        CleCompositeIndisponibilite cleCompositeIndisponibilite = new CleCompositeIndisponibilite(debutjour, debutheure,
+                finjour, finheure);
+        indisponibilite.setCleCompositeIndisponibilite(cleCompositeIndisponibilite);
+        try {
+            indisponibiliteRepository.delete(indisponibilite);
+            System.out.println("Indisponibilité supprimée : " + indisponibilite);
+            mav.addObject("indispo", indisponibilite);
+        } catch (Exception e) {
+            mav.addObject("indispo", null);
+        }
+
+        return mav;
+    }
+
+
 }

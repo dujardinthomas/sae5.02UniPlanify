@@ -75,7 +75,8 @@
                 <td><%= rdv.getEtat() %></td>
                 <td><%= rdv.getCommentaire() %></td>
                 <td><a href="">✏</a></td>
-                <td><a href="">❌</a></td>
+                <td><a href="rdv/confirmSuppressionRDV?heure=<%= rdv.getHeure() %>&jour=<%= rdv.getJour() %>">❌</a></td>
+
             </tr>
         <% } %>
     </tbody>
@@ -92,6 +93,7 @@
     <table>
         <th>Début</th>
         <th>Fin</th>
+        <th>Action</th>
 
         <% List<Indisponibilite> listIndispo = (List<Indisponibilite>) request.getAttribute("listIndispo"); %>
 
@@ -105,6 +107,8 @@
                     <%= indispo.getFinJour() %>
                     <%= indispo.getFinHeure() %>
                 </td>
+                
+                <td><a href="pro/confirmSuppressionIndispo?debutJour=<%= indispo.getDebutJour() %>&debutHeure=<%= indispo.getDebutHeure() %>&finJour=<%= indispo.getFinJour() %>&finHeure=<%= indispo.getFinHeure() %>">❌</a></td>
             </tr>
         <% } %>
     </table>
