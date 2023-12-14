@@ -16,12 +16,8 @@ public class Indisponibilite {
 
     private String motif;
 
-    public LocalDate getDebutJour() {
-        return CleCompositeIndisponibilite.getDebutJour();
-    }
-
-    public LocalDate getFinJour() {
-        return CleCompositeIndisponibilite.getFinJour();
+    public LocalDate getJour() {
+        return CleCompositeIndisponibilite.getJour();
     }
 
     public LocalTime getDebutHeure() {
@@ -32,7 +28,7 @@ public class Indisponibilite {
         return CleCompositeIndisponibilite.getFinHeure();
     }
 
-    public Indisponibilite(fr.sae502.uniplanify.models.CleCompositeIndisponibilite cleCompositeIndisponibilite) {
+    public Indisponibilite(CleCompositeIndisponibilite cleCompositeIndisponibilite) {
         CleCompositeIndisponibilite = cleCompositeIndisponibilite;
     }
 

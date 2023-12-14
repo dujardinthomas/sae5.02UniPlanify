@@ -131,8 +131,7 @@ public class JourController {
                 CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
                 
                 // Vérifier si le jour et l'heure actuels sont dans une période d'indisponibilité
-                while ((selectedDate.isEqual(i.getDebutJour()) || selectedDate.isAfter(i.getDebutJour()))
-                        && (selectedDate.isEqual(i.getFinJour()) || selectedDate.isBefore(i.getFinJour()))
+                while ((selectedDate.isEqual(i.getJour()) )
                         && ((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
                         && timeNow.isBefore(i.getFinHeure()))) {
                     

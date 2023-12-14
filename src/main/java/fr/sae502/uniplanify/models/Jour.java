@@ -133,12 +133,9 @@ public class Jour {
 
         for (Indisponibilite indispo : indisponibilites) {
             CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-            if ((selectedDate.isAfter(i.getDebutJour()) ||
-                    selectedDate.isEqual(i.getDebutJour()))
-                    && (selectedDate.isBefore(i.getFinJour())
-                            || selectedDate.isEqual(i.getFinJour()))) {
-                System.out.println("jour fermé car indispo!");
-                return listRdvDay;
+            if (selectedDate.isEqual(i.getJour())) {
+                System.out.println("ya une indispo sur la journée faut savoir mtn quand ");
+                // return listRdvDay;
             }
         }
 
@@ -160,10 +157,8 @@ public class Jour {
 
                 // Vérifier si le jour et l'heure actuels sont dans une période
                 // d'indisponibilité
-                while ((selectedDate.isEqual(i.getDebutJour()) || selectedDate.isAfter(i.getDebutJour()))
-                        && (selectedDate.isEqual(i.getFinJour()) || selectedDate.isBefore(i.getFinJour()))
-                        && ((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
-                                && timeNow.isBefore(i.getFinHeure()))) {
+                while (((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
+                        && timeNow.isBefore(i.getFinHeure()))) {
 
                     // Faire quelque chose si le jour et l'heure actuels sont indisponibles
                     // Par exemple, passer au prochain moment disponible ou autre traitement

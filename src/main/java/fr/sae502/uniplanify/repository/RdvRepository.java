@@ -22,12 +22,11 @@ public interface RdvRepository extends CrudRepository<Rdv, CleCompositeRDV> {
 
     @Query("SELECT r from Rdv r " +
            "JOIN r.participants p " +
-           "WHERE r.cleCompositeRDV.jour >= :startDay " +
+           "WHERE r.cleCompositeRDV.jour = :day " +
            "AND r.cleCompositeRDV.heure >= :startTime " +
-           "AND r.cleCompositeRDV.jour <= :endDay " +
            "AND r.cleCompositeRDV.heure <= :endTime " +
            "ORDER BY r.cleCompositeRDV.jour ASC, r.cleCompositeRDV.heure ASC")
-    List<Rdv> findInIndispo(LocalDate startDay, LocalTime startTime, LocalDate endDay, LocalTime endTime);
+    List<Rdv> findInIndispo(LocalDate day, LocalTime startTime, LocalTime endTime);
 
 
 }

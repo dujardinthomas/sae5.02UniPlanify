@@ -28,14 +28,13 @@
     </header>
 
 <h2> Vous souhaitez vraiment supprimer cette indisponibilité 
-du ${indispo.getDebutJour()} ${indispo.getDebutHeure()} au ${indispo.getFinJour()} ${indispo.getFinHeure()} ?</h2>
+du ${indispo.getJour()} de ${indispo.getDebutHeure()} à ${indispo.getFinHeure()} ?</h2>
 
 <form action="suppressionIndispo" method="post">
     <input type="submit" name="reponse" value="oui">
     <input type="submit" name="reponse" value="non">
 
-    <input type="hidden" name="debutJour" value="${indispo.getDebutJour()}">
+    <input type="hidden" name="jour" value="${indispo.getJour()}">
     <input type="hidden" name="debutHeure" value="${indispo.getDebutHeure()}">
-    <input type="hidden" name="finJour" value="${indispo.getFinJour()}">
     <input type="hidden" name="finHeure" value="${indispo.getFinHeure()}">
 </form>

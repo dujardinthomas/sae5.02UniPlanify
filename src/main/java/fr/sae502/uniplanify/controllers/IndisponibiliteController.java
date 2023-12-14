@@ -43,16 +43,14 @@ public class IndisponibiliteController {
 
     @PostMapping("/indispo")
     public ModelAndView enregistreIndispo(
-            @RequestParam(value = "debutjour") LocalDate debutjour,
+            @RequestParam(value = "jour") LocalDate jour,
             @RequestParam(value = "debutheure") LocalTime debutheure,
-            @RequestParam(value = "finjour") LocalDate finjour,
             @RequestParam(value = "finheure") LocalTime finheure,
             @RequestParam(value = "motif") String motif) {
         ModelAndView mav = new ModelAndView("indispoConfirm");
 
         Indisponibilite indisponibilite = new Indisponibilite();
-        CleCompositeIndisponibilite cleCompositeIndisponibilite = new CleCompositeIndisponibilite(debutjour, debutheure,
-                finjour, finheure);
+        CleCompositeIndisponibilite cleCompositeIndisponibilite = new CleCompositeIndisponibilite(jour, debutheure, finheure);
         indisponibilite.setCleCompositeIndisponibilite(cleCompositeIndisponibilite);
         indisponibilite.setMotif(motif);
         try {
@@ -63,7 +61,7 @@ public class IndisponibiliteController {
             mav.addObject("indispo", null);
         }
 
-        List<Rdv> hasDelete = removeRdvsReserves(debutjour, debutheure, finjour, finheure);
+        List<Rdv> hasDelete = removeRdvsReserves(jour, debutheure, finheure);
         mav.addObject("hasDeleteList", hasDelete);
 
         Utilisateur user = sessionBean.getUtilisateur();
@@ -77,8 +75,8 @@ public class IndisponibiliteController {
      * supprimer les rdv deja existant dans la base de donnée qui sont dans la plage
      * de temps de l'indisponibilité
      */
-    private List<Rdv> removeRdvsReserves(LocalDate startDay, LocalTime startTime, LocalDate endDay, LocalTime endTime) {
-        List<Rdv> allRdvInIndispo = rdvRepository.findInIndispo(startDay, startTime, endDay, endTime);
+    private List<Rdv> removeRdvsReserves(LocalDate day, LocalTime startTime, LocalTime endTime) {
+        List<Rdv> allRdvInIndispo = rdvRepository.findInIndispo(day, startTime, endTime);
         //EnvoieUnMail envoieUnMail = new EnvoieUnMail();
         for (Rdv rdv : allRdvInIndispo) {
             for (Utilisateur user : rdv.getParticipants()) {
@@ -95,20 +93,18 @@ public class IndisponibiliteController {
 
 
     @GetMapping("/confirmSuppressionIndispo")
-    public ModelAndView confirmSuppressionIndispo(@RequestParam(value = "debutJour") LocalDate debutJour,
+    public ModelAndView confirmSuppressionIndispo(@RequestParam(value = "jour") LocalDate debutJour,
             @RequestParam(value = "debutHeure") LocalTime debutHeure,
-            @RequestParam(value = "finJour") LocalDate finJour,
             @RequestParam(value = "finHeure") LocalTime finHeure) {
         ModelAndView mav = new ModelAndView("confirmSuppressionIndispo");
-        mav.addObject("indispo", new Indisponibilite(new CleCompositeIndisponibilite(debutJour, debutHeure, finJour, finHeure)));
+        mav.addObject("indispo", new Indisponibilite(new CleCompositeIndisponibilite(debutJour, debutHeure, finHeure)));
         return mav;
     }
 
     @PostMapping("/suppressionIndispo")
     public ModelAndView suppressionIndispo(
-            @RequestParam(value = "debutJour") LocalDate debutjour,
+            @RequestParam(value = "jour") LocalDate debutjour,
             @RequestParam(value = "debutHeure") LocalTime debutheure,
-            @RequestParam(value = "finJour") LocalDate finjour,
             @RequestParam(value = "finHeure") LocalTime finheure,
             @RequestParam(value = "reponse") String reponse) {
         ModelAndView mav = new ModelAndView("redirect:/pro");
@@ -118,8 +114,7 @@ public class IndisponibiliteController {
         }
 
         Indisponibilite indisponibilite = new Indisponibilite();
-        CleCompositeIndisponibilite cleCompositeIndisponibilite = new CleCompositeIndisponibilite(debutjour, debutheure,
-                finjour, finheure);
+        CleCompositeIndisponibilite cleCompositeIndisponibilite = new CleCompositeIndisponibilite(debutjour, debutheure, finheure);
         indisponibilite.setCleCompositeIndisponibilite(cleCompositeIndisponibilite);
         try {
             indisponibiliteRepository.delete(indisponibilite);

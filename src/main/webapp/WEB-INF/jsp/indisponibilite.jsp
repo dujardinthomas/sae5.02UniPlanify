@@ -31,16 +31,12 @@
 
         <table>
             <tr>
-                <td>Debut Jour</td>
-                <td><input type="date" name="debutjour" id="debutjour"></td>
+                <td>Jour</td>
+                <td><input type="date" name="jour" id="jour"></td>
             </tr>
             <tr>
                 <td>Debut heure</td>
                 <td><input type="time" name="debutheure" id="debutheure"></td>
-            </tr>
-            <tr>
-                <td>Fin Jour</td>
-                <td><input type="date" name="finjour" id="finjour"></td>
             </tr>
             <tr>
                 <td>Fin heure</td>

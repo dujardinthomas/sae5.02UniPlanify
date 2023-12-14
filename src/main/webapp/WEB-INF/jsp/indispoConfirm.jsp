@@ -35,8 +35,7 @@
 
     <% if(indispo != null){ %>
         <h1>Félicitation ${user.getPrenom()} ${user.getNom()}, votre indisponibilité du 
-        ${indispo.getDebutJour()} ${indispo.getDebutHeure()} au 
-        ${indispo.getFinJour()} ${indispo.getFinHeure()} à été crée !</h1>
+        ${indispo.getJour()} de ${indispo.getDebutHeure()} à ${indispo.getFinHeure()} heures à été crée !</h1>
 
         <% if(rdvHasRemoveList != null){ %>
             <h2>Les rendez-vous suivants ont été supprimés car ils se trouvaient dans votre indisponibilité :</h2>

@@ -91,24 +91,21 @@
 
     <div class="indisponibilite">
     <table>
+        <th>Jour</th>
         <th>Début</th>
         <th>Fin</th>
+        <th>Motif</th>
         <th>Action</th>
 
         <% List<Indisponibilite> listIndispo = (List<Indisponibilite>) request.getAttribute("listIndispo"); %>
 
         <% for (Indisponibilite indispo : listIndispo) { %>
             <tr>
-                <td>
-                    <%= indispo.getDebutJour() %>
-                    <%= indispo.getDebutHeure() %>
-                </td>
-                <td>
-                    <%= indispo.getFinJour() %>
-                    <%= indispo.getFinHeure() %>
-                </td>
-                
-                <td><a href="pro/confirmSuppressionIndispo?debutJour=<%= indispo.getDebutJour() %>&debutHeure=<%= indispo.getDebutHeure() %>&finJour=<%= indispo.getFinJour() %>&finHeure=<%= indispo.getFinHeure() %>">❌</a></td>
+                <td><%= indispo.getJour() %></td>
+                <td><%= indispo.getDebutHeure() %></td> 
+                <td><%= indispo.getFinHeure() %></td>
+                <td><%= indispo.getMotif() %></td>
+                <td><a href="pro/confirmSuppressionIndispo?jour=<%= indispo.getJour() %>&debutHeure=<%= indispo.getDebutHeure() %>&finHeure=<%= indispo.getFinHeure() %>">❌</a></td>
             </tr>
         <% } %>
     </table>
