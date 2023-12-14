@@ -9,16 +9,16 @@ import jakarta.mail.internet.MimeMessage;
 
 public class EnvoieUnMail {
 
-    public boolean envoieMail(JavaMailSender sender, String to, String subject, String text) {
+    public boolean envoieMail(JavaMailSender mailSender, String to, String subject, String text) {
         try {
 
-            JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-            mailSender.setHost("smtp.gmail.com");
-            mailSender.setPort(587);
-            mailSender.setProtocol("smtps");
-                
-            mailSender.setUsername("uniplanify@gmail.com");
-            mailSender.setPassword("egkdmzpcabmbpliq");
+        //    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//            mailSender.setHost("smtp.univ-lille.fr");
+  //          mailSender.setPort(587);
+    //        mailSender.setProtocol("smtps");
+              
+       //     mailSender.setUsername("thomas.dujardin2.etu@univ-lille.fr");
+      //      mailSender.setPassword("@Thothodujardin59");
 
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);

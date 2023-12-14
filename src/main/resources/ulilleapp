@@ -16,8 +16,8 @@ spring.cache.type=none
 
 # Configuration de l'envoi de mail
 # ca marche pas avc gmail car appli non securisée
-spring.mail.host=smtp.gmail.com
+spring.mail.host=smtp.univ-lille.fr
 spring.mail.port=587
-spring.mail.username=uniplanify@gmail.com
-spring.mail.password=bzjajhbqgubzznpf
+spring.mail.username=thomas.dujardin2.etu
+spring.mail.password=@Thothodujardin59
 spring.mail.properties.mail.smtp.starttls.enable=true
