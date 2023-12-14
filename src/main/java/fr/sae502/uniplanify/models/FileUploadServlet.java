@@ -1,12 +1,12 @@
-package fr.sae502.uniplanify.controllers;
-import java.beans.JavaBean;
+package fr.sae502.uniplanify.models;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.sae502.uniplanify.login.SessionBean;
-import fr.sae502.uniplanify.models.Utilisateur;
 import fr.sae502.uniplanify.repository.UtilisateurRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -41,7 +41,10 @@ public class FileUploadServlet extends HttpServlet {
     String fileName = filePart.getSubmittedFileName();
     String extension = fileName.substring(fileName.lastIndexOf("."));
     System.out.println("on est dans la servlet fileUploadServlet...");
-    String emplacement = "/home/infoetu/thomas.dujardin2.etu/Documents/maven/sae5.02UniPlanify/src/main/resources/static/img/profils/";
+
+    Path cheminDuRepertoireActuel = Paths.get("").toAbsolutePath();
+    String emplacement = cheminDuRepertoireActuel + "/src/main/resources/static/img/profils/";
+    
     for (Part part : request.getParts()) {
       Utilisateur user = sessionBean.getUtilisateur();
       String newName = "profil_" + user.getId() + extension;
