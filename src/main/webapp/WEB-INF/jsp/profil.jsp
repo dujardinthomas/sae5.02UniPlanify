@@ -51,6 +51,16 @@
     </div>
 
 
+    <form method="post" action="/fileuploadservlet" enctype="multipart/form-data">
+        <input type="file" name="file" />
+        <input type="submit" value="Upload" />
+    </form>
+
+
+    Voici votre image actuel :
+    <img src="${user.getUrlphoto()}" alt="Photo de profil" width="100" height="100">
+    ${user}
+
     
     
     

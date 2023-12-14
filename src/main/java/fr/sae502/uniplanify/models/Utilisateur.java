@@ -15,6 +15,7 @@ public class Utilisateur {
     private String prenom;
     private String email;
     private String password;
+    private String urlphoto;
 
     @Column(name = "pro", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
     private boolean pro;

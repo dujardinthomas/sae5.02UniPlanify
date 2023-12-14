@@ -1,6 +1,8 @@
 -- INSERT INTO utilisateur (nom, prenom, email, password, pro) VALUES ('DUJARDIN', 'Veronique', 'contact@dujardin-neurofeedback-dynamique.fr', 'vero', true);
 INSERT INTO utilisateur (nom, prenom, email, password, pro) VALUES ('a', 'a', 'a', 'a', true);
 INSERT INTO utilisateur (nom, prenom, email, password, pro) VALUES ('b', 'b', 'thomasdujardin2003@gmail.com', 'b', false);
+INSERT INTO utilisateur (nom, prenom, email, password, pro) VALUES ('c', 'c', 'c', 'c', false);
+
 
 INSERT INTO journee_type_pro (jour, heure_debut, heure_fin) values ('lundi', '08:00:00', '18:00:00');
 INSERT INTO journee_type_pro (jour, heure_debut, heure_fin) values ('mardi', '09:00:00', '18:00:00');
