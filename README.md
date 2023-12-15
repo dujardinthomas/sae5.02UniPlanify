@@ -30,12 +30,12 @@ Ce projet se fait en binôme.
 ### Répartitions
 Rdv hebdomadaire : le jeudi 13h30
 
-    1sem) création bdd
-    2sem) affichage calendrier avec chaque case cliquable avec un cpt dans chaque case pour commencer
-    3sem)Authentification + connexion bdd dao JPA
-    4sem) PROFIL 
-    5sem) MAIL SECURITÉ
-    6sem) RENDU 
+    1sem : 37) création bdd
+    2sem : 39) tomcat + affichage calendrier avec chaque case cliquable avec un cpt dans chaque case pour commencer
+    3sem : 41) maven + connexion bdd dao manuels
+    4sem : 46)Authentification, PROFIL, JPA (dao auto)
+    5sem : 48) Spring MVC
+    6sem : 50) MAIL + SECURITÉ + RENDU 
 
 ## Mise en forme : 
 

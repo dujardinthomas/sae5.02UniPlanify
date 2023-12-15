@@ -122,4 +122,10 @@ Chaque controleur qui a besoin de la base de données, est un Composant spring (
 
 J'ai mis en place la base de données h2 en mode mémoire. Plus besoin de se soucier des connexions ! Les tables sont crées via JPA et remplis via le fichier import.sql à chaque démarrage du projet.
 
-J'ai autorisé le professionel à prendre des indisponibilités. Lorsqu'il sélectionne son jour, l'heure de début et son jour et l'heure de fin, c'est enregistré dans la base de donnée. Tout les rendez-vous déja réservés sont automatiquement supprimés (voir pour une alerte envoie de mail...) et l'application ne propose plus de créneaux sur la plage de l'indisponibilité.
+J'ai autorisé le professionel à prendre des indisponibilités. Lorsqu'il sélectionne son jour, l'heure de début et l'heure de fin, c'est enregistré dans la base de donnée. Tout les rendez-vous déja réservés sont automatiquement supprimés (voir pour une alerte envoie de mail...) et l'application ne propose plus de créneaux sur la plage de l'indisponibilité.
+
+## 6e semaine : Mail, Photo de profil
+
+J'ai ajouté une fonctionnalité qui lorsque un rdv est supprimé, ou une indisponibilité enregistré, envoie un mail à tous les participants du rdv qui sera supprimé. Pour cela via la dépendance spring mail, j'ai configuré le serveur smtp avec un compte *uniplanify@gmail.com* qui est l'adresse expéditeur.
+
+J'ai également ajouté pour les utilisateurs la possibilité d'uploader sa photo de profil sur le serveur. Lors de leurs inscription, ils ont une photo par défaut. Les photos sont rangés actuellement dans le dossier *resources/static/img/profils/* et sont nommés par "profil_[IdUtilisateur]"

@@ -60,6 +60,11 @@ public class Rdv {
     public LocalTime getHeure() {
         return this.cleCompositeRDV.getHeure();
     }
+
+    public String getHeureString() {
+        return getHeure().format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
     
     public List<Utilisateur> getParticipants() {
         return this.participants;
@@ -69,8 +74,6 @@ public class Rdv {
         return this.cleCompositeRDV.getJour();
     }
 
-
-
     public void addParticipant(Utilisateur user) {
         if (this.participants == null) {
             this.participants = new ArrayList<>();
@@ -78,7 +81,14 @@ public class Rdv {
         this.participants.add(user);
     }
 
-    public String toStringTakeRdv() {
+    public String urlToStringTakeRdv(String texteAafficher) {
+        if(this.etat.contains("COMPLET")) {
+            return "";
+        }
+
+        if(texteAafficher.equals("code:heureDuRdv")){
+            texteAafficher = this.getHeureString();
+        }
         LocalDateTime dateTime = this.cleCompositeRDV.getJour().atTime(this.cleCompositeRDV.getHeure());
         String href = "<a href=\"rdv/reserve?"
                 + "year=" + dateTime.getYear()
@@ -86,46 +96,18 @@ public class Rdv {
                 + "&day=" + dateTime.getDayOfMonth()
                 + "&hours=" + dateTime.getHour()
                 + "&minutes=" + dateTime.getMinute()
-                + "\">Prendre RDV </a>";
-        // return "Rdv [cleCompositeRDV=" + cleCompositeRDV + ", etat=" + etat + ",
-        // href=" + href + ", clients=" + clients
-        // + "]";
+                + "\">" + texteAafficher + "</a>";
         return href;
     }
 
-    private String getStyle() {
+    public String getStyle() {
         if (this.etat.contains("ENCORE")) {
-            return "background-color:#FFA500";
+            return "'background-color:#FFA500'";
         } else if (this.etat.contains("COMPLET")) {
-            return "background-color:#ff0000";
+            return "'background-color:#ff0000'";
         } else {
-            return "background-color:#88ff00";
+            return "'background-color:#88ff00'";
         }
     }
-
-    public String toStringJour() {
-        StringBuilder sb = new StringBuilder();
-        // sb.append("<tr>");
-        // sb.append("<td>");
-        sb.append("<div class=\"cellule\"style=\"" + getStyle() + "\">");
-        sb.append("<div class=\"dayNumber\">");
-        sb.append(this.getCleCompositeRDV().getHeure().format(DateTimeFormatter.ofPattern("HH:mm")));
-
-        sb.append("</div>");
-        sb.append("<div class=\"event\">");
-
-        if(etat.contains("COMPLET")) {
-            sb.append(etat + "</div>");
-        } else {
-            sb.append(etat + toStringTakeRdv() + "</div>");
-        }
-        
-        sb.append("</div>");
-        // sb.append("</td>");
-        // sb.append("</tr>");
-
-        return sb.toString();
-    }
-
     
 }

@@ -92,7 +92,7 @@ public class Calendrier {
                 jour = new Jour(now, false);
             }
             listDays.add(jour);
-            System.out.println("journée parcourus : " + jour);
+            //System.out.println("journée parcourus : " + jour);
             System.out.println("nb de jours : " + listDays.size());
         }
         return listDays;

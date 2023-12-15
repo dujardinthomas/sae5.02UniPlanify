@@ -30,6 +30,10 @@ public class Jour {
         return ouvert;
     }
 
+    public String getTitle(){
+        return date.format(formatter);
+    }
+
     public int getPositionSemaine() {
         return date.getDayOfWeek().getValue();
     }
@@ -77,7 +81,7 @@ public class Jour {
     public Jour(LocalDate date, boolean ouvert) {
         this.date = date;
         this.ouvert = ouvert;
-        this.rdvs = null;
+        this.rdvs = new ArrayList<>();
     }
 
     public Jour(LocalDate date, boolean ouvert, ContraintesRepository constraintRepository,
@@ -90,61 +94,43 @@ public class Jour {
         this.journeeTypeProRepository = journeeTypeProRepository;
         this.indisponibiliteRepository = indisponibiliteRepository;
         this.rdvRepository = rdvRepository;
-        this.rdvs = getRdvStatus(date);
+        this.rdvs = createRdvListOfSelectedDate(date);
     }
 
-    public List<Rdv> getRdvStatus(LocalDate selectedDate) {
+    public Jour(LocalDate date, ContraintesRepository constraintRepository,
+            JourneeTypeProRepository journeeTypeProRepository,
+            IndisponibiliteRepository indisponibiliteRepository,
+            RdvRepository rdvRepository) {
+        this.date = date;
+        this.constraintRepository = constraintRepository;
+        this.journeeTypeProRepository = journeeTypeProRepository;
+        this.indisponibiliteRepository = indisponibiliteRepository;
+        this.rdvRepository = rdvRepository;
+        this.rdvs = createRdvListOfSelectedDate(date);
+    }
+
+    public List<Rdv> createRdvListOfSelectedDate(LocalDate selectedDate) {
         List<Rdv> listRdvDay = new ArrayList<>();
 
-        // Récupération des contraintes
-        Iterable<Contraintes> constraints = constraintRepository.findAll();
-        int nbPersonneMax = 0;
-        int dureeRDV = 0;
-        for (Contraintes contraintes : constraints) {
-            nbPersonneMax = contraintes.getNbPersonneMaxDefault();
-            dureeRDV = contraintes.getDureeDefaultMinutes();
-        }
+        // Récupération des contraintes tout est sur la meme ligne
+        Contraintes contrainte = constraintRepository.findAll().iterator().next();
+        int nbPersonneMax = contrainte.getNbPersonneMaxDefault();
+        int dureeRDV = contrainte.getDureeDefaultMinutes();
 
         String dayStringNumberMonthYear = selectedDate.format(formatter);
-        JourneeTypePro dayTime = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get();
-
-        if (dayTime == null) {
+        JourneeTypePro dayTime = null;
+        try {
+            dayTime = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get(); 
+        } catch (Exception e) {
             System.out.println("jour fermé!");
+            this.ouvert = false;
             return listRdvDay;
         }
-
-        // CleCompositeIndisponibilite cleCompositeIndisponibilite = new
-        // CleCompositeIndisponibilite();
-        // cleCompositeIndisponibilite.setDebutJour(selectedDate);
-        // Indisponibilite indisponibilite = em.find(Indisponibilite.class,
-        // selectedDate);
-
-        // String query = "SELECT * FROM indisponibilite WHERE " +
-        // "debutjour <= '" +
-        // selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "' " +
-        // "AND finjour >= '" +
-        // selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "'";
+        
+        System.out.println("Le jour actuel est disponible.");
+        this.ouvert = true;
 
         Iterable<Indisponibilite> indisponibiliteIterator = indisponibiliteRepository.findAll();
-        List<Indisponibilite> indisponibilites = new ArrayList<>();
-        for (Indisponibilite indisponibilite : indisponibiliteIterator) {
-            indisponibilites.add(indisponibilite);
-        }
-
-        for (Indisponibilite indispo : indisponibilites) {
-            CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
-            if (selectedDate.isEqual(i.getJour())) {
-                System.out.println("ya une indispo sur la journée faut savoir mtn quand ");
-                // return listRdvDay;
-            }
-        }
-
-        System.out.println("Le jour actuel est disponible.");
-
-        System.out.println("il y a : " + indisponibilites.size() + " indisponibilites");
-        for (Indisponibilite indisponibilite : indisponibilites) {
-            System.out.println("indispo " + indisponibilite);
-        }
 
         LocalTime startTimeDay = dayTime.getHeureDebut();
         LocalTime endTimeDay = dayTime.getHeureFin();
@@ -152,20 +138,12 @@ public class Jour {
 
         while (!timeNow.plusMinutes(dureeRDV).isAfter(endTimeDay)) {
 
-            for (Indisponibilite indispo : indisponibilites) {
+            for (Indisponibilite indispo : indisponibiliteIterator) {
                 CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
 
-                // Vérifier si le jour et l'heure actuels sont dans une période
-                // d'indisponibilité
                 while (((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
                         && timeNow.isBefore(i.getFinHeure()))) {
-
-                    // Faire quelque chose si le jour et l'heure actuels sont indisponibles
-                    // Par exemple, passer au prochain moment disponible ou autre traitement
-                    // nécessaire
                     System.out.println("Le jour et l'heure actuels sont indisponibles !");
-                    // return listRdvDay; // ou autre action à effectuer si le moment est
-                    // indisponible
                     timeNow = timeNow.plusMinutes(dureeRDV);
                 }
             }

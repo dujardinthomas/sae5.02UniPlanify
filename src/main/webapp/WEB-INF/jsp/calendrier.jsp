@@ -24,6 +24,7 @@
                 <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
                 <li><a href="../perso">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
+                <li><a href="/week">Semaine</a></li>
                 <li><a href="../contact">Contact</a></li>
                 <li><a href="../deconnexion">Deconnexion</a></li>
             </ul>
@@ -36,6 +37,9 @@
     int year = calendrier.getYear();
     int month = calendrier.getMonth();
     %>
+
+<div class="calendrier">
+
 
     <h2><%=calendrier.getMonthName()%> <%=year%></h2>
     <table class="calendar">
@@ -86,5 +90,6 @@
         <a href="?year=${nextYear}&month=${nextMonth}">Mois suivant</a>
     </div>
     
+</div>
 </body>
 </html>

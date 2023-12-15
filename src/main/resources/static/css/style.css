@@ -50,7 +50,7 @@ td {
 }
 
 .cellule{
-    background-color: #a25e5e;
+    background-color: rgb(100, 255, 100);
     padding: 10px;
 }
 
@@ -71,9 +71,8 @@ td {
 
 
 .settingsCalendar{
-    position: fixed;
-    bottom: 30;
-    background-color: #a25e5e;
+
+    background-color: #333;
     width: 90%;
     text-align: center;
     padding: 10px;

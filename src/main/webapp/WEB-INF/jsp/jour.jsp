@@ -1,8 +1,9 @@
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.*" %>
 <%@ page import="java.time.LocalTime" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="fr.sae502.uniplanify.models.Rdv" %>
+<%@ page import="fr.sae502.uniplanify.models.Jour" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -28,30 +29,32 @@
     </header>
 
     <% 
+        Jour today = (Jour) request.getAttribute("jour");
+    %>
 
-List<Rdv> today = (List<Rdv>) request.getAttribute("listRDV");
-if(today == null){
-    today = new ArrayList<Rdv>();
-}
+    <h2> Prendre un rendez-vous pour le <%=today.getTitle()%> </h2>
 
-%>
-
-<table>
-    <tr>
-        <td>${selectedDate}</td>
-    </tr>
-
+    <table>
     <%
-    if (today.isEmpty()) {
+    if (today.getOuvert() == false) {
     %>
         <p>La journée est actuellement fermée, aucun rendez-vous disponible.</p>
     <%
     } else {
+        
         try {
-            for (Rdv rdvNow : today) { %>
+            for (Rdv rdvNow : today.getRdvs()) { %>
                 <tr>
                     <td>
-                        <%= rdvNow.toStringJour() %>
+                        <div class="cellule" style=<%= rdvNow.getStyle() %>>
+                            <div class="dayNumber"> 
+                                <%= rdvNow.getHeureString() %>
+                            </div>
+
+                            <div class="event">
+                                <%= rdvNow.getEtat() %> <%= rdvNow.urlToStringTakeRdv("Prendre rdv") %>
+                            </div>
+                       </div> 
                     </td>
                 </tr>
             <% } %>
@@ -65,6 +68,7 @@ if(today == null){
     
 </body>
 </html>
+
 
 
 
