@@ -26,7 +26,12 @@ public class Inscription {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String origine) {
-        Utilisateur user = new Utilisateur(nom, prenom, email, password, false, "../img/profils/default.jpg");
+        boolean pro =false;
+        if(!utilisateurRepository.findById(1).isPresent()) {
+            System.out.println("pas d'utilisateur enregistré, on l'enregistre en pro");
+            pro = true;
+        }
+        Utilisateur user = new Utilisateur(nom, prenom, email, password, pro, "../img/profils/default.jpg");
         utilisateurRepository.save(user);
         System.out.println("Utilisateur " + user.getEmail() + "enregistré");
         return "redirect:/login?msg=UtilisateurEnregistré&origine=" + origine;

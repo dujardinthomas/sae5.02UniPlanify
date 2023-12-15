@@ -34,7 +34,13 @@ public class InitialisationController {
     @GetMapping(value = "/initialisation")
     public ModelAndView initialisation() {
         ModelAndView mav = new ModelAndView("initialisation");
-        mav.addObject("contraintes", contraintesRepository.findAll().iterator().next());
+        try {
+            mav.addObject("contraintes", contraintesRepository.findAll().iterator().next());
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("pas de contraintes enregistrées");
+            mav.addObject("contraintes", null);
+        }
         return mav;
     }
 
