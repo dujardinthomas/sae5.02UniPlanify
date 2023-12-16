@@ -63,10 +63,30 @@
             <% } %>
             <td>
                 <% if (jour.getOuvert()){ %>
-                     <div class="cellule">
+
+                    <%
+                    double pourcentage = jour.getRemplissagePourcentageDay();
+                    String couleur = "";
+                    if(pourcentage == 0) {
+                        couleur = "background-color: #00FF00"; //vert
+                    } else if (pourcentage < 50) {
+                        couleur = "background-color: #ADFF2F"; //vert clair
+                    } else if (pourcentage < 70) {
+                        couleur = "background-color: #FFFF00"; //jaune
+                    } else if (pourcentage < 100) {
+                        couleur = "background-color: #ff9100"; //orange
+                    } else if (pourcentage == 100) {
+                        couleur = "background-color: #FF0000"; //rouge
+                    } else{
+                        couleur = ""; //rien
+                    }
+                    %>
+
+                     <div class="cellule" style="<%= couleur %>">
                         <div class="dayNumber"> 
-                            <a href="Jour?day=<%=jour.getDay()%>&month=<%=jour.getMonth()%>&year=<%=jour.getYear()%>"><%=jour.getDay()%></a>
+                            <a href="jour?day=<%=jour.getDay()%>&month=<%=jour.getMonth()%>&year=<%=jour.getYear()%>"><%=jour.getDay()%></a>
                         </div>
+                        remplissage : <%=jour.getRemplissagePourcentageDay()%>%
                     </div>
                 <% } else { %>
                     <div class="celluleClose">

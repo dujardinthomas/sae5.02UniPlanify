@@ -19,6 +19,8 @@ public class Jour {
     private String linkDay;
     private List<Rdv> rdvs;
 
+    private int remplissagePourcentageDay;
+
     private ContraintesRepository constraintRepository;
     private JourneeTypeProRepository journeeTypeProRepository;
     private IndisponibiliteRepository indisponibiliteRepository;
@@ -30,7 +32,24 @@ public class Jour {
         return ouvert;
     }
 
-    public String getTitle(){
+    public void recalculerRemplissagePourcentageDay() {
+        if (this.rdvs == null || getOuvert() == false) {
+            this.remplissagePourcentageDay = 0;
+        } else {
+            int remplissagePourcentageDayInterne = 0;
+            for (Rdv rdv : this.rdvs) {
+                remplissagePourcentageDayInterne += rdv.getRemplissagePourcentage();
+            }
+            this.remplissagePourcentageDay = remplissagePourcentageDayInterne / this.rdvs.size();
+        }
+    }
+
+    public int getRemplissagePourcentageDay() {
+        recalculerRemplissagePourcentageDay();
+        return remplissagePourcentageDay;
+    }
+
+    public String getTitle() {
         return date.format(formatter);
     }
 
@@ -120,17 +139,26 @@ public class Jour {
         String dayStringNumberMonthYear = selectedDate.format(formatter);
         JourneeTypePro dayTime = null;
         try {
-            dayTime = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get(); 
+            dayTime = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get();
         } catch (Exception e) {
             System.out.println("jour fermé!");
             this.ouvert = false;
             return listRdvDay;
         }
-        
-        System.out.println("Le jour actuel est disponible.");
-        this.ouvert = true;
 
         Iterable<Indisponibilite> indisponibiliteIterator = indisponibiliteRepository.findAll();
+
+        boolean indispoSurJournee = false;
+        for (Indisponibilite indispo : indisponibiliteIterator) {
+            CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
+            if (selectedDate.isEqual(i.getJour())) {
+                System.out.println("ya une indispo sur la journée faut savoir mtn quand ");
+                indispoSurJournee = true;
+            }
+        }
+
+        System.out.println("Le jour actuel est disponible");
+        this.ouvert = true;
 
         LocalTime startTimeDay = dayTime.getHeureDebut();
         LocalTime endTimeDay = dayTime.getHeureFin();
@@ -138,17 +166,28 @@ public class Jour {
 
         while (!timeNow.plusMinutes(dureeRDV).isAfter(endTimeDay)) {
 
-            for (Indisponibilite indispo : indisponibiliteIterator) {
-                CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
+            // Vérification des indisponibilités
+            if (indispoSurJournee) {
+                System.out.println("recherche d'indispo creneau par creneau..." + timeNow);
+                for (Indisponibilite indispo : indisponibiliteIterator) {
+                    CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
 
-                while (((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
-                        && timeNow.isBefore(i.getFinHeure()))) {
-                    System.out.println("Le jour et l'heure actuels sont indisponibles !");
-                    timeNow = timeNow.plusMinutes(dureeRDV);
+                    if (timeNow.plusMinutes(dureeRDV).isAfter(i.getDebutHeure())
+                            && timeNow.plusMinutes(dureeRDV).isBefore(i.getFinHeure())) {
+                        System.out.println("la fin du rdv est dans une indispo" + timeNow.plusMinutes(dureeRDV));
+                        timeNow = timeNow.plusMinutes(dureeRDV);
+                    }
+
+                    while (((timeNow.equals(i.getDebutHeure()) || timeNow.isAfter(i.getDebutHeure()))
+                            && timeNow.isBefore(i.getFinHeure()))) {
+                        System.out.println("Le jour et l'heure actuel sont indisponibles !" + timeNow);
+                        timeNow = timeNow.plusMinutes(dureeRDV);
+                    }
                 }
             }
 
             if ((timeNow.isAfter(endTimeDay)) || timeNow.equals(endTimeDay)) {
+                System.out.println("fin de la journée");
                 break;
             }
 

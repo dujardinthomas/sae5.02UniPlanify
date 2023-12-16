@@ -54,6 +54,9 @@
                     <tr>
                         <td><%= jour.getTitle() %></td>
                     </tr>
+                    <tr>
+                        <td><%= jour.getRemplissagePourcentageDay() %>%</td>
+                    </tr>
                     
                 <% for (Rdv rdvNow : jour.getRdvs()) { %>
                     <tr>

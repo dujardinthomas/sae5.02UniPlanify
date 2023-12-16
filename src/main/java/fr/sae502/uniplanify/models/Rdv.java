@@ -24,7 +24,7 @@ public class Rdv {
 
     private String etat;
     private String commentaire;
-    private int remplissagePourcentage;
+    private double remplissagePourcentage;
 
     @ManyToMany
     @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"participants_id", "rdv_heure", "rdv_jour"}))
@@ -33,7 +33,7 @@ public class Rdv {
     public Rdv() {
     }
 
-    public void setRemplissagePourcentage(int remplissagePourcentage) {
+    public void setRemplissagePourcentage(double remplissagePourcentage) {
         this.remplissagePourcentage = remplissagePourcentage;
     }
 
@@ -42,7 +42,7 @@ public class Rdv {
         if (this.participants == null) {
             this.remplissagePourcentage = 0;
         } else {
-            this.remplissagePourcentage = this.participants.size() / nbParticipants * 100;
+            this.remplissagePourcentage = (double) this.participants.size() / nbParticipants * 100;
         }
     }
 

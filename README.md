@@ -71,6 +71,8 @@ Mettre par defaut disponible, le pro va indiquer ses indisponibilité, si prise 
 
 -> j'opte pour qu'il indique la dateheure début et dateheure de fin, la durée d'un rdv sera géré en java avec la variable initial (cf ligne 38)
 
+j'ai opté pour finalement qu'il indique la journée concerné et l'heure de début + l'heure de fin c'est trop compliqué sinon !
+
 
 
 ### MCD
@@ -144,9 +146,10 @@ on definie une semaine type du pro par défaut (ouvert tout les lundi de 8h à 1
 new calendrier(durée, nbPersonneMax, semaineType);
 A chaque insert de rdv, insert durée et nbPersonneMax
 
-L'admin pour sa 1ère fois accède à Pro/initialisation.html pour renseigner sa semaine type, la durée de rdv et le nombre de personne. Lors du traitement, la base de données sera crée !
+L'admin pour sa 1ère fois accède à Pro/initialisation pour renseigner sa semaine type, la durée de rdv et le nombre de personne. Lors du traitement, la base de données sera crée !
 
-Le token est le
+Le 1er utilisateur crée est automatiquement de type pro ! les autres sont à ajoutés via le SGBD.
+
 
 #### Fonctionnement :
 Quand user selectionne une journée : 
@@ -162,6 +165,8 @@ Si client reserve sur periode libre, = clique sur du vert, insert into reservati
 Si il reserve sur période non libre (pro qui a mis une indispo) = impossible de cliquer sur du rouge verifie 
 
 Voir pour la vérif si il peut reserver, tester à l'affichage de la page (et ensuite en js...) ou a chaque tentative de rdv...
+
+Mis en place un code couleur dans la vue (html, en valeur arbitraires) pour savoir la disponibilité restante sur un rdv + sur la journée (ensemble des rdv / nbRdv). vert (=0%) < vert clair (<50%) < jaune (<70%) < orange (100%) < rouge (=100%)
 
 
 quand prise de rdv,

@@ -27,7 +27,7 @@ public class JourController {
     @Autowired
     private RdvRepository rdvRepository;
 
-    @RequestMapping(value = "/Jour")
+    @RequestMapping(value = "/jour")
     public ModelAndView jour(@RequestParam(defaultValue = "0") int year,
             @RequestParam(defaultValue = "0") int month,
             @RequestParam(defaultValue = "0") int day) {

@@ -69,6 +69,7 @@
                             </div>
                             <div class="event"> 
                                 <%= rdvNow.getEtat() %> 
+                                <%= rdvNow.getRemplissagePourcentage() %>%
                             </div>
                        </div> 
                     </td>

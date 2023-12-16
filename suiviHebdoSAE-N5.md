@@ -43,7 +43,7 @@ Enfin, j'ai créé quelques données dans chaque table et effectué quelques req
 
 
 
-## 2e semaine : Création du context Tomcat et affichage d'un calendrier avec un compteur de click ()
+## 2e semaine : Création du context Tomcat et affichage d'un calendrier mensuel avec un compteur de click ()
 
 J'ai créé une servlet qui affiche un calendrier sur une page avec l'objet LocalDate en java sous forme de tableau. Il affiche par défaut le mois actuelle.
 
@@ -122,12 +122,14 @@ Chaque controleur qui a besoin de la base de données, est un Composant spring (
 
 J'ai mis en place la base de données h2 en mode mémoire. Plus besoin de se soucier des connexions ! Les tables sont crées via JPA et remplis via le fichier import.sql à chaque démarrage du projet.
 
-J'ai autorisé le professionel à prendre des indisponibilités. Lorsqu'il sélectionne son jour, l'heure de début et l'heure de fin, c'est enregistré dans la base de donnée. Tout les rendez-vous déja réservés sont automatiquement supprimés (voir pour une alerte envoie de mail...) et l'application ne propose plus de créneaux sur la plage de l'indisponibilité.
+J'ai autorisé le professionel à prendre des indisponibilités. Lorsqu'il sélectionne le jour, l'heure de début et l'heure de fin, c'est enregistré dans la base de donnée. Tout les rendez-vous déja réservés sont automatiquement supprimés (voir pour une alerte envoie de mail...) et l'application ne propose plus de créneaux sur la plage de l'indisponibilité. J'ai également fait attention que un rdv est disponible si il peut se finir sans chevaucher une indisponibilité.
 
-## 6e semaine : Mail, Photo de profil
+## 6e semaine : Mail, Photo de profil, Vue hebdomadaire
 
-J'ai ajouté une fonctionnalité qui lorsque un rdv est supprimé, ou une indisponibilité enregistré (ce qui entraine la suppression des rdv sur cette plage), envoie un mail à tous les participants du rdv pour les informer de l'annulation du rdv puis ce dernier est supprimé de l'application. Pour cela via la dépendance spring mail, j'ai configuré le serveur smtp avec un compte *uniplanify@gmail.com* qui est l'adresse expéditeur.
+J'ai ajouté une fonctionnalité qui lorsque un rdv est supprimé, ou une indisponibilité enregistré, envoie un mail à tous les participants de ce rdv pour les informer de son annulation. Il est définitivement supprimé de l'application. J'ai ajouté la dépendance spring mail, j'ai configuré le serveur smtp avec un compte *uniplanify@gmail.com* qui est l'adresse expéditeur et crée une fonction pour faciliter son usage multiple.
 
-J'ai également ajouté pour les utilisateurs la possibilité d'uploader sa photo de profil sur le serveur. Lors de leurs inscription, ils ont une photo par défaut. Les photos sont rangés actuellement dans le dossier *resources/static/img/profils/* et sont nommés par "profil_[IdUtilisateur]"
+J'ai également ajouté pour les utilisateurs la possibilité d'uploader sa photo de profil sur le serveur. Lors de leurs inscription, ils se voit attribuer une photo par défaut. Les photos sont rangés actuellement dans le dossier *resources/static/img/profils/* et sont nommés par "profil_[IdUtilisateur]".
 
 J'ai également ajouté en bonus une vue hebdomadaire (qui par défault commence au jour actuel et se termine à j+6). J'ai tout simplement crée un objet semaine où se trouve une liste de 7 jours.
+
+J'ai mis en place un code couleur (sur les vues mensuel, hebdomadaire et jour avec des valeurs arbitraires en html) pour voir le taux d'occupation d'un rdv, et le taux d'occupation sur la journée (visible sur le calendrier mensuel). Plus c'est vert, plus il y a de la place, et plus c'est rouge, moins il y a de place. J'ai dû ajouter une fonction de calcul du taux d'occupation dans l'objet rdv.
