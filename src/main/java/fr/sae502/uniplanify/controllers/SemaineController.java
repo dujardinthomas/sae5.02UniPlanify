@@ -1,9 +1,6 @@
 package fr.sae502.uniplanify.controllers;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sae502.uniplanify.models.Calendrier;
 import fr.sae502.uniplanify.models.Semaine;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
 import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
@@ -34,12 +30,12 @@ public class SemaineController {
 
     @RequestMapping(value = "/week")
     @Transactional
-    public ModelAndView semaine(@RequestParam(defaultValue = "0") int dayDebut, 
-                                    @RequestParam(defaultValue = "0") int monthDebut,
-                                    @RequestParam(defaultValue = "0") int yearDebut,
-                                    @RequestParam(defaultValue = "0") int dayFin,
-                                    @RequestParam(defaultValue = "0") int monthFin,
-                                    @RequestParam(defaultValue = "0") int yearFin) {
+    public ModelAndView semaine(@RequestParam(defaultValue = "0") int dayDebut,
+            @RequestParam(defaultValue = "0") int monthDebut,
+            @RequestParam(defaultValue = "0") int yearDebut,
+            @RequestParam(defaultValue = "0") int dayFin,
+            @RequestParam(defaultValue = "0") int monthFin,
+            @RequestParam(defaultValue = "0") int yearFin) {
 
         LocalDate currentDate = LocalDate.now();
         if (dayDebut == 0) {
@@ -50,20 +46,18 @@ public class SemaineController {
             dayFin = currentDate.plusDays(6).getDayOfMonth();
             monthFin = currentDate.plusDays(6).getMonthValue();
             yearFin = currentDate.plusDays(6).getYear();
-            
+
         }
-        
-        Semaine semaine = new Semaine(LocalDate.of(yearDebut, monthDebut, dayDebut), 
-                                        LocalDate.of(yearFin, monthFin, dayFin), 
-                                        constraintRepository, 
-                                        journeeTypeProRepository, 
-                                        indisponibiliteRepository, 
-                                        rdvRepository);
 
         LocalDate startDate = LocalDate.of(yearDebut, monthDebut, dayDebut);
         LocalDate endDate = LocalDate.of(yearFin, monthFin, dayFin);
-        // LocalDate startOfCurrentWeek = startDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        // LocalDate endOfCurrentWeek = endDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+        Semaine semaine = new Semaine(startDate,
+                endDate,
+                constraintRepository,
+                journeeTypeProRepository,
+                indisponibiliteRepository,
+                rdvRepository);
 
         LocalDate startOfPreviousWeek = startDate.minusDays(6);
         LocalDate endOfPreviousWeek = endDate.minusDays(6);
@@ -85,9 +79,6 @@ public class SemaineController {
         int monthFinNextWeek = endOfNextWeek.getMonthValue();
         int yearFinNextWeek = endOfNextWeek.getYear();
 
-
-
-
         ModelAndView mav = new ModelAndView("semaine");
         mav.addObject("dayDebutPreviousWeek", dayDebutPreviousWeek);
         mav.addObject("monthDebutPreviousWeek", monthDebutPreviousWeek);
@@ -102,11 +93,10 @@ public class SemaineController {
         mav.addObject("dayFinNextWeek", dayFinNextWeek);
         mav.addObject("monthFinNextWeek", monthFinNextWeek);
         mav.addObject("yearFinNextWeek", yearFinNextWeek);
-        
+
         mav.addObject("semaine", semaine);
 
         return mav;
     }
 
-    
 }

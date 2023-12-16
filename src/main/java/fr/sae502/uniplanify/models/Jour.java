@@ -162,6 +162,7 @@ public class Jour {
                 rdvActuelle = new Rdv();
                 rdvActuelle.setCleCompositeRDV(cleRDV);
                 rdvActuelle.setEtat("DISPONIBLE POUR LE MOMENT ");
+                rdvActuelle.setRemplissagePourcentage(0);
             } else if (rdvActuelle.getParticipants().size() < nbPersonneMax) {
                 // Si des places sont disponibles dans le rendez-vous
                 rdvActuelle.setEtat(

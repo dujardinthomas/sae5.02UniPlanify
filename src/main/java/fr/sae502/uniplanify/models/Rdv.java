@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.sae502.uniplanify.repository.ContraintesRepository;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
@@ -23,12 +24,26 @@ public class Rdv {
 
     private String etat;
     private String commentaire;
+    private int remplissagePourcentage;
 
     @ManyToMany
     @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"participants_id", "rdv_heure", "rdv_jour"}))
     private List<Utilisateur> participants;
 
     public Rdv() {
+    }
+
+    public void setRemplissagePourcentage(int remplissagePourcentage) {
+        this.remplissagePourcentage = remplissagePourcentage;
+    }
+
+    public void recalculerRemplissagePourcentage(ContraintesRepository constraintRepository) {
+        int nbParticipants = constraintRepository.findAll().iterator().next().getNbPersonneMaxDefault();
+        if (this.participants == null) {
+            this.remplissagePourcentage = 0;
+        } else {
+            this.remplissagePourcentage = this.participants.size() / nbParticipants * 100;
+        }
     }
 
     public Rdv(CleCompositeRDV cleCompositeRDV, String etat, String commentaire) {
@@ -82,13 +97,14 @@ public class Rdv {
     }
 
     public String urlToStringTakeRdv(String texteAafficher) {
-        if(this.etat.contains("COMPLET")) {
-            return "";
-        }
-
         if(texteAafficher.equals("code:heureDuRdv")){
             texteAafficher = this.getHeureString();
         }
+        
+        if(this.etat.contains("COMPLET")) {
+            return this.getHeureString();
+        }
+
         LocalDateTime dateTime = this.cleCompositeRDV.getJour().atTime(this.cleCompositeRDV.getHeure());
         String href = "<a href=\"rdv/reserve?"
                 + "year=" + dateTime.getYear()

@@ -1,7 +1,6 @@
 package fr.sae502.uniplanify.controllers;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import fr.sae502.uniplanify.models.Jour;
-import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
 import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
 import fr.sae502.uniplanify.repository.JourneeTypeProRepository;
@@ -44,12 +42,8 @@ public class JourController {
         }
 
         Jour jour = new Jour(selectedDate, constraintRepository, journeeTypeProRepository,
-                indisponibiliteRepository, rdvRepository);
-        //List<Rdv> listRDVJour = jour.getRdvs();
-        
+                indisponibiliteRepository, rdvRepository);        
         ModelAndView mav = new ModelAndView("jour");
-        // mav.addObject("listRDV", listRDVJour);
-        // mav.addObject("selectedDate", selectedDate);
         mav.addObject("jour", jour);
 
         return mav;

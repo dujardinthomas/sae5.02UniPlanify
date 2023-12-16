@@ -3,6 +3,15 @@ INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('b
 INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('c', 'c', 'thoduj123@gmail.com', 'c', false, '../img/profils/default.jpg');
 INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('d', 'd', 'd', 'd', false, '../img/profils/default.jpg');
 INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('e', 'e', 'e', 'e', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('f', 'f', 'f', 'f', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('g', 'g', 'g', 'g', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('h', 'h', 'h', 'h', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('i', 'i', 'i', 'i', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('j', 'j', 'j', 'j', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('k', 'k', 'k', 'k', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('l', 'l', 'l', 'l', false, '../img/profils/default.jpg');
+INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('m', 'm', 'm', 'm', false, '../img/profils/default.jpg');
+
 
 
 INSERT INTO journee_type_pro (jour, heure_debut, heure_fin) values ('lundi', '08:00:00', '18:00:00');

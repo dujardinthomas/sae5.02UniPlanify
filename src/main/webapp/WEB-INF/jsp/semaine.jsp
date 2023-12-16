@@ -38,7 +38,7 @@
     <div class="settingsCalendar">
         <a href="?dayDebut=${dayDebutPreviousWeek}&monthDebut=${monthDebutPreviousWeek}&yearDebut=${yearDebutPreviousWeek}&dayFin=${dayFinPreviousWeek}&monthFin=${monthFinPreviousWeek}&yearFin=${yearFinPreviousWeek}">Semaine précedente</a>
         <a href="/week">Semaine actuelle</a>
-        <a href="?dayDebut=${dayDebutNextWeek}&monthDebut=${monthDebutNextWeek}&yearDebut=${yearDebutPreviousWeek}&dayFin=${dayFinNextWeek}&monthFin=${monthFinNextWeek}&yearFin=${yearFinNextWeek}">Semaine suivante</a>
+        <a href="?dayDebut=${dayDebutNextWeek}&monthDebut=${monthDebutNextWeek}&yearDebut=${yearDebutNextWeek}&dayFin=${dayFinNextWeek}&monthFin=${monthFinNextWeek}&yearFin=${yearFinNextWeek}">Semaine suivante</a>
     </div>
 
 <div class="semaine">
@@ -58,11 +58,28 @@
                 <% for (Rdv rdvNow : jour.getRdvs()) { %>
                     <tr>
                         <td>
-                            <div class="cellule" style=<%= rdvNow.getStyle() %>>
-                                <div class="dayNumber"> 
+                        <%
+                        double pourcentage = rdvNow.getRemplissagePourcentage();
+                        String couleur = "";
+                        if(pourcentage == 0) {
+                            couleur = "background-color: #00FF00"; //vert
+                        } else if (pourcentage < 50) {
+                            couleur = "background-color: #ADFF2F"; //vert clair
+                        } else if (pourcentage < 70) {
+                            couleur = "background-color: #FFFF00"; //jaune
+                        } else if (pourcentage < 100) {
+                            couleur = "background-color: #ff9100"; //orange
+                        } else if (pourcentage == 100) {
+                            couleur = "background-color: #FF0000"; //rouge
+                        } else{
+                            couleur = ""; //rien
+                        }
+                        %>
+                            <div style="<%= couleur %>">
+                                <div> 
                                     <%= rdvNow.urlToStringTakeRdv("code:heureDuRdv") %>
                                 </div>
-                        </div> 
+                            </div> 
                         </td>
                     </tr>
                 <% } %>

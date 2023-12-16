@@ -126,6 +126,8 @@ J'ai autorisé le professionel à prendre des indisponibilités. Lorsqu'il séle
 
 ## 6e semaine : Mail, Photo de profil
 
-J'ai ajouté une fonctionnalité qui lorsque un rdv est supprimé, ou une indisponibilité enregistré, envoie un mail à tous les participants du rdv qui sera supprimé. Pour cela via la dépendance spring mail, j'ai configuré le serveur smtp avec un compte *uniplanify@gmail.com* qui est l'adresse expéditeur.
+J'ai ajouté une fonctionnalité qui lorsque un rdv est supprimé, ou une indisponibilité enregistré (ce qui entraine la suppression des rdv sur cette plage), envoie un mail à tous les participants du rdv pour les informer de l'annulation du rdv puis ce dernier est supprimé de l'application. Pour cela via la dépendance spring mail, j'ai configuré le serveur smtp avec un compte *uniplanify@gmail.com* qui est l'adresse expéditeur.
 
 J'ai également ajouté pour les utilisateurs la possibilité d'uploader sa photo de profil sur le serveur. Lors de leurs inscription, ils ont une photo par défaut. Les photos sont rangés actuellement dans le dossier *resources/static/img/profils/* et sont nommés par "profil_[IdUtilisateur]"
+
+J'ai également ajouté en bonus une vue hebdomadaire (qui par défault commence au jour actuel et se termine à j+6). J'ai tout simplement crée un objet semaine où se trouve une liste de 7 jours.

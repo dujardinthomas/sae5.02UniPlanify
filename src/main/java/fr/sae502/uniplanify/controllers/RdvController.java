@@ -131,6 +131,7 @@ public class RdvController {
                 try {
                     rdvExistant.addParticipant(user);
                     rdvExistant.setCommentaire(user.getNom() + " ajouté le " + jjMMyy);
+                    rdvExistant.recalculerRemplissagePourcentage(contraintesRepository);
                     
                     rdvRepository.save(rdvExistant);
                     etat = "add";
@@ -151,6 +152,7 @@ public class RdvController {
             nouveauRdv.addParticipant(user);
             nouveauRdv.setCommentaire(commentaire);
             nouveauRdv.setEtat("Réservé");
+            nouveauRdv.recalculerRemplissagePourcentage(contraintesRepository);
             
             rdvRepository.save(nouveauRdv);
             String statut = "created";
