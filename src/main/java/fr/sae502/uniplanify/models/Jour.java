@@ -15,7 +15,6 @@ import fr.sae502.uniplanify.repository.RdvRepository;
 public class Jour {
     private LocalDate date;
     private boolean ouvert;
-    private String dayName;
     private String linkDay;
     private List<Rdv> rdvs;
 
@@ -32,6 +31,10 @@ public class Jour {
         return ouvert;
     }
 
+    public void setOuvert(boolean ouvert) {
+        this.ouvert = ouvert;
+    }
+
     public void recalculerRemplissagePourcentageDay() {
         if (this.rdvs == null || getOuvert() == false) {
             this.remplissagePourcentageDay = 0;
@@ -40,13 +43,24 @@ public class Jour {
             for (Rdv rdv : this.rdvs) {
                 remplissagePourcentageDayInterne += rdv.getRemplissagePourcentage();
             }
-            this.remplissagePourcentageDay = remplissagePourcentageDayInterne / this.rdvs.size();
+            try {
+                this.remplissagePourcentageDay = remplissagePourcentageDayInterne / this.rdvs.size();
+                //setOuvert(true);
+            } catch (Exception e) {
+                System.out.println("IL N'Y A PAS DE RDV POUR CE JOUR" + this);
+                //if(this.remplissagePourcentageDay == 0) {
+                    this.remplissagePourcentageDay = 100;
+                //}
+                setOuvert(false);
+            }
+            
+            
         }
     }
 
     public int getRemplissagePourcentageDay() {
         recalculerRemplissagePourcentageDay();
-        return remplissagePourcentageDay;
+        return this.remplissagePourcentageDay;
     }
 
     public String getTitle() {
@@ -73,10 +87,6 @@ public class Jour {
         return date.getYear();
     }
 
-    public String getDayName() {
-        return dayName;
-    }
-
     public String getLinkDay() {
         return linkDay;
     }
@@ -91,7 +101,7 @@ public class Jour {
 
     @Override
     public String toString() {
-        return "Jour [date=" + date + ", dayName=" + dayName + ", linkDay=" + linkDay + ", rdvs=" + rdvs
+        return "Jour [date=" + date + ", linkDay=" + linkDay + ", rdvs=" + rdvs
                 + ", constraintRepository=" + constraintRepository + ", journeeTypeProRepository="
                 + journeeTypeProRepository + ", indisponibiliteRepository=" + indisponibiliteRepository
                 + ", rdvRepository=" + rdvRepository + ", formatter=" + formatter + "]";
@@ -149,16 +159,20 @@ public class Jour {
         Iterable<Indisponibilite> indisponibiliteIterator = indisponibiliteRepository.findAll();
 
         boolean indispoSurJournee = false;
+        List<Indisponibilite> indispoDuJour = new ArrayList<>();
         for (Indisponibilite indispo : indisponibiliteIterator) {
             CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
+            
             if (selectedDate.isEqual(i.getJour())) {
                 System.out.println("ya une indispo sur la journée faut savoir mtn quand ");
+                indispoDuJour.add(indispo);
+                System.out.println("indispo du jour : " + indispoDuJour);
                 indispoSurJournee = true;
             }
         }
-
+        System.out.println("il y a : " + indispoDuJour.size() + " indispo sur la journée");
         System.out.println("Le jour actuel est disponible");
-        this.ouvert = true;
+        //this.ouvert = true;
 
         LocalTime startTimeDay = dayTime.getHeureDebut();
         LocalTime endTimeDay = dayTime.getHeureFin();
@@ -169,7 +183,7 @@ public class Jour {
             // Vérification des indisponibilités
             if (indispoSurJournee) {
                 System.out.println("recherche d'indispo creneau par creneau..." + timeNow);
-                for (Indisponibilite indispo : indisponibiliteIterator) {
+                for (Indisponibilite indispo : indispoDuJour) {
                     CleCompositeIndisponibilite i = indispo.getCleCompositeIndisponibilite();
 
                     if (timeNow.plusMinutes(dureeRDV).isAfter(i.getDebutHeure())
@@ -215,7 +229,13 @@ public class Jour {
             listRdvDay.add(rdvActuelle);
 
         }
-        System.out.println("il y a : " + listRdvDay.size() + " rdvs");
+        System.out.println("il y a : " + listRdvDay.size() + " rdvs sur la journée du " + this.date + "pour en parametres : " + selectedDate);
+        if(listRdvDay.size() == 0) {
+            System.out.println("la liste est vide !!!!!!! donc on ferme le jour");
+            this.ouvert = false;
+        } else {
+            this.ouvert = true;
+        }
         return listRdvDay;
     }
 }

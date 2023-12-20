@@ -29,3 +29,7 @@ INSERT INTO Contraintes (DUREE_DEFAULT_MINUTES, NB_PERSONNE_MAX_DEFAULT, ADRESSE
 
 
 INSERT INTO Indisponibilite (jour, debut_heure, fin_heure, motif) values ('2023-12-12', '10:19:00', '10:42:00', 'indispo');
+INSERT INTO Indisponibilite (jour, debut_heure, fin_heure, motif) values ('2023-12-13', '12:00:00', '14:00:00', 'indispo');
+
+INSERT INTO Indisponibilite (jour, debut_heure, fin_heure, motif) values ('2023-12-21', '08:00:00', '20:42:00', 'indispo');
+INSERT INTO Indisponibilite (jour, debut_heure, fin_heure, motif) values ('2023-12-25', '08:00:00', '20:42:00', 'indispo');

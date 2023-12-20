@@ -59,6 +59,12 @@ td {
     padding: 10px;
 }
 
+/* Style spécifique pour les jours passés avec !important */
+.cellule.passed{
+    background-color: gray !important;
+    pointer-events: none !important;
+  }
+
 .dayNumber {
     padding: 10px;
     font-weight: bold;
