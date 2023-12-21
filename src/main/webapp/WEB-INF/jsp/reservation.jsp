@@ -45,6 +45,14 @@
         ajouté au rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()}</h1>
         <h2>Impossible de re-réserver le rdv !</h2>
 
+    <% }else if(statut.equals("old")){ %>
+        <h1> Malheureusement, le créneau du rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()} est déja passé !</h1>
+        <h2>Impossible de réserver ce rdv, nous ne pouvons pas encore revenir dans le passé...</h2>
+
+    <% }else if(statut.equals("chevauchement")){ %>
+        <h1> Malheureusement, le créneau du rendez-vous du ${rdv.getJour()} à ${rdv.getHeure()} chevauche un autre rdv !</h1>
+        <h2>Impossible de réserver ce rdv, vous n'êtes pas prioritaire...</h2>
+
     <% }else{ %>
         <h1>Nous rencontrons une erreur lors de la réservation de votre rendez-vous.</h1>
         <h2>Nous vous invitons à ressayer via la page d'accueil.</h2>

@@ -13,20 +13,27 @@ import fr.sae502.uniplanify.models.Rdv;
 
 public interface RdvRepository extends CrudRepository<Rdv, CleCompositeRDV> {
 
-    @Query("SELECT r from Rdv r " +
-           "JOIN r.participants p " +
-           "WHERE p.id = :clientId " +
-           "ORDER BY r.cleCompositeRDV.jour ASC, r.cleCompositeRDV.heure ASC")
-    List<Rdv> findRdvsByClientId(@Param("clientId") int clientId);
+       @Query("SELECT r from Rdv r " +
+                     "JOIN r.participants p " +
+                     "WHERE p.id = :clientId " +
+                     "ORDER BY r.cleCompositeRDV.jour ASC, r.cleCompositeRDV.heure ASC")
+       List<Rdv> findRdvsByClientId(@Param("clientId") int clientId);
+
+       @Query("SELECT r from Rdv r " +
+                     "JOIN r.participants p " +
+                     "WHERE r.cleCompositeRDV.jour = :day " +
+                     "AND r.cleCompositeRDV.heure >= :startTime " +
+                     "AND r.cleCompositeRDV.heure <= :endTime " +
+                     "ORDER BY r.cleCompositeRDV.jour ASC, r.cleCompositeRDV.heure ASC")
+       List<Rdv> findInIndispo(LocalDate day, LocalTime startTime, LocalTime endTime);
 
 
-    @Query("SELECT r from Rdv r " +
-           "JOIN r.participants p " +
-           "WHERE r.cleCompositeRDV.jour = :day " +
-           "AND r.cleCompositeRDV.heure >= :startTime " +
-           "AND r.cleCompositeRDV.heure <= :endTime " +
-           "ORDER BY r.cleCompositeRDV.jour ASC, r.cleCompositeRDV.heure ASC")
-    List<Rdv> findInIndispo(LocalDate day, LocalTime startTime, LocalTime endTime);
+       @Query("SELECT r from Rdv r ORDER BY r.cleCompositeRDV.jour DESC, r.cleCompositeRDV.heure DESC")
+       List<Rdv> findLastRdv();
 
+       default Rdv findLastRdvSingle() {
+              List<Rdv> rdvs = findLastRdv();
+              return rdvs.isEmpty() ? null : rdvs.get(0);
+       }
 
 }

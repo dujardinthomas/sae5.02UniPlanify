@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -101,6 +103,17 @@ public class RdvController {
         LocalTime heureDuRdv = LocalTime.of(hours, minutes, 0);
         System.out.println(dateDuRdv);
 
+        Utilisateur user = sessionBean.getUtilisateur();
+        // Utilisateur user = utilisateurRepository.findById(1).orElse(null);
+        mav.addObject("user", user);
+        
+        Map.Entry<Boolean,String> rdvPossibleStatus = getBooleanRdvPossible(dateDuRdv, heureDuRdv).entrySet().iterator().next();
+        
+        if(!rdvPossibleStatus.getKey()) {
+            mav.addObject("status", rdvPossibleStatus.getValue());
+            mav.addObject("rdv", new Rdv(new CleCompositeRDV(dateDuRdv, heureDuRdv), null, null));
+            return mav;
+        }
         LocalDateTime heureActuelle = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yy");
         String jjMMyy = heureActuelle.format(format);
@@ -111,16 +124,10 @@ public class RdvController {
         cleRDV.setJour(dateDuRdv);
         Rdv rdvExistant = rdvRepository.findById(cleRDV).orElse(null);
 
-        Iterable<Contraintes> contraintes = contraintesRepository.findAll();
-        int nbPersonne = 0;
-        for (Contraintes contrainte : contraintes) {
-            System.out.println(contrainte);
-            nbPersonne = contrainte.getNbPersonneMaxDefault();
-        }
+        Contraintes contraintes = contraintesRepository.findAll().iterator().next();
+        int nbPersonne = contraintes.getNbPersonneMaxDefault();
 
-        Utilisateur user = sessionBean.getUtilisateur();
-        // Utilisateur user = utilisateurRepository.findById(1).orElse(null);
-        mav.addObject("user", user);
+        
         String etat = "";
 
         if (rdvExistant != null) {
@@ -160,5 +167,35 @@ public class RdvController {
             mav.addObject("rdv", nouveauRdv);
         }        
         return mav;
+    }
+
+    private Map<Boolean, String> getBooleanRdvPossible(LocalDate dateDuRdv, LocalTime heureDuRdv) {
+        Map<Boolean, String> statut = new HashMap<>();
+        LocalDateTime heureActuelle = LocalDateTime.now();
+        LocalDateTime heureDuRdvComplete = LocalDateTime.of(dateDuRdv, heureDuRdv);
+
+        //On cherche le dernier rdv
+        Rdv lastRDV = rdvRepository.findLastRdvSingle();
+        System.out.println("lastRDV : " + lastRDV);
+        if(lastRDV == null) {
+            System.out.println("Erreur lors de la recherche du dernier rdv ");
+            statut.put(true, "erreur lors de la recherche du dernier rdv");
+            return statut;
+        }
+
+        //On vérifie si le rdv est dans le passé
+        if (heureDuRdvComplete.isBefore(heureActuelle)) {
+            statut.put(false, "old");
+            return statut;
+        }
+
+        //On vérifie si le rdv chevauche un autre rdv
+        int dureeRDV = contraintesRepository.findAll().iterator().next().getDureeDefaultMinutes();
+        if (lastRDV.getHeure().plusMinutes(dureeRDV).isAfter(heureDuRdv) && lastRDV.getCleCompositeRDV().getJour().equals(dateDuRdv)) {
+            statut.put(false, "chevauchement");
+            return statut;
+        }
+        statut.put(true, "ok");
+        return statut;
     }
 }
