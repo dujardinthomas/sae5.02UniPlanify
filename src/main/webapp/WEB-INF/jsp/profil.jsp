@@ -28,7 +28,7 @@
 
     <div class="update-profile">
         <h2>Mettre à jour les informations de compte</h2>
-        <form action="profil" method="post">
+        <form action="profil" method="post" enctype="multipart/form-data">
             <div class="container">
                 <label for="uname"><b>Nom</b></label>
                 <input type="text" placeholder="Enter votre nom" name="nom" value="${user.getNom()}" required>
@@ -42,6 +42,8 @@
                 <label for="psw"><b>Mot de passe</b></label>
                 <input type="password" placeholder="Entrer votre mot de passe" name="password" value="${user.getPassword()}" required>
 
+                <input type="file" name="avatar"/>
+
                 <input type="hidden" name="origine" value="${origine}" >
 
                 <button type="submit">Appliquer les changements</button>
@@ -51,10 +53,10 @@
     </div>
 
 
-    <form method="post" action="/fileuploadservlet" enctype="multipart/form-data">
+    <!-- <form method="post" action="/fileuploadservlet" enctype="multipart/form-data">
         <input type="file" name="file" />
         <input type="submit" value="Upload" />
-    </form>
+    </form> -->
 
 
     Voici votre image actuel :
