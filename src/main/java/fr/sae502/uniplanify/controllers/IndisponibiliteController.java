@@ -78,7 +78,7 @@ public class IndisponibiliteController {
      * de temps de l'indisponibilité
      */
     private List<Rdv> removeRdvsReserves(LocalDate day, LocalTime startTime, LocalTime endTime) {
-        List<Rdv> allRdvInIndispo = rdvRepository.findInIndispo(day, startTime, endTime);
+        List<Rdv> allRdvInIndispo = rdvRepository.findInPeriode(day, startTime, endTime);
         EnvoieUnMail envoieUnMail = new EnvoieUnMail();
         for (Rdv rdv : allRdvInIndispo) {
             for (Utilisateur user : rdv.getParticipants()) {

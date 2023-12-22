@@ -25,14 +25,25 @@ public interface RdvRepository extends CrudRepository<Rdv, CleCompositeRDV> {
                      "AND r.cleCompositeRDV.heure >= :startTime " +
                      "AND r.cleCompositeRDV.heure <= :endTime " +
                      "ORDER BY r.cleCompositeRDV.jour ASC, r.cleCompositeRDV.heure ASC")
-       List<Rdv> findInIndispo(LocalDate day, LocalTime startTime, LocalTime endTime);
+       List<Rdv> findInPeriode(LocalDate day, LocalTime startTime, LocalTime endTime);
 
 
-       @Query("SELECT r from Rdv r ORDER BY r.cleCompositeRDV.jour DESC, r.cleCompositeRDV.heure DESC")
-       List<Rdv> findLastRdv();
+       // @Query("SELECT r from Rdv r ORDER BY r.cleCompositeRDV.jour DESC, r.cleCompositeRDV.heure DESC")
+       // List<Rdv> findLastRdv();
 
-       default Rdv findLastRdvSingle() {
-              List<Rdv> rdvs = findLastRdv();
+       // default Rdv findLastRdvSingle() {
+       //        List<Rdv> rdvs = findLastRdv();
+       //        return rdvs.isEmpty() ? null : rdvs.get(0);
+       // }
+
+       @Query("SELECT r from Rdv r " +
+              "WHERE r.cleCompositeRDV.jour < :day " +
+              "OR (r.cleCompositeRDV.jour = :day AND r.cleCompositeRDV.heure < :time) " +
+              "ORDER BY r.cleCompositeRDV.jour DESC, r.cleCompositeRDV.heure DESC")
+       List<Rdv> findPreviousRdv(LocalDate day, LocalTime time);
+
+       default Rdv findPreviousRdvSingle(LocalDate day, LocalTime time) {
+              List<Rdv> rdvs = findPreviousRdv(day, time);
               return rdvs.isEmpty() ? null : rdvs.get(0);
        }
 

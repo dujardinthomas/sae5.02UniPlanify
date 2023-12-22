@@ -24,6 +24,7 @@ import fr.sae502.uniplanify.models.EnvoieUnMail;
 import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
+import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
 import fr.sae502.uniplanify.repository.RdvRepository;
 
 @Controller
@@ -38,6 +39,9 @@ public class RdvController {
     private RdvRepository rdvRepository;
     @Autowired
     private ContraintesRepository contraintesRepository;
+
+    @Autowired
+    private IndisponibiliteRepository indisponibiliteRepository;
 
     @Autowired
     private SessionBean sessionBean;
@@ -126,7 +130,6 @@ public class RdvController {
 
         Contraintes contraintes = contraintesRepository.findAll().iterator().next();
         int nbPersonne = contraintes.getNbPersonneMaxDefault();
-
         
         String etat = "";
 
@@ -174,27 +177,29 @@ public class RdvController {
         LocalDateTime heureActuelle = LocalDateTime.now();
         LocalDateTime heureDuRdvComplete = LocalDateTime.of(dateDuRdv, heureDuRdv);
 
-        //On cherche le dernier rdv
-        Rdv lastRDV = rdvRepository.findLastRdvSingle();
-        System.out.println("lastRDV : " + lastRDV);
-        if(lastRDV == null) {
-            System.out.println("Erreur lors de la recherche du dernier rdv ");
-            statut.put(true, "erreur lors de la recherche du dernier rdv");
-            return statut;
-        }
-
-        //On vérifie si le rdv est dans le passé
+        //1.On vérifie si le rdv est dans le passé
         if (heureDuRdvComplete.isBefore(heureActuelle)) {
             statut.put(false, "old");
             return statut;
         }
 
-        //On vérifie si le rdv chevauche un autre rdv
+        //2.On verifie si le rdv est dans les horaires d'ouverture
+        //TODO
+
+        
+        //3.On verifie si le rdv chevauche le precedent
+        Rdv previousRDV = rdvRepository.findPreviousRdvSingle(dateDuRdv, heureDuRdv);
+        System.out.println("previousRDV : " + previousRDV);
         int dureeRDV = contraintesRepository.findAll().iterator().next().getDureeDefaultMinutes();
-        if (lastRDV.getHeure().plusMinutes(dureeRDV).isAfter(heureDuRdv) && lastRDV.getCleCompositeRDV().getJour().equals(dateDuRdv)) {
+        if (previousRDV != null && previousRDV.getHeure().plusMinutes(dureeRDV).isAfter(heureDuRdv) && previousRDV.getCleCompositeRDV().getJour().equals(dateDuRdv)) {
             statut.put(false, "chevauchement");
+            System.out.println("chevauchement avec le rdv precedent");
             return statut;
         }
+
+        //4.On verifie si le rdv est dans une indisponibilité
+        //TODO
+        
         statut.put(true, "ok");
         return statut;
     }
