@@ -4,18 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import fr.sae502.uniplanify.login.SessionBean;
 import fr.sae502.uniplanify.models.Indisponibilite;
 import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;
@@ -26,9 +26,6 @@ import fr.sae502.uniplanify.repository.UtilisateurRepository;
 @Controller
 @RequestMapping(value = "/pro")
 public class ProController {
-
-    @Autowired
-    private SessionBean sessionBean;
 
     @Autowired
     private RdvRepository rdvRepository;
@@ -42,41 +39,43 @@ public class ProController {
     private Utilisateur user;
 
     @RequestMapping(value = { "", "/" })
-    public ModelAndView espacePro() {
-        user = sessionBean.getUtilisateur();
-        ModelAndView mav = new ModelAndView("pro");
-        mav.addObject("user", user);
-        mav.addObject("rdvs", (List<Rdv>) rdvRepository.findAll());
-        mav.addObject("listIndispo", (List<Indisponibilite>) indisponibiliteRepository.findAll());
-        return mav;
+    public String espacePro(Principal principal, Model model) {
+        user = utilisateurRepository.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("rdvs", (List<Rdv>) rdvRepository.findAll());
+        model.addAttribute("listIndispo", (List<Indisponibilite>) indisponibiliteRepository.findAll());
+        return "pro";
     }
 
     @GetMapping(value = "/profil")
-    public ModelAndView getProfil() {
-        ModelAndView mav = new ModelAndView("profil");
-        mav.addObject("user", user);
-        mav.addObject("origine", "redirect:/pro");
-        return mav;
+    public String getProfil(Model model, Principal principal) {
+        user = utilisateurRepository.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("origine", "redirect:/pro");
+        return "profil";
     }
 
     @PostMapping(value = "/profil")
-    public ModelAndView majProfil(
+    public String majProfil(
             @RequestParam(value = "nom", defaultValue = "") String nom,
             @RequestParam(value = "prenom", defaultValue = "") String prenom,
             @RequestParam(value = "email", defaultValue = "") String email,
             @RequestParam(value = "password", defaultValue = "") String password,
             @RequestParam(value = "origine", defaultValue = "/") String origine,
-            @RequestParam(value="avatar") MultipartFile avatar) {
+            @RequestParam(value = "avatar") MultipartFile avatar, 
+            Principal principal) {
 
-        if(!avatar.isEmpty()){
-            String fileName = avatar.getOriginalFilename();
+        user = utilisateurRepository.findByEmail(principal.getName());
+
+        if (!avatar.isEmpty()) {
+            String fileName = avatar.getOriginalFilename() + "";
             try {
                 String newFile = "profil_" + user.getId() + fileName.substring(fileName.lastIndexOf("."));
-                
+
                 Path cheminDuRepertoireActuel = Paths.get("").toAbsolutePath();
                 String emplacement = cheminDuRepertoireActuel + "/src/main/resources/static/img/profils/";
                 String filePath = emplacement + newFile;
-                
+
                 File dest = new File(filePath);
                 avatar.transferTo(dest);
                 user.setUrlphoto("../img/profils/" + newFile);
@@ -84,15 +83,12 @@ public class ProController {
                 e.printStackTrace();
             }
         }
-
-        ModelAndView mav = new ModelAndView(origine);
-        user = sessionBean.getUtilisateur();
         user.setNom(nom);
         user.setPrenom(prenom);
         user.setEmail(email);
         user.setPassword(password);
-        sessionBean.setUtilisateur(user);
+        // sessionBean.setUtilisateur(user);
         System.out.println("dans la base : ? " + utilisateurRepository.save(user));
-        return mav;
+        return origine;
     }
 }

@@ -11,5 +11,8 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur, Integ
     // Méthode pour trouver un utilisateur par email et mot de passe
     @Query("SELECT u FROM Utilisateur u WHERE u.email = :email AND u.password = :password")
     Utilisateur findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
+
+    @Query("SELECT u FROM Utilisateur u WHERE u.email =:email")
+    Utilisateur findByEmail(@Param("email") String email);
     
 }

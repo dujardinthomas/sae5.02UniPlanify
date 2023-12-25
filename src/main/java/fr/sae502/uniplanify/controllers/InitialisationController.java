@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import fr.sae502.uniplanify.models.Contraintes;
 import fr.sae502.uniplanify.models.JourneeTypePro;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
@@ -32,15 +31,14 @@ public class InitialisationController {
     private ContraintesRepository contraintesRepository;
 
     @GetMapping(value = "/initialisation")
-    public ModelAndView initialisation() {
-        ModelAndView mav = new ModelAndView("initialisation");
+    public String initialisation(Model model) {
         try {
-            mav.addObject("contraintes", contraintesRepository.findAll().iterator().next());
+            model.addAttribute("contraintes", contraintesRepository.findAll().iterator().next());
         } catch (Exception e){
             System.out.println("pas de contraintes enregistrées");
-            mav.addObject("contraintes", null);
+            model.addAttribute("contraintes", null);
         }
-        return mav;
+        return "initialisation";
     }
 
     @PostMapping(value = "init")

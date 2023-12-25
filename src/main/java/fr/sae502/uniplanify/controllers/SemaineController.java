@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import fr.sae502.uniplanify.models.Semaine;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
@@ -30,12 +30,13 @@ public class SemaineController {
 
     @RequestMapping(value = "/week")
     @Transactional
-    public ModelAndView semaine(@RequestParam(defaultValue = "0") int dayDebut,
+    public String semaine(@RequestParam(defaultValue = "0") int dayDebut,
             @RequestParam(defaultValue = "0") int monthDebut,
             @RequestParam(defaultValue = "0") int yearDebut,
             @RequestParam(defaultValue = "0") int dayFin,
             @RequestParam(defaultValue = "0") int monthFin,
-            @RequestParam(defaultValue = "0") int yearFin) {
+            @RequestParam(defaultValue = "0") int yearFin,
+            Model model) {
 
         LocalDate currentDate = LocalDate.now();
         if (dayDebut == 0) {
@@ -79,24 +80,23 @@ public class SemaineController {
         int monthFinNextWeek = endOfNextWeek.getMonthValue();
         int yearFinNextWeek = endOfNextWeek.getYear();
 
-        ModelAndView mav = new ModelAndView("semaine");
-        mav.addObject("dayDebutPreviousWeek", dayDebutPreviousWeek);
-        mav.addObject("monthDebutPreviousWeek", monthDebutPreviousWeek);
-        mav.addObject("yearDebutPreviousWeek", yearDebutPreviousWeek);
-        mav.addObject("dayFinPreviousWeek", dayFinPreviousWeek);
-        mav.addObject("monthFinPreviousWeek", monthFinPreviousWeek);
-        mav.addObject("yearFinPreviousWeek", yearFinPreviousWeek);
+        model.addAttribute("dayDebutPreviousWeek", dayDebutPreviousWeek);
+        model.addAttribute("monthDebutPreviousWeek", monthDebutPreviousWeek);
+        model.addAttribute("yearDebutPreviousWeek", yearDebutPreviousWeek);
+        model.addAttribute("dayFinPreviousWeek", dayFinPreviousWeek);
+        model.addAttribute("monthFinPreviousWeek", monthFinPreviousWeek);
+        model.addAttribute("yearFinPreviousWeek", yearFinPreviousWeek);
 
-        mav.addObject("dayDebutNextWeek", dayDebutNextWeek);
-        mav.addObject("monthDebutNextWeek", monthDebutNextWeek);
-        mav.addObject("yearDebutNextWeek", yearDebutNextWeek);
-        mav.addObject("dayFinNextWeek", dayFinNextWeek);
-        mav.addObject("monthFinNextWeek", monthFinNextWeek);
-        mav.addObject("yearFinNextWeek", yearFinNextWeek);
+        model.addAttribute("dayDebutNextWeek", dayDebutNextWeek);
+        model.addAttribute("monthDebutNextWeek", monthDebutNextWeek);
+        model.addAttribute("yearDebutNextWeek", yearDebutNextWeek);
+        model.addAttribute("dayFinNextWeek", dayFinNextWeek);
+        model.addAttribute("monthFinNextWeek", monthFinNextWeek);
+        model.addAttribute("yearFinNextWeek", yearFinNextWeek);
 
-        mav.addObject("semaine", semaine);
+        model.addAttribute("semaine", semaine);
 
-        return mav;
+        return "semaine";
     }
 
 }

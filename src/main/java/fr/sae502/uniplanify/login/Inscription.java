@@ -1,6 +1,7 @@
 package fr.sae502.uniplanify.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +27,17 @@ public class Inscription {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam String origine) {
-        boolean pro =false;
+
+        String authority = "ROLE_USER";
         if(!utilisateurRepository.findById(1).isPresent()) {
             System.out.println("pas d'utilisateur enregistré, on l'enregistre en pro");
-            pro = true;
+            authority = "ROLE_ADMIN";
         }
-        Utilisateur user = new Utilisateur(nom, prenom, email, password, pro, "../img/profils/default.jpg");
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(password);
+
+        Utilisateur user = new Utilisateur(nom, prenom, email, hashedPassword, "../img/profils/default.jpg", authority, true);
         utilisateurRepository.save(user);
         System.out.println("Utilisateur " + user.getEmail() + "enregistré");
         return "redirect:/login?msg=UtilisateurEnregistré&origine=" + origine;

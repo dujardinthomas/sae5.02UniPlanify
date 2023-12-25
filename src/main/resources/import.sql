@@ -1,16 +1,20 @@
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('admin', 'admin', 'uniplanify@gmail.com', 'a', true, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('b', 'b', 'thomasdujardin2003@gmail.com', 'b', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('c', 'c', 'thoduj123@gmail.com', 'c', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('d', 'd', 'd', 'd', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('e', 'e', 'e', 'e', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('f', 'f', 'f', 'f', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('g', 'g', 'g', 'g', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('h', 'h', 'h', 'h', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('i', 'i', 'i', 'i', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('j', 'j', 'j', 'j', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('k', 'k', 'k', 'k', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('l', 'l', 'l', 'l', false, '../img/profils/default.jpg');
-INSERT INTO utilisateur (nom, prenom, email, password, pro, urlphoto) VALUES ('m', 'm', 'm', 'm', false, '../img/profils/default.jpg');
+-- LE MOT DE PASSE EST 'a'
+INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('admin', 'admin', 'a', '$2a$10$H0i7FQJI2CbrX.AH.9TkduRfB26DuS4MNhclaf680wm/ilhYEjc4G', '../img/profils/default.jpg', 'ROLE_ADMIN', true);
+INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('b', 'b', 'b', '$2a$10$H0i7FQJI2CbrX.AH.9TkduRfB26DuS4MNhclaf680wm/ilhYEjc4G', '../img/profils/default.jpg', 'ROLE_USER', true);
+
+
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('b', 'b', 'thomasdujardin2003@gmail.com', 'b', '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('c', 'c', 'thoduj123@gmail.com', 'c', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('d', 'd', 'd', 'd', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('e', 'e', 'e', 'e', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('f', 'f', 'f', 'f', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('g', 'g', 'g', 'g', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('h', 'h', 'h', 'h', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('i', 'i', 'i', 'i', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('j', 'j', 'j', 'j', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('k', 'k', 'k', 'k', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('l', 'l', 'l', 'l', false, '../img/profils/default.jpg');
+-- INSERT INTO utilisateur (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('m', 'm', 'm', 'm', false, '../img/profils/default.jpg');
 
 
 

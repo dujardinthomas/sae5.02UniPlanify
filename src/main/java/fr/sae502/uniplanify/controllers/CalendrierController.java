@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import fr.sae502.uniplanify.models.Calendrier;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
@@ -30,8 +30,8 @@ public class CalendrierController {
 
     @RequestMapping(value = "/")
     @Transactional
-    public ModelAndView calendrier(@RequestParam(defaultValue = "0") int year, 
-                                    @RequestParam(defaultValue = "0") int month) {
+    public String calendrier(@RequestParam(defaultValue = "0") int year, 
+                                    @RequestParam(defaultValue = "0") int month, Model model) {
 
         LocalDate currentDate = LocalDate.now();
         if (month == 0) {
@@ -48,14 +48,13 @@ public class CalendrierController {
         int nextMonth = month == 12 ? 1 : month + 1;
         int nextYear = month == 12 ? year + 1 : year;
 
-        ModelAndView mav = new ModelAndView("calendrier");
-        mav.addObject("previousYear", previousYear);
-        mav.addObject("previousMonth", previousMonth);
-        mav.addObject("nextYear", nextYear);
-        mav.addObject("nextMonth", nextMonth);
-        mav.addObject("calendrier", calendrier);
+        model.addAttribute("previousYear", previousYear);
+        model.addAttribute("previousMonth", previousMonth);
+        model.addAttribute("nextYear", nextYear);
+        model.addAttribute("nextMonth", nextMonth);
+        model.addAttribute("calendrier", calendrier);
 
-        return mav;
+        return "calendrier";
     }
 
     

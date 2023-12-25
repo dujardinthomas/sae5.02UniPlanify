@@ -14,10 +14,10 @@
         <nav>
             <ul>
                 <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../perso">Mon espace</a></li>
+                <li><a href="../my">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
                 <li><a href="../contact">Contact</a></li>
-                <li><a href="../deconnexion">Deconnexion</a></li>
+                <li><a href="../logout">Deconnexion</a></li>
             </ul>
         </nav>
     </header>
@@ -47,6 +47,7 @@
         <input type="password" placeholder="Enter Password" name="password" required>
 
         <input type="hidden" name="origine" value="${sessionScope['scopedTarget.sessionBean'].getOrigine()}" >
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
         <button type="submit">Login</button>
       </div>

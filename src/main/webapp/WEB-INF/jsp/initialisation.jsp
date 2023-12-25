@@ -13,10 +13,10 @@
         <nav>
             <ul>
                 <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../perso">Mon espace</a></li>
+                <li><a href="../my">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
                 <li><a href="../contact">Contact</a></li>
-                <li><a href="../deconnexion">Deconnexion</a></li>
+                <li><a href="../logout">Deconnexion</a></li>
             </ul>
         </nav>
     </header>
@@ -98,6 +98,7 @@
             </tr>
         </table>
 
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="submit" value="Enregistrer">
     </form>
 

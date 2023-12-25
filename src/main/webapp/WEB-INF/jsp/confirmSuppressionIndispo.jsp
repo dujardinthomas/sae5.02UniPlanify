@@ -19,10 +19,10 @@
         <nav>
             <ul>
                 <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../perso">Mon espace</a></li>
+                <li><a href="../my">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
                 <li><a href="../contact">Contact</a></li>
-                <li><a href="../deconnexion">Deconnexion</a></li>
+                <li><a href="../logout">Deconnexion</a></li>
             </ul>
         </nav>
     </header>
@@ -37,4 +37,6 @@ du ${indispo.getJour()} de ${indispo.getDebutHeure()} à ${indispo.getFinHeure()
     <input type="hidden" name="jour" value="${indispo.getJour()}">
     <input type="hidden" name="debutHeure" value="${indispo.getDebutHeure()}">
     <input type="hidden" name="finHeure" value="${indispo.getFinHeure()}">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
 </form>

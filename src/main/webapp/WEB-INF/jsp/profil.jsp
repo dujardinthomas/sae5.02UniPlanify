@@ -14,10 +14,10 @@
         <nav>
             <ul>
                 <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../perso">Mon espace</a></li>
+                <li><a href="../my">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
                 <li><a href="../contact">Contact</a></li>
-                <li><a href="../deconnexion">Deconnexion</a></li>
+                <li><a href="../logout">Deconnexion</a></li>
             </ul>
         </nav>
     </header>
@@ -45,6 +45,9 @@
                 <input type="file" name="avatar"/>
 
                 <input type="hidden" name="origine" value="${origine}" >
+
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
 
                 <button type="submit">Appliquer les changements</button>
             </div>
