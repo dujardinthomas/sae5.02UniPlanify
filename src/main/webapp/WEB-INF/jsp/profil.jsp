@@ -39,8 +39,11 @@
                 <label for="uname"><b>Mail (identifiant)</b></label>
                 <input type="text" placeholder="Entrer votre mail" name="email" value="${user.getEmail()}" required>
 
-                <label for="psw"><b>Mot de passe</b></label>
-                <input type="password" placeholder="Entrer votre mot de passe" name="password" value="${user.getPassword()}" required>
+                <label for="psw"><b>Ancien mot de passe</b></label>
+                <input type="password" placeholder="Entrer votre mot de passe" name="oldPassword" required>
+
+                <label for="psw"><b>Nouveau mot de passe</b></label>
+                <input type="password" placeholder="Entrer votre nouveau mot de passe" name="newPassword" required>
 
                 <input type="file" name="avatar"/>
 

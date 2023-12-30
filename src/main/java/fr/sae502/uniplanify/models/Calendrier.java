@@ -84,7 +84,7 @@ public class Calendrier {
             LocalDate now = LocalDate.of(year, month, day);
             Jour jour = null;
             String dayOfWeek = now.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRENCH);
-            if (dayWork.contains(dayOfWeek.toString())) {
+            if (dayWork.contains(dayOfWeek.toString()) && (now.isAfter(LocalDate.now()) || now.equals(LocalDate.now()))) {
                 // si ouvert lien cliquable
                 jour = new Jour(now, true, constraintRepository, journeeTypeProRepository, indisponibiliteRepository,
                     rdvRepository);

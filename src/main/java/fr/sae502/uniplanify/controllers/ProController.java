@@ -8,6 +8,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,9 +61,10 @@ public class ProController {
             @RequestParam(value = "nom", defaultValue = "") String nom,
             @RequestParam(value = "prenom", defaultValue = "") String prenom,
             @RequestParam(value = "email", defaultValue = "") String email,
-            @RequestParam(value = "password", defaultValue = "") String password,
+            @RequestParam(value = "oldPassword", defaultValue = "") String oldPassword,
+            @RequestParam(value = "newPassword", defaultValue = "") String newPassword,
             @RequestParam(value = "origine", defaultValue = "/") String origine,
-            @RequestParam(value = "avatar") MultipartFile avatar, 
+            @RequestParam(value = "avatar") MultipartFile avatar,
             Principal principal) {
 
         user = utilisateurRepository.findByEmail(principal.getName());
@@ -86,8 +88,16 @@ public class ProController {
         user.setNom(nom);
         user.setPrenom(prenom);
         user.setEmail(email);
-        user.setPassword(password);
-        // sessionBean.setUtilisateur(user);
+        
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if( passwordEncoder.matches(oldPassword, user.getPassword()) ){
+            System.out.println("ancien mot de passe saisie correct, on l'autorise a changer !");
+            user.setPassword(passwordEncoder.encode(newPassword));
+        }else{
+            System.out.println("ancien mot de passe saisie incorrect, on l'autorise pas a changer !");
+        }
+
         System.out.println("dans la base : ? " + utilisateurRepository.save(user));
         return origine;
     }

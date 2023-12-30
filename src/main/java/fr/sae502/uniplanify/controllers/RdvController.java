@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import fr.sae502.uniplanify.models.CleCompositeRDV;
 import fr.sae502.uniplanify.models.Contraintes;
 import fr.sae502.uniplanify.models.EnvoieUnMail;
+import fr.sae502.uniplanify.models.Indisponibilite;
+import fr.sae502.uniplanify.models.JourneeTypePro;
 import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.Utilisateur;
 import fr.sae502.uniplanify.repository.ContraintesRepository;
 import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
+import fr.sae502.uniplanify.repository.JourneeTypeProRepository;
 import fr.sae502.uniplanify.repository.RdvRepository;
 import fr.sae502.uniplanify.repository.UtilisateurRepository;
 
@@ -42,6 +47,9 @@ public class RdvController {
 
     @Autowired
     private IndisponibiliteRepository indisponibiliteRepository;
+
+    @Autowired 
+    private JourneeTypeProRepository journeeTypeProRepository;
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
@@ -188,7 +196,12 @@ public class RdvController {
         }
 
         // 2.On verifie si le rdv est dans les horaires d'ouverture
-        // TODO
+        String dayStringNumberMonthYear = dateDuRdv.format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH));
+        JourneeTypePro journeesTypePro = journeeTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get();
+        if(heureDuRdv.isBefore(journeesTypePro.getHeureDebut()) || heureDuRdv.isAfter(journeesTypePro.getHeureFin())) {
+            statut.put(false, "hors horaires");
+            return statut;
+        }
 
         // 3.On verifie si le rdv chevauche le precedent
         Rdv previousRDV = rdvRepository.findPreviousRdvSingle(dateDuRdv, heureDuRdv);
@@ -203,6 +216,12 @@ public class RdvController {
 
         // 4.On verifie si le rdv est dans une indisponibilité
         // TODO
+        // Indisponibilite indispo = indisponibiliteRepository.finByCreneau(dateDuRdv, heureDuRdv);
+        // System.out.println(indispo);
+        // if(indispo != null){
+        //     statut.put(false, "indispo");
+        //     System.out.println("ya une indispo !");
+        // }
 
         statut.put(true, "ok");
         return statut;

@@ -39,8 +39,8 @@ public class Inscription {
 
         Utilisateur user = new Utilisateur(nom, prenom, email, hashedPassword, "../img/profils/default.jpg", authority, true);
         utilisateurRepository.save(user);
-        System.out.println("Utilisateur " + user.getEmail() + "enregistré");
-        return "redirect:/login?msg=UtilisateurEnregistré&origine=" + origine;
+        System.out.println("Utilisateur " + user + " : enregistré");
+        return "redirect:/"+origine;
     }
 
 }

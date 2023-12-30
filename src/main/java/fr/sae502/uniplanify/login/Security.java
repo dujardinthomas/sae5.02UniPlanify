@@ -34,11 +34,22 @@ public class Security {
                                 // RESTRICION DES ACCES TOUJOURS FINIR PAR ANYREQUEST POUR LE RESTE
                                 .requestMatchers(mvc.pattern("/pro/**")).hasRole("ADMIN")
                                 .requestMatchers(mvc.pattern("/perso/**")).hasRole("USER")
-                                .requestMatchers(mvc.pattern("/rdv/**")).authenticated()                                
+                                .requestMatchers(mvc.pattern("/rdv/**")).authenticated()
+                                // .requestMatchers("/h2-console/**").permitAll() // Add this line to permit access to H2 console
+                                // .csrf().disable() // Désactiver CSRF pour la console H2
+                                //  // Désactiver X-Frame-Options pour H2 (pour pouvoir l'afficher dans un iframe)
                                 .anyRequest().permitAll())
 
                                 // ACTIVE LE FORMULAIRE DE CONNEXION /LOGIN + ENDPOINT DECONNEXION /LOGOUT
-                                .formLogin(Customizer.withDefaults())
+                                 .formLogin(Customizer.withDefaults())
+
+                                // .formLogin( (form) -> form
+                                //         .loginPage("/login")
+                                // //         .permitAll()
+                                // //         // .loginProcessingUrl("/login")
+                                // //         // .defaultSuccessUrl("/", true)
+                                // //         // .failureUrl("/login?msg=erreur")
+                                // )
 
                                 // REDIRECTION SUR PAGE ACCUEIL APRES DECONNEXION
                                 .logout(configurer -> configurer.logoutSuccessUrl("/"))
@@ -51,28 +62,6 @@ public class Security {
 
     @Bean
     public UserDetailsService mesutilisateurs() {
-        // System.out.println("ON VA CHARGER LES USERS");
-        // UserDetails user1 = User.withUsername("a")
-        //         .password(encoder().encode("a"))
-        //         .roles("ADMIN")
-        //         .build();
-
-        // UserDetails user2 = User.withUsername("u")
-        //         .password(encoder().encode("u"))
-        //         .roles("USER")
-        //         .build();
-        // return new InMemoryUserDetailsManager(user1, user2);
-
-        // JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        // users.deleteUser("a");
-        // users.deleteUser("u");
-        // users.createUser(user1);
-        // users.createUser(user2);
-
-
-        //UserDetails user1 = loadUserByUsername("thomas");
-
-
         String usersByUsernameQuery = "select email, password, enabled from utilisateur where email = ?";
         String authsByUserQuery = "select email, authority from utilisateur where email = ?";
         System.out.println("REQUETE : ");
@@ -82,7 +71,6 @@ public class Security {
         
         users.setUsersByUsernameQuery(usersByUsernameQuery);
         users.setAuthoritiesByUsernameQuery(authsByUserQuery);
-
         return users;
     }
 
