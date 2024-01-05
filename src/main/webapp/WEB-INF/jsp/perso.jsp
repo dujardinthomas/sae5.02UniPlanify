@@ -2,7 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="fr.sae502.uniplanify.models.Rdv" %>
-<%@ page import="fr.sae502.uniplanify.models.Utilisateur" %>
+<%@ page import="fr.sae502.uniplanify.models.UserAccount" %>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,6 +39,7 @@
             <th>Prenom</th>
             <th>Etat</th>
             <th>Commentaire</th>
+            <th colspan=1>Gestion</th>
         </tr>
     </thead>
     <tbody>
@@ -48,12 +49,12 @@
         for (Rdv rdv : rdvsList) { 
         %>
             <tr>
-                <td><%= rdv.getJour() %></td>
-                <td><%= rdv.getHeure() %></td>
+                <td><%= rdv.getLocalDate() %></td>
+                <td><%= rdv.getLocalTime() %></td>
                 <td><%= rdv.getParticipants().size() %></td>
                 <td>
                     <table>
-                        <% for(Utilisateur user : rdv.getParticipants()) {%>
+                        <% for(UserAccount user : rdv.getParticipants()) {%>
                         <tr>
                         <td><%= user.getNom() %></td>
                         </tr>
@@ -62,15 +63,17 @@
                 </td>
                 <td>
                     <table>
-                        <% for(Utilisateur user : rdv.getParticipants()) {%>
+                        <% for(UserAccount user : rdv.getParticipants()) {%>
                         <tr>
                         <td><%= user.getPrenom() %></td>
                         </tr>
                         <% } %>
                     </table>
                 </td>
-                <td><%= rdv.getEtat() %></td>
-                <td><%= rdv.getCommentaire() %></td>
+                <td><%= rdv.getState() %></td>
+                <td><%= rdv.getComment() %></td>
+                <td><a href="rdv/confirmSuppressionRdvParticipant?year=<%= rdv.getYear() %>&month=<%= rdv.getMonth() %>&day=<%= rdv.getDay()%>&hours=<%= rdv.getHours() %>&minutes=<%= rdv.getMinutes() %>">❌</a></td>
+
             </tr>
         <% } %>
     </tbody>

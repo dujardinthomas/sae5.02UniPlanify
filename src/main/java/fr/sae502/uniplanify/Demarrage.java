@@ -1,27 +1,40 @@
 package fr.sae502.uniplanify;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import fr.sae502.uniplanify.repository.ContraintesRepository;
-import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
-import fr.sae502.uniplanify.repository.JourneeTypeProRepository;
-import fr.sae502.uniplanify.repository.RdvRepository;
-import fr.sae502.uniplanify.repository.UtilisateurRepository;
+import fr.sae502.uniplanify.models.repository.ConstraintProRepository;
+import fr.sae502.uniplanify.models.repository.RdvRepository;
+import fr.sae502.uniplanify.models.repository.TypicalDayProRepository;
+import fr.sae502.uniplanify.models.repository.UnavailabilityRepository;
+import fr.sae502.uniplanify.models.repository.UserAccountRepository;
+
+// import fr.sae502.uniplanify.repository.ConstraintRepository;
+// import fr.sae502.uniplanify.repository.UnavailabilityRepository;
+// import fr.sae502.uniplanify.repository.TypicalDayProRepository;
+// import fr.sae502.uniplanify.repository.RdvRepository;
+// import fr.sae502.uniplanify.repository.UserAccountRepository;
 
 @Component
 public class Demarrage implements ApplicationRunner{
 
-    private JourneeTypeProRepository journeeTypeProRepository;
-    private ContraintesRepository constraintRepository;
-    private IndisponibiliteRepository indisponibiliteRepository;
+    @Autowired
+    private TypicalDayProRepository journeeTypeProRepository;
+    @Autowired
+    private ConstraintProRepository constraintRepository;
+    @Autowired
+    private UnavailabilityRepository indisponibiliteRepository;
+    @Autowired
     private RdvRepository rdvRepository;
-    private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private UserAccountRepository utilisateurRepository;
 
-    public Demarrage(JourneeTypeProRepository journeeTypeProRepository, ContraintesRepository constraintRepository,
-            IndisponibiliteRepository indisponibiliteRepository, RdvRepository rdvRepository, UtilisateurRepository utilisateurRepository) {
+    public Demarrage(TypicalDayProRepository journeeTypeProRepository, ConstraintProRepository constraintRepository,
+            UnavailabilityRepository indisponibiliteRepository, RdvRepository rdvRepository,
+            UserAccountRepository utilisateurRepository) {
         this.journeeTypeProRepository = journeeTypeProRepository;
         this.constraintRepository = constraintRepository;
         this.indisponibiliteRepository = indisponibiliteRepository;
@@ -29,14 +42,22 @@ public class Demarrage implements ApplicationRunner{
         this.utilisateurRepository = utilisateurRepository;
     }
 
+    public Demarrage() {
+    }
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("Hello UniPlanify, contenu de la base de données :");
-        System.out.println(journeeTypeProRepository.findAll());
-        System.out.println(constraintRepository.findAll());
-        System.out.println(indisponibiliteRepository.findAll());
-        System.out.println(rdvRepository.findAll());
-        System.out.println(utilisateurRepository.findAll());
+        System.out.println();
+        System.out.println("Journée type pro : " + journeeTypeProRepository.findAll());
+        System.out.println();
+        System.out.println("Contraintes : " + constraintRepository.findAll());
+        System.out.println();
+        System.out.println("Indisponibilités : " + indisponibiliteRepository.findAll());
+        System.out.println();
+        System.out.println("Rendez-vous : " + rdvRepository.findAll());
+        System.out.println();
+        System.out.println("Utilisateurs : " + utilisateurRepository.findAll());
     }
     
 }

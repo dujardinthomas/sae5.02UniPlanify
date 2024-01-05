@@ -5,18 +5,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import fr.sae502.uniplanify.models.Contraintes;
-import fr.sae502.uniplanify.repository.ContraintesRepository;
+import fr.sae502.uniplanify.models.ConstraintPro;
+import fr.sae502.uniplanify.models.repository.ConstraintProRepository;
 
 @Controller
 public class ContactController {
 
     @Autowired
-    private ContraintesRepository contraintesRepository;
+    private ConstraintProRepository constraintProRepository;
 
     @RequestMapping("/contact")
     public String contact(Model model) {
-        model.addAttribute("contraintes", ((Contraintes) contraintesRepository.findAll().iterator().next()));
+        model.addAttribute("contrainte", ((ConstraintPro) constraintProRepository.findAll().iterator().next()));
         return "contact";
     }
     

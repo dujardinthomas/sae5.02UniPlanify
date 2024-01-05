@@ -6,25 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import fr.sae502.uniplanify.models.Utilisateur;
-import fr.sae502.uniplanify.repository.UtilisateurRepository;
+import fr.sae502.uniplanify.models.UserAccount;
+import fr.sae502.uniplanify.models.repository.UserAccountRepository;
 
 @Controller
 public class MyControlleur {
 
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private UserAccountRepository userAccountRepository;
 
-    private Utilisateur user;
+    private UserAccount userAccount;
 
     @GetMapping(value = "/my")
     public String my(Principal principal) {
         String destination = "";
 
         try {
-            user = utilisateurRepository.findByEmail(principal.getName());
+            userAccount = userAccountRepository.findByEmail(principal.getName());
 
-            if (user.isPro()) {
+            if (userAccount.isPro()) {
                 destination = "redirect:/pro";
             } else {
                 destination = "redirect:/perso";

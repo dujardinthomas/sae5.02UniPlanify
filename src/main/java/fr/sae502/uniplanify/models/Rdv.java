@@ -6,8 +6,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-import fr.sae502.uniplanify.repository.ContraintesRepository;
+import fr.sae502.uniplanify.models.repository.ConstraintProRepository;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
@@ -20,92 +21,107 @@ import lombok.Data;
 public class Rdv {
 
     @EmbeddedId // Annotation pour indiquer l'utilisation d'une clé primaire composite
-    private CleCompositeRDV cleCompositeRDV;
+    private CompositeKeyRDV compositeKeyRDV;
 
-    private String etat;
-    private String commentaire;
-    private double remplissagePourcentage;
+    private String state;
+    private String comment;
+    private double fillPercentage;
 
     @ManyToMany
-    @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"participants_id", "rdv_heure", "rdv_jour"}))
-    private List<Utilisateur> participants;
+    @JoinTable(uniqueConstraints = @UniqueConstraint(columnNames = {"participant_id", "rdv_day", "rdv_time"}))
+    private List<UserAccount> participant;
 
     public Rdv() {
     }
 
-    public void setRemplissagePourcentage(double remplissagePourcentage) {
-        this.remplissagePourcentage = remplissagePourcentage;
+    public void setRemplissagePourcentage(double fillPercentage) {
+        this.fillPercentage = fillPercentage;
     }
 
-    public void recalculerRemplissagePourcentage(ContraintesRepository constraintRepository) {
+    public void recalculerRemplissagePourcentage(ConstraintProRepository constraintRepository) {
         int nbParticipants = constraintRepository.findAll().iterator().next().getNbPersonneMaxDefault();
-        if (this.participants == null) {
-            this.remplissagePourcentage = 0;
+        if (this.participant == null) {
+            this.fillPercentage = 0;
         } else {
-            this.remplissagePourcentage = (double) this.participants.size() / nbParticipants * 100;
+            this.fillPercentage = (double) this.participant.size() / nbParticipants * 100;
         }
     }
 
-    public Rdv(CleCompositeRDV cleCompositeRDV, String etat, String commentaire) {
-        this.cleCompositeRDV = cleCompositeRDV;
-        this.etat = etat;
-        this.commentaire = commentaire;
+
+    public Rdv(CompositeKeyRDV compositeKeyRDV, String state, String comment) {
+        this.compositeKeyRDV = compositeKeyRDV;
+        this.state = state;
+        this.comment = comment;
     }
 
+
+
     public int getYear() {
-        return this.cleCompositeRDV.getJour().getYear();
+        return this.compositeKeyRDV.getDay().getYear();
     }
 
     public int getMonth() {
-        return this.cleCompositeRDV.getJour().getMonthValue();
+        return this.compositeKeyRDV.getDay().getMonthValue();
     }
 
     public int getDay() {
-        return this.cleCompositeRDV.getJour().getDayOfMonth();
+        return this.compositeKeyRDV.getDay().getDayOfMonth();
     }
 
+    public LocalDate getLocalDate() {
+        return this.compositeKeyRDV.getDay();
+    }
+
+    public String dateToString(){
+        return getLocalDate().format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH));
+    }
+
+
+
     public int getHours() {
-        return this.cleCompositeRDV.getHeure().getHour();
+        return this.compositeKeyRDV.getTime().getHour();
     }
 
     public int getMinutes() {
-        return this.cleCompositeRDV.getHeure().getMinute();
+        return this.compositeKeyRDV.getTime().getMinute();
     }
 
-    public LocalTime getHeure() {
-        return this.cleCompositeRDV.getHeure();
+    public LocalTime getLocalTime() {
+        return this.compositeKeyRDV.getTime();
     }
 
-    public String getHeureString() {
-        return getHeure().format(DateTimeFormatter.ofPattern("HH:mm"));
+    public String getTimeToStringHorloge() {
+        return getLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     
-    public List<Utilisateur> getParticipants() {
-        return this.participants;
+    public List<UserAccount> getParticipants() {
+        return this.participant;
     }
 
-    public LocalDate getJour() {
-        return this.cleCompositeRDV.getJour();
+    public boolean isEmpty() {
+        return this.participant == null || this.participant.isEmpty();
     }
 
-    public void addParticipant(Utilisateur user) {
-        if (this.participants == null) {
-            this.participants = new ArrayList<>();
+    
+
+    public void addParticipant(UserAccount user) {
+        if (this.participant == null) {
+            this.participant = new ArrayList<>();
         }
-        this.participants.add(user);
+        this.participant.add(user);
     }
 
     public String urlToStringTakeRdv(String texteAafficher) {
         if(texteAafficher.equals("code:heureDuRdv")){
-            texteAafficher = this.getHeureString();
+            texteAafficher = this.getTimeToStringHorloge();
         }
         
-        if(this.etat.contains("COMPLET")) {
-            return this.getHeureString();
+        if(this.state.contains("COMPLET")) {
+            return this.getTimeToStringHorloge();
         }
 
-        LocalDateTime dateTime = this.cleCompositeRDV.getJour().atTime(this.cleCompositeRDV.getHeure());
+        LocalDateTime dateTime = getLocalDate().atTime(this.compositeKeyRDV.getTime());
         String href = "<a href=\"rdv/reserve?"
                 + "year=" + dateTime.getYear()
                 + "&month=" + dateTime.getMonthValue()
@@ -117,9 +133,9 @@ public class Rdv {
     }
 
     public String getStyle() {
-        if (this.etat.contains("ENCORE")) {
+        if (this.state.contains("ENCORE")) {
             return "'background-color:#FFA500'";
-        } else if (this.etat.contains("COMPLET")) {
+        } else if (this.state.contains("COMPLET")) {
             return "'background-color:#ff0000'";
         } else {
             return "'background-color:#88ff00'";

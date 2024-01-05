@@ -145,4 +145,57 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
+/* CI DESSOUS VUE SEMAINE */
+.troiscolonnes {
+    display: flex;
+    justify-content: space-between;
+    margin: 0; /* Pour annuler les marges par défaut */
+    padding: 5px; /* Pour annuler les marges par défaut */
+}
+
+.left {
+    flex: 2;
+    margin: 0; /* Réduire la marge */
+    text-align: left; /* Alignement à gauche */
+}
+
+.center {
+    flex: 10;
+    margin: 0; /* Réduire la marge */
+    text-align: center; /* Centrer le texte */
+}
+
+.right {
+    flex: 2;
+    margin-left: auto; /* Aligner à droite */
+    text-align: right; /* Alignement à droite */
+}
+
+
+.week-container {
+    display: flex;
+    justify-content: space-around; /* Ajuster la disposition des jours */
+    align-items: flex-start;
+    gap: 10px; /* Espacement entre les jours */
+    text-align: center;
+}
+.day {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 200px;
+    text-align: center; /* Centrer le texte à l'intérieur du div */
+    font-size: 12px; /* Réduire la taille du texte */
+}
+.rdv-list {
+    padding: 0;
+    margin-top: 10px;
+    list-style: none;
+}
+.rdv-list li {
+    margin-bottom: 5px;
+    padding: 1px;
+    border-radius: 1px;
+    height: 20px; /* Réduire la hauteur des rendez-vous */
+}
 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="fr.sae502.uniplanify.models.Utilisateur" %>
+<%@ page import="fr.sae502.uniplanify.models.UserAccount" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

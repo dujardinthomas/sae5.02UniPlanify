@@ -2,8 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="fr.sae502.uniplanify.models.Rdv" %>
-<%@ page import="fr.sae502.uniplanify.models.Utilisateur" %>
-<%@ page import="fr.sae502.uniplanify.models.Indisponibilite" %>
+<%@ page import="fr.sae502.uniplanify.models.UserAccount" %>
+<%@ page import="fr.sae502.uniplanify.models.Unavailability" %>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -42,7 +42,7 @@
             <th>Prenom</th>
             <th>Etat</th>
             <th>Commentaire</th>
-            <th colspan=2>Gestion</th>
+            <th colspan=1>Gestion</th>
         </tr>
     </thead>
     <tbody>
@@ -51,12 +51,12 @@
         for (Rdv rdv : rdvsList) { 
         %>
             <tr>
-                <td><%= rdv.getJour() %></td>
-                <td><%= rdv.getHeure() %></td>
+                <td><%= rdv.getLocalDate() %></td>
+                <td><%= rdv.getLocalTime() %></td>
                 <td><%= rdv.getParticipants().size() %></td>
                 <td>
                     <table>
-                        <% for(Utilisateur user : rdv.getParticipants()) {%>
+                        <% for(UserAccount user : rdv.getParticipants()) {%>
                         <tr>
                         <td><%= user.getNom() %></td>
                         </tr>
@@ -65,17 +65,17 @@
                 </td>
                 <td>
                     <table>
-                        <% for(Utilisateur user : rdv.getParticipants()) {%>
+                        <% for(UserAccount user : rdv.getParticipants()) {%>
                         <tr>
                         <td><%= user.getPrenom() %></td>
                         </tr>
                         <% } %>
                     </table>
                 </td>
-                <td><%= rdv.getEtat() %></td>
-                <td><%= rdv.getCommentaire() %></td>
-                <td><a href="">✏</a></td>
-                <td><a href="rdv/confirmSuppressionRDV?year=<%= rdv.getYear() %>&month=<%= rdv.getMonth() %>&day=<%= rdv.getDay()%>&hours=<%= rdv.getHours() %>&minutes=<%= rdv.getMinutes() %>">❌</a></td>
+                <td><%= rdv.getState() %></td>
+                <td><%= rdv.getComment() %></td>
+                <!-- <td><a href="">✏</a></td> -->
+                <td><a href="rdv/confirmSuppressionRdv?year=<%= rdv.getYear() %>&month=<%= rdv.getMonth() %>&day=<%= rdv.getDay()%>&hours=<%= rdv.getHours() %>&minutes=<%= rdv.getMinutes() %>">❌</a></td>
 
             </tr>
         <% } %>
@@ -97,15 +97,15 @@
         <th>Motif</th>
         <th>Action</th>
 
-        <% List<Indisponibilite> listIndispo = (List<Indisponibilite>) request.getAttribute("listIndispo"); %>
+        <% List<Unavailability> listIndispo = (List<Unavailability>) request.getAttribute("listIndispo"); %>
 
-        <% for (Indisponibilite indispo : listIndispo) { %>
+        <% for (Unavailability indispo : listIndispo) { %>
             <tr>
-                <td><%= indispo.getJour() %></td>
-                <td><%= indispo.getDebutHeure() %></td> 
-                <td><%= indispo.getFinHeure() %></td>
+                <td><%= indispo.getLocalDate() %></td>
+                <td><%= indispo.getStartLocalTime() %></td> 
+                <td><%= indispo.getEndLocalTime() %></td>
                 <td><%= indispo.getMotif() %></td>
-                <td><a href="pro/confirmSuppressionIndispo?jour=<%= indispo.getJour() %>&debutHeure=<%= indispo.getDebutHeure() %>&finHeure=<%= indispo.getFinHeure() %>">❌</a></td>
+                <td><a href="pro/confirmSuppressionIndispo?jour=<%= indispo.getLocalDate() %>&debutHeure=<%= indispo.getStartLocalTime() %>&finHeure=<%= indispo.getEndLocalTime() %>">❌</a></td>
             </tr>
         <% } %>
     </table>

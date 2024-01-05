@@ -121,17 +121,20 @@ Table :
 
 ### MLD
 
-    Client(#idC, nomC, prenomC, mailC, password; pro);
+    typical_day_pro(#day, start_time, end_time);
 
-    rdv(#jour, #heure, duree, nbPersonneMax, etat);
+    unavailability(#day, #start_time, #end_time, motif);
 
-    rdvClient([#jour], [#heure] [#idC]);
+    constraint_pro(#duree_default_minutes, nb_personne_max_default, adresse, description, email, nom, telephone);
+
+    user_account(#id, nom, prenom, email, password, urlphoto, authority, enabled);
+
+    rdv(#day, #time, state, comment, fill_percentage);
+
+    rdv_participant(#rdv_day, #rdv_time, #participant_id);
+
     
-    Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
-
-    SemaineTypePro(#jourSemaine, heureDebut, heureFin);
-
-
+    
 
 
 Many-to-many (rdvClient) : Possibilité de prendre un rdv avec autant de personne que l'on veut (limite de nbPersonneMax en java)
@@ -194,6 +197,25 @@ On commence par regarder la journée et si est dedans on regarde l'heure pour ev
 requete sql des propositions de rdv pendant l'indispo. on obtient une liste et on skip quand timeNow
 soit on crée une liste du jour avec tout les rdv a ne pas mettre
 soit on crée une liste d'indispo correspondant avec la date actuel
+
+
+### Les vues
+
+Un créneau de rdv est représenté par une case avec un code couleur :
+- vert : disponible personne a réservé
+- jaune/orange : encore de la place
+- rouge : plein
+
+#### Jour
+Affiche le jour : tout les creneaux de rdv sur la journée possible.
+
+#### Hebdomadaire
+Affiche la semaine démarrant a la date de consultation jusqu'a j+7 (du mercredi au mardi par exemple)
+Ce n'est rien d'autre qu'une liste de 7 jours !
+
+#### Mensuel
+Affiche le mois complet : une case par jour.
+Grisé si le jour est dans le passé ou fermé 
 
 
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - UniPlanify</title>
+    <title>Initialisation - UniPlanify</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -21,10 +21,6 @@
         </nav>
     </header>
     
-
-<%  request.setAttribute("pageTitle", "Renseignez vos indisponibilités - UniPlanity");
-        request.setAttribute("cheminAccueil", "../");
-%> 
     <form action="init" method="post">
 
 

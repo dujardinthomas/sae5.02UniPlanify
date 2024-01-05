@@ -54,17 +54,17 @@
 
 		<!-- BASE DE DONNEES PAS OUBLIER SA CONFIG APPLICATION.PROPERTIES -->
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency> -->
 		
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.7.1</version>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

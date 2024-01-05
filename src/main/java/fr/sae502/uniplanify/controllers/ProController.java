@@ -8,7 +8,6 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.sae502.uniplanify.models.Indisponibilite;
+import fr.sae502.uniplanify.models.Unavailability;
 import fr.sae502.uniplanify.models.Rdv;
-import fr.sae502.uniplanify.models.Utilisateur;
-import fr.sae502.uniplanify.repository.IndisponibiliteRepository;
-import fr.sae502.uniplanify.repository.RdvRepository;
-import fr.sae502.uniplanify.repository.UtilisateurRepository;
+import fr.sae502.uniplanify.models.UserAccount;
+import fr.sae502.uniplanify.models.repository.UnavailabilityRepository;
+import fr.sae502.uniplanify.models.repository.RdvRepository;
+import fr.sae502.uniplanify.models.repository.UserAccountRepository;
 
 @Controller
 @RequestMapping(value = "/pro")
@@ -32,19 +31,19 @@ public class ProController {
     private RdvRepository rdvRepository;
 
     @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private UserAccountRepository utilisateurRepository;
 
     @Autowired
-    private IndisponibiliteRepository indisponibiliteRepository;
+    private UnavailabilityRepository indisponibiliteRepository;
 
-    private Utilisateur user;
+    private UserAccount user;
 
     @RequestMapping(value = { "", "/" })
     public String espacePro(Principal principal, Model model) {
         user = utilisateurRepository.findByEmail(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("rdvs", (List<Rdv>) rdvRepository.findAll());
-        model.addAttribute("listIndispo", (List<Indisponibilite>) indisponibiliteRepository.findAll());
+        model.addAttribute("listIndispo", (List<Unavailability>) indisponibiliteRepository.findAll());
         return "pro";
     }
 
@@ -88,15 +87,7 @@ public class ProController {
         user.setNom(nom);
         user.setPrenom(prenom);
         user.setEmail(email);
-        
-
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if( passwordEncoder.matches(oldPassword, user.getPassword()) ){
-            System.out.println("ancien mot de passe saisie correct, on l'autorise a changer !");
-            user.setPassword(passwordEncoder.encode(newPassword));
-        }else{
-            System.out.println("ancien mot de passe saisie incorrect, on l'autorise pas a changer !");
-        }
+        user.setPassword(newPassword, oldPassword);
 
         System.out.println("dans la base : ? " + utilisateurRepository.save(user));
         return origine;
