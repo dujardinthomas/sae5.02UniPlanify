@@ -24,10 +24,9 @@
 
     <h1> Edition du profil </h1>
 
-    
-
     <div class="update-profile">
         <h2>Mettre à jour les informations de compte</h2>
+        
         <form action="profil" method="post" enctype="multipart/form-data">
             <div class="container">
                 <label for="uname"><b>Nom</b></label>
@@ -45,32 +44,20 @@
                 <label for="psw"><b>Nouveau mot de passe</b></label>
                 <input type="password" placeholder="Entrer votre nouveau mot de passe" name="newPassword" required>
 
+                <label for="avatar"><b>Changer votre photo de profil</b></label>
+                <img src="${user.getUrlphoto()}" alt="Photo de profil" width="100" height="100">
+
                 <input type="file" name="avatar"/>
 
                 <input type="hidden" name="origine" value="${origine}" >
 
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-
-                <button type="submit">Appliquer les changements</button>
+                <button type="submit">Sauvegarder votre profil</button>
             </div>
 
         </form>
     </div>
 
-
-    <!-- <form method="post" action="/fileuploadservlet" enctype="multipart/form-data">
-        <input type="file" name="file" />
-        <input type="submit" value="Upload" />
-    </form> -->
-
-
-    Voici votre image actuel :
-    <img src="${user.getUrlphoto()}" alt="Photo de profil" width="100" height="100">
-    ${user}
-
-    
-    
-    
 </body>
 </html>

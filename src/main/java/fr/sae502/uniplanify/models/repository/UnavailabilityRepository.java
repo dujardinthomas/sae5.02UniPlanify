@@ -17,4 +17,8 @@ public interface UnavailabilityRepository extends CrudRepository<Unavailability,
             "AND u.compositeKeyUnavailability.startTime <= :timeRDV " +
             "AND u.compositeKeyUnavailability.endTime > :timeRDV")
         List<Unavailability> findByCreneau(LocalDate day, LocalTime timeRDV);
+
+        //obtenir les indisponibilités depuis un jour donné
+        @Query("SELECT u from Unavailability u WHERE u.compositeKeyUnavailability.day = :day")
+        List<Unavailability> findByDay(LocalDate day);
 }

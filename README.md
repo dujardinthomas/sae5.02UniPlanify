@@ -1,7 +1,8 @@
-# SAE-N5_DUJARDIN_Thomas_UniPlanify
+# SAE-N5_DUJARDIN_Thomas_UniPlanify : Gestionnaire de planning
 
 Thomas Dujardin
 Début : 14/09/2023
+Fin : 08/01/2024
 
 ## Démarrer le projet Maven
 1) télécharger le projet
@@ -25,10 +26,11 @@ contrainte “pas plus de 30 personnes par heure”) ou le planning de réservat
 contrainte “pas plus d’1 personne toutes les 15mn”). C’est un framework général : on ne cherche pas un site qui permet
 de créer plusieurs plannings. Si on souhaite faire deux plannings avec des contraintes différentes (par exemple l’un pour
 la piscine, l’autre pour le médecin), on créera 2 sites WEB en changeant à l’initialisation leurs paramètres.
-Ce projet se fait en binôme.
+Ce projet se fait en binôme ou seul.
 
 ### Répartitions
 Rdv hebdomadaire : le jeudi 13h30
+1 semaine sur 2
 
     1sem : 37) création bdd
     2sem : 39) tomcat + affichage calendrier avec chaque case cliquable avec un cpt dans chaque case pour commencer

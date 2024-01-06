@@ -67,7 +67,6 @@ public class Security {
     public UserDetailsService mesutilisateurs() {
         String usersByUsernameQuery = "select email, password, enabled from user_account where email = ?";
         String authsByUserQuery = "select email, authority from user_account where email = ?";
-        System.out.println("REQUETE : ");
         System.out.println(usersByUsernameQuery);
         System.out.println(authsByUserQuery);
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);

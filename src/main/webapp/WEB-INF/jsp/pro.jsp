@@ -4,6 +4,8 @@
 <%@ page import="fr.sae502.uniplanify.models.Rdv" %>
 <%@ page import="fr.sae502.uniplanify.models.UserAccount" %>
 <%@ page import="fr.sae502.uniplanify.models.Unavailability" %>
+<%@ page import="fr.sae502.uniplanify.view.Daily" %>
+<%@ page import="fr.sae502.uniplanify.view.Weekly" %>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -31,6 +33,67 @@
 
     <div class="rdv">
     <h2>Voici tous les rendez-vous à venir :</h2>
+
+    
+
+    <% Weekly semaine = (Weekly) request.getAttribute("semaine"); %>
+
+    <div class="semaine">
+
+
+    <h2><%=semaine.getTitle()%></h2>
+    <table class="week">
+        <tr> 
+            
+            <% for (Daily jour : semaine.getJours()) { %>
+            <td>
+                <table>
+                    <tr>
+                        <td><%= jour.getTitle() %></td>
+                    </tr>
+                    <tr>
+                        <td><%= jour.getFillPercentage() %>%</td>
+                    </tr>
+                    
+                <% for (Rdv rdvNow : jour.getRdvs()) { %>
+                    <% if (rdvNow.getParticipants() != null) { %>
+                    <tr>
+                        <td>
+                        <%
+                        double pourcentage = rdvNow.getFillPercentage();
+                        String couleur = "";
+                        if(pourcentage == 0) {
+                            couleur = "background-color: #00FF00"; //vert
+                        } else if (pourcentage < 50) {
+                            couleur = "background-color: #ADFF2F"; //vert clair
+                        } else if (pourcentage < 70) {
+                            couleur = "background-color: #FFFF00"; //jaune
+                        } else if (pourcentage < 100) {
+                            couleur = "background-color: #ff9100"; //orange
+                        } else if (pourcentage == 100) {
+                            couleur = "background-color: #FF0000"; //rouge
+                        } else{
+                            couleur = "";
+                        }
+                        %>
+                            <div style="<%= couleur %>">
+                                <div> 
+                                    <%= rdvNow.getRdvPourLePro() %>
+                                </div>
+                            </div> 
+                        
+                        </td>
+                    </tr>
+                    <% } %>
+                <% } %>
+                </table>
+                </td>
+            <% } %>
+            
+        </tr>
+    </table>
+    
+    <h3> Historique des rendez-vous :</h3>
 
     <table border="1">
     <thead>
@@ -84,9 +147,9 @@
     </div>
 
 
-    <h2> Vous souhaitez changer vos informations de compte ? C'est par <a href="/pro/profil">ici</a> !</h2>
+    <h3> Vous souhaitez changer vos informations de compte ? C'est par <a href="/pro/profil">ici</a> !</h3>
 
-    <h2> Vous souhaitez ajouter une indisponibilité ? C'est par <a href="/pro/indisponibilite">ici</a> !</h2>
+    <h3> Vous souhaitez ajouter une indisponibilité ? C'est par <a href="/pro/indisponibilite">ici</a> !</h3>
 
 
     <div class="indisponibilite">
@@ -112,7 +175,7 @@
     </div>
 
     
-    <h2>Redefinir les contraintes</h2>
+    <h3>Redefinir les contraintes</h3>
     <a href="/pro/initialisation">Initialisation</a>
     
 </body>

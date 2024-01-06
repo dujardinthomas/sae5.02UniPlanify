@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.jasper.tagplugins.jstl.core.If;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import fr.sae502.uniplanify.models.CompositeKeyRDV;
 import fr.sae502.uniplanify.models.CompositeKeyUnavailability;
@@ -20,17 +21,22 @@ import fr.sae502.uniplanify.models.repository.RdvRepository;
 import fr.sae502.uniplanify.models.repository.TypicalDayProRepository;
 import fr.sae502.uniplanify.models.repository.UnavailabilityRepository;
 
+
 public class Daily {
+
     private LocalDate date;
     private boolean ouvert;
     private String linkDay;
     private List<Rdv> rdvs;
-
     private int fillPercentage;
 
+   
     private ConstraintProRepository constraintRepository;
+    
     private TypicalDayProRepository typicalDayProRepository;
+ 
     private UnavailabilityRepository unavailabilityRepository;
+
     private RdvRepository rdvRepository;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH);
@@ -77,10 +83,6 @@ public class Daily {
         return date.getDayOfWeek().getValue();
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
     public int getDay() {
         return date.getDayOfMonth();
     }
@@ -91,14 +93,6 @@ public class Daily {
 
     public int getYear() {
         return date.getYear();
-    }
-
-    public String getLinkDay() {
-        return linkDay;
-    }
-
-    public DateTimeFormatter getFormatter() {
-        return formatter;
     }
 
     public List<Rdv> getRdvs() {
@@ -149,7 +143,6 @@ public class Daily {
 
         // Récupération des contraintes tout est sur la meme ligne
         ConstraintPro contrainte = constraintRepository.findAll().iterator().next();
-        int nbPersonneMax = contrainte.getNbPersonneMaxDefault();
         int dureeRDV = contrainte.getDureeDefaultMinutes();
 
         String dayStringNumberMonthYear = selectedDate.format(formatter);
@@ -169,23 +162,9 @@ public class Daily {
             return listRdvDay;
         }
 
-        Iterable<Unavailability> indisponibiliteIterator = unavailabilityRepository.findAll();
 
-        boolean indispoSurJournee = false;
-        List<Unavailability> UnavailabilitysOfDay = new ArrayList<>();
-        for (Unavailability indispo : indisponibiliteIterator) {
-            CompositeKeyUnavailability i = indispo.getCompositeKeyUnavailability();
-            
-            if (selectedDate.isEqual(i.getDay())) {
-                System.out.println("ya une indispo sur la journée faut savoir mtn quand ");
-                UnavailabilitysOfDay.add(indispo);
-                System.out.println("indispo du jour : " + UnavailabilitysOfDay);
-                indispoSurJournee = true;
-            }
-        }
-        System.out.println("il y a : " + UnavailabilitysOfDay.size() + " indispo sur la journée");
-        System.out.println("Le jour actuel est disponible");
-        //this.ouvert = true;
+        List<Unavailability> UnavailabilitysOfDay = unavailabilityRepository.findByDay(selectedDate);
+        // System.out.println("il y a : " + UnavailabilitysOfDay.size() + " indispo sur la journée");
 
         LocalTime startTimeDay = dayTime.getStartTime();
         LocalTime endTimeDay = dayTime.getEndTime();
@@ -194,7 +173,7 @@ public class Daily {
         while (!iterableTime.plusMinutes(dureeRDV).isAfter(endTimeDay)) {
 
             // Vérification des indisponibilités
-            if (indispoSurJournee) {
+            if (!UnavailabilitysOfDay.isEmpty()) {
                 System.out.println("recherche d'indispo creneau par creneau..." + iterableTime);
                 for (Unavailability indispo : UnavailabilitysOfDay) {
                     CompositeKeyUnavailability i = indispo.getCompositeKeyUnavailability();
@@ -222,30 +201,15 @@ public class Daily {
             CompositeKeyRDV cleRDV = new CompositeKeyRDV();
             cleRDV.setTime(iterableTime);
             cleRDV.setDay(selectedDate);
-            Rdv rdvActuelle = rdvRepository.findById(cleRDV).orElse(null);
+            //ON AJOUTE SOIT LE RDV SOIT UN RDV VIDE
+            Rdv rdvActuelle = rdvRepository.findById(cleRDV).orElse(new Rdv(cleRDV));
 
-            if (rdvActuelle == null) {
-                // Si aucun rendez-vous, la plage est disponible
-                rdvActuelle = new Rdv();
-                rdvActuelle.setCompositeKeyRDV(cleRDV);
-                rdvActuelle.setState("DISPONIBLE POUR LE MOMENT ");
-                rdvActuelle.setRemplissagePourcentage(0);
-            } else if (rdvActuelle.getParticipants().size() < nbPersonneMax) {
-                // Si des places sont disponibles dans le rendez-vous
-                rdvActuelle.setState(
-                        "ENCORE " + (nbPersonneMax - rdvActuelle.getParticipants().size()) + " PLACES DISPONIBLES SUR "
-                                + nbPersonneMax + " POUR LE MOMENT ");
-            } else {
-                // Si le rendez-vous est complet
-                rdvActuelle.setState("COMPLET");
-            }
             iterableTime = iterableTime.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
             listRdvDay.add(rdvActuelle);
-
         }
-        System.out.println("il y a : " + listRdvDay.size() + " rdvs sur la journée du " + this.date);
+        // System.out.println("il y a : " + listRdvDay.size() + " rdvs sur la journée du " + this.date);
         if(listRdvDay.size() == 0) {
-            System.out.println("la liste est vide !!!!!!! donc on ferme le jour");
+            System.out.println("la liste est vide : pas de rdv sur la journée !!!!!!! donc on ferme le jour");
             this.ouvert = false;
         } else {
             this.ouvert = true;

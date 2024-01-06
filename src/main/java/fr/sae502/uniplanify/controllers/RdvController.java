@@ -64,7 +64,7 @@ public class RdvController {
             @RequestParam(value = "minutes") int minutes,
             Model model) {
         model.addAttribute("rdv", new Rdv(
-                new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0)), null, null));
+                new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0))));
         return "rdv/confirmSuppressionRdv";
     }
 
@@ -76,7 +76,7 @@ public class RdvController {
             @RequestParam(value = "minutes") int minutes,
             Model model) {
         model.addAttribute("rdv", new Rdv(
-                new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0)), null, null));
+                new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0))));
         return "rdv/confirmSuppressionRdvParticipant";
     }
 
@@ -139,27 +139,27 @@ public class RdvController {
             System.out.println("Rdv existant : " + rdvExistant);
             try {
 
-                // SenderEmail senderEmail = new SenderEmail();
-                // for (UserAccount participant : rdvExistantASuppr.getParticipants()) {
-                //     System.out.println("envoie du mail à " + participant.getEmail() + " : "
-                //             + senderEmail.sendEmail(sender, participant.getEmail(), "Annulation de votre rendez-vous",
-                //                     "Votre rendez-vous du " + rdvExistantASuppr.dateToString() + " à "
-                //                             + rdvExistantASuppr.getHours() + " heures " + rdvExistantASuppr.getMinutes()
-                //                             + " a été annulé pour la raison suivante : " + raison));
-                // }
-
-                //rdvRepository.deleteByParticipantIdAndCompositeKeyRDVDayAndCompositeKeyRDVTime(user.getId(), LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0));
-
+                SenderEmail senderEmail = new SenderEmail();
+                senderEmail.sendEmail(sender, user.getEmail(), "Confirmation de votre annulation de votre rendez-vous",
+                                    "Votre rendez-vous du " + rdvExistant.dateToString() + " à "
+                                            + rdvExistant.getHours() + " heures " + rdvExistant.getMinutes()
+                                            + " a été correctement annulé par votre part pour la raison suivante : " + raison);
+                rdvExistant.removeParticipant(user, raison, constraintRepository);
+                if(rdvExistant.getParticipants().isEmpty()) {
+                    rdvRepository.delete(rdvExistant);
+                } else {
+                    rdvRepository.save(rdvExistant);
+                }
+                
                 Rdv rdvModfie = rdvRepository
                     .findById(new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0)))
                     .orElse(null);
-                rdvModfie.setComment(user.getEmail() + " est parti : " + raison);
                 System.out.println("Rdv supprimé : " + rdvModfie);
-                System.out.println(user.getEmail() + " est parti : " + raison);
 
             } catch (Exception e) {
                 System.out.println("Erreur lors de la suppression du rdv : " + rdvExistant);
                 System.out.println(e.getMessage());
+                System.out.println(e);
             }
         }
         return "redirect:/my";
@@ -187,7 +187,7 @@ public class RdvController {
         if (!rdvPossibleStatus.getKey()) {
             //IMPOSSIBLE DE PRENDRE RDV
             model.addAttribute("status", rdvPossibleStatus.getValue());
-            model.addAttribute("rdv", new Rdv(new CompositeKeyRDV(dateDuRdv, heureDuRdv), null, null));
+            model.addAttribute("rdv", new Rdv(new CompositeKeyRDV(dateDuRdv, heureDuRdv)));
             return "rdv/reservation";
         }
         LocalDateTime heureActuelle = LocalDateTime.now();
@@ -210,9 +210,8 @@ public class RdvController {
             if (rdvExistant.getParticipants().size() < nbPersonneMax) {
                 // on peut ajouter un client
                 try {
-                    rdvExistant.addParticipant(user);
-                    rdvExistant.setComment(user.getNom() + " ajouté le " + jjMMyy);
-                    rdvExistant.recalculerRemplissagePourcentage(constraintRepository);
+                    rdvExistant.addParticipant(user, user.getNom() + " ajouté le " + jjMMyy, constraintRepository);
+
                     etat = "add";
                 } catch (Exception e) {
                     etat = "error";
@@ -222,22 +221,8 @@ public class RdvController {
             }
         } else {
             rdvExistant.setCompositeKeyRDV(cleRDV);
-            rdvExistant.addParticipant(user);
-            rdvExistant.setComment(commentaire);
-            rdvExistant.setState("Réservé");
-            rdvExistant.recalculerRemplissagePourcentage(constraintRepository);
+            rdvExistant.addParticipant(user, commentaire, constraintRepository);
             etat = "created";
-        }
-        
-        //MET A JOUR L'ETAT DU RDV
-        if (rdvExistant.getParticipants().size() < nbPersonneMax) {
-        // Si des places sont disponibles dans le rendez-vous
-        rdvExistant.setState(
-                "ENCORE " + (nbPersonneMax - rdvExistant.getParticipants().size()) + " PLACES DISPONIBLES SUR "
-                        + nbPersonneMax + " POUR LE MOMENT ");
-        } else {
-            // Si le rendez-vous est complet
-            rdvExistant.setState("COMPLET");
         }
 
         rdvRepository.save(rdvExistant);

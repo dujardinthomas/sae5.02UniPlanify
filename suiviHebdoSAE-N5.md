@@ -8,12 +8,12 @@ Les paramètres génériques seront :
 
 Voici mon MLD : 
 
-    Client(#idC, nomC, prenomC, mailC, password, pro);
-    rdv(#jour, #heure, etat);
-    rdvClient([#jour], [#heure] [#idC]);
-    Indisponibilite(#debutJour, #debutHeure, #finJour, #finHeure);
-    semainetypepro(#jourSemaine, heureDebut, heureFin);
-    constraints(dureeDefaultMinutes, nbPersonneMaxDefault);
+    typical_day_pro(#day, start_time, end_time);
+    unavailability(#day, #start_time, #end_time, motif);
+    constraint_pro(#duree_default_minutes, nb_personne_max_default, adresse, description, email, nom, telephone);
+    user_account(#id, nom, prenom, email, password, urlphoto, authority, enabled);
+    rdv(#day, #time, state, comment, fill_percentage);
+    rdv_participant(#rdv_day, #rdv_time, #participant_id);
 
 J'ai choisi de créer une relation many to many pour les rendez vous client comme ca nous pouvons ajouter autant de client que l'on souhaite (Généricité), (je ferais une verif dans la servlet avec la valeur de nbPersonneMax pour éviter de dépasser cette dernière).
 

@@ -77,7 +77,7 @@ public class Monthly {
         List<String> typicalDayListPro = new ArrayList<>();
         for (TypicalDayPro day : typicalDayIterablePro) {
             typicalDayListPro.add(day.getDay());
-            System.out.println(day.getDay());
+            // System.out.println(day.getDay());
         }
 
         for (int day = 1; day <= daysInMonth; day++) {
@@ -94,8 +94,8 @@ public class Monthly {
                 jour = new Daily(now, false);
             }
             listDays.add(jour);
-            System.out.println("journée parcourus : " + jour);
-            System.out.println("Il y a : " + listDays.size() + " jours dans la liste");
+            //System.out.println("journée parcourus : " + jour);
+            //System.out.println("Il y a : " + listDays.size() + " jours dans la liste");
         }
         System.out.println("FINAL : Il y a : " + listDays.size() + " jours dans la liste");
         return listDays;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,11 @@ import fr.sae502.uniplanify.models.Unavailability;
 import fr.sae502.uniplanify.models.Rdv;
 import fr.sae502.uniplanify.models.UserAccount;
 import fr.sae502.uniplanify.models.repository.UnavailabilityRepository;
+import fr.sae502.uniplanify.models.repository.ConstraintProRepository;
 import fr.sae502.uniplanify.models.repository.RdvRepository;
+import fr.sae502.uniplanify.models.repository.TypicalDayProRepository;
 import fr.sae502.uniplanify.models.repository.UserAccountRepository;
+import fr.sae502.uniplanify.view.Weekly;
 
 @Controller
 @RequestMapping(value = "/pro")
@@ -34,7 +38,13 @@ public class ProController {
     private UserAccountRepository utilisateurRepository;
 
     @Autowired
-    private UnavailabilityRepository indisponibiliteRepository;
+    private UnavailabilityRepository unavailabilityRepository;
+
+    @Autowired
+    private ConstraintProRepository constraintProRepository;
+
+    @Autowired
+    private TypicalDayProRepository typicalDayProRepository;
 
     private UserAccount user;
 
@@ -43,7 +53,27 @@ public class ProController {
         user = utilisateurRepository.findByEmail(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("rdvs", (List<Rdv>) rdvRepository.findAll());
-        model.addAttribute("listIndispo", (List<Unavailability>) indisponibiliteRepository.findAll());
+        model.addAttribute("listIndispo", (List<Unavailability>) unavailabilityRepository.findAll());
+
+        LocalDate currentDate = LocalDate.now();
+        int dayDebut = currentDate.getDayOfMonth();
+        int monthDebut = currentDate.getMonthValue();
+        int yearDebut = currentDate.getYear();
+
+        int dayFin = currentDate.plusDays(6).getDayOfMonth();
+        int monthFin = currentDate.plusDays(6).getMonthValue();
+        int yearFin = currentDate.plusDays(6).getYear();
+
+        LocalDate startDate = LocalDate.of(yearDebut, monthDebut, dayDebut);
+        LocalDate endDate = LocalDate.of(yearFin, monthFin, dayFin);
+        
+        Weekly semaine = new Weekly(startDate,
+                endDate,
+                constraintProRepository,
+                typicalDayProRepository,
+                unavailabilityRepository,
+                rdvRepository);
+        model.addAttribute("semaine", semaine);
         return "pro";
     }
 
