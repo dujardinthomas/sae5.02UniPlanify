@@ -25,6 +25,7 @@ import fr.sae502.uniplanify.models.repository.ConstraintProRepository;
 import fr.sae502.uniplanify.models.repository.RdvRepository;
 import fr.sae502.uniplanify.models.repository.TypicalDayProRepository;
 import fr.sae502.uniplanify.models.repository.UserAccountRepository;
+import fr.sae502.uniplanify.view.Monthly;
 import fr.sae502.uniplanify.view.Weekly;
 
 @Controller
@@ -74,6 +75,11 @@ public class ProController {
                 unavailabilityRepository,
                 rdvRepository);
         model.addAttribute("semaine", semaine);
+
+        Monthly monthly = new Monthly(startDate.getYear(), startDate.getMonthValue(), 
+        constraintProRepository, typicalDayProRepository, unavailabilityRepository, rdvRepository);
+        model.addAttribute("calendrier", monthly);
+
         return "pro";
     }
 

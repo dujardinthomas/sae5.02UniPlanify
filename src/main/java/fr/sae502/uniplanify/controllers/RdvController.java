@@ -279,6 +279,19 @@ public class RdvController {
             return statut;
         }
 
+        //5. On verifie qu'il n'a pas déja été ajouté bizzare car l'erreur ne se catch plus !!!
+        CompositeKeyRDV cleRDV = new CompositeKeyRDV();
+        cleRDV.setTime(heureDuRdv);
+        cleRDV.setDay(dateDuRdv);
+        Rdv rdvExistant = rdvRepository.findById(cleRDV).orElse(null);
+        if(rdvExistant != null) {
+            if(rdvExistant.getParticipants().contains(user)) {
+                statut.put(false, "doublon");
+                System.out.println("deja ajouté");
+                return statut;
+            }
+        }
+
         //TOUTES LES VERIF ETANT FAITES ON AUTORISE LA CREATION DU RDV
         statut.put(true, "ok");
         return statut;

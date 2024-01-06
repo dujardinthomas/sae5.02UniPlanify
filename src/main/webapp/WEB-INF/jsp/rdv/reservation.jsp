@@ -19,6 +19,7 @@
                 <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
                 <li><a href="../my">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
+                <li><a href="/week">Semaine</a></li>
                 <li><a href="../contact">Contact</a></li>
                 <li><a href="../logout">Deconnexion</a></li>
             </ul>
@@ -40,7 +41,7 @@
         <h1>Malheureusement, le rendez-vous du ${rdv.getLocalDate()} à ${rdv.getLocalTime()} est plein !</h1>
         <h2>Impossible de réserver le rdv !</h2>
 
-    <% }else if(statut.equals("error")){ %>
+    <% }else if(statut.equals("doublon")){ %>
         <h1> Malheureusement ${user.getPrenom()} ${user.getNom()} à déja été 
         ajouté au rendez-vous du ${rdv.getLocalDate()} à ${rdv.getLocalTime()}</h1>
         <h2>Impossible de re-réserver le rdv !</h2>

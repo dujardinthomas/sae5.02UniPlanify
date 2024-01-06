@@ -1,6 +1,8 @@
 -- LE MOT DE PASSE EST 'a'
-INSERT INTO user_account (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('admin', 'admin', 'uniplanify@gmail.com', '$2a$10$H0i7FQJI2CbrX.AH.9TkduRfB26DuS4MNhclaf680wm/ilhYEjc4G', '../img/profils/default.jpg', 'ROLE_ADMIN', true);
-INSERT INTO user_account (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('b', 'b', 'thomasdujardin2003@gmail.com', '$2a$10$H0i7FQJI2CbrX.AH.9TkduRfB26DuS4MNhclaf680wm/ilhYEjc4G', '../img/profils/default.jpg', 'ROLE_USER', true);
+INSERT INTO user_account (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('admin', 'admin', 'a', '$2a$10$H0i7FQJI2CbrX.AH.9TkduRfB26DuS4MNhclaf680wm/ilhYEjc4G', '../img/profils/default.jpg', 'ROLE_ADMIN', true);
+INSERT INTO user_account (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('b', 'b', 'b', '$2a$10$H0i7FQJI2CbrX.AH.9TkduRfB26DuS4MNhclaf680wm/ilhYEjc4G', '../img/profils/default.jpg', 'ROLE_USER', true);
+
+INSERT INTO user_account (nom, prenom, email, password, urlphoto, authority, enabled) VALUES ('c', 'c', 'thomasdujardin2003@gmail.com', '$2a$10$H0i7FQJI2CbrX.AH.9TkduRfB26DuS4MNhclaf680wm/ilhYEjc4G', '../img/profils/default.jpg', 'ROLE_USER', true);
 
 
 INSERT INTO typical_day_pro (day, start_time, end_time) values ('lundi', '08:00:00', '18:00:00');

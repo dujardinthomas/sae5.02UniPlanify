@@ -42,13 +42,14 @@ public class Security {
                                 // ACTIVE LE FORMULAIRE DE CONNEXION /LOGIN + ENDPOINT DECONNEXION /LOGOUT
                                  .formLogin(Customizer.withDefaults())
 
-                                // .formLogin( (form) -> form
-                                //         .loginPage("/login")
-                                // //         .permitAll()
-                                // //         // .loginProcessingUrl("/login")
-                                // //         // .defaultSuccessUrl("/", true)
-                                // //         // .failureUrl("/login?msg=erreur")
-                                // )
+                                // .formLogin((form) -> form
+                                //         .loginPage("/log")
+                                //         .permitAll()
+                                //         .permitAll()
+                                //         // .loginProcessingUrl("/login")
+                                //         // .defaultSuccessUrl("/", true)
+                                //         // .failureUrl("/login?msg=erreur")
+                                //)
 
                                 // REDIRECTION SUR PAGE ACCUEIL APRES DECONNEXION
                                 .logout(configurer -> configurer.logoutSuccessUrl("/"))
