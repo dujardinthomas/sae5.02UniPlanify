@@ -37,6 +37,12 @@ nav ul li a:hover {
     background-color: #555;
 }
 
+.erreur{
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
 
 .calendar {
     width: 100%;

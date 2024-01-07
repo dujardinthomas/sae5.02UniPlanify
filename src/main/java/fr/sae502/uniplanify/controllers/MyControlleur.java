@@ -30,7 +30,7 @@ public class MyControlleur {
                 destination = "redirect:/perso";
             }
         } catch (Exception e) {
-            destination = "redirect:/login";
+            destination = "redirect:/";
         }
 
         return destination;

@@ -18,7 +18,7 @@ public class Registration {
 
     @GetMapping("/inscription")
     public String registration() {
-        return "login/inscription";
+        return "inscription";
     }
 
     @PostMapping("/inscription")
@@ -26,7 +26,7 @@ public class Registration {
             @RequestParam String prenom,
             @RequestParam String email,
             @RequestParam String password,
-            @RequestParam String origine) {
+            @RequestParam(required = false, defaultValue = "login") String origine) {
 
         String authority = "ROLE_USER";
         if(!userAccountRepository.findById(1).isPresent()) {
@@ -40,6 +40,7 @@ public class Registration {
         UserAccount user = new UserAccount(nom, prenom, email, hashedPassword, "../img/profils/default.jpg", authority, true);
         userAccountRepository.save(user);
         System.out.println("Utilisateur " + user + " : enregistré");
+        System.out.println("on redirige sur "+origine);
         return "redirect:/"+origine;
     }
 

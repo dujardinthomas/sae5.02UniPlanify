@@ -24,17 +24,6 @@
 
     <h1><a href="inscription">Inscription</a></h1>
 
-    <% String mess = (String) request.getParameter("msg"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
-
-        String origine=(String)session.getAttribute("origine");
-        if (origine==null) origine="" ;
-
-        //a mettre dans toutes les servlets !
-        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
-        request.setAttribute("pageTitle", "Créer mon compte - UniPlanity");
-        request.setAttribute("cheminAccueil", "");
-        %>
-
         <form action="inscription" method="post">
             <div class="container">
                 <label for="uname"><b>Nom</b></label>
@@ -48,8 +37,6 @@
 
                 <label for="psw"><b>Mot de passe</b></label>
                 <input type="password" placeholder="Entrer votre mot de passe" name="password" required>
-
-                <input type="hidden" name="origine" value="<%=origine%>" >
                 
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button type="submit">Créer mon compte</button>

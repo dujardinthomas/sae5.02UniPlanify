@@ -14,40 +14,34 @@
         <nav>
             <ul>
                 <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../my">Mon espace</a></li>
+                <li><a href="my">Mon espace</a></li>
                 <li><a href="/">Calendrier</a></li>
-                <li><a href="../contact">Contact</a></li>
-                <li><a href="../logout">Deconnexion</a></li>
+                <li><a href="contact">Contact</a></li>
+                <li><a href="logout">Deconnexion</a></li>
             </ul>
         </nav>
     </header>
 
+
+
  <h1><a href="login">Login</a></h1>
 
-  <% String mess=request.getParameter("msg"); if (mess!=null) out.println("<h2>"+mess+"</h2>");
-
-    String origine=(String)session.getAttribute("origine");
-    //SessionBean sb=(SessionBean)session.getAttribute("sessionBean");
-    
-    if (origine==null) origine="" ;
-
-
-    //a mettre dans toutes les servlets !
-        //on ecrit que l'interieur de la balise body le header, footer c'est dans HeaderFooterFilter !!
-        request.setAttribute("pageTitle", "Se connecter - UniPlanity");
-        request.setAttribute("cheminAccueil", "");
-    %>
-
-    <form action="login" method="post">
+    <form class="form-signin" method="post" action="/login">
       <div class="container">
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="email" required>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" required>
+        <% String msg = request.getParameter("msg"); 
+          if(msg != null) { %>
+              <div class="erreur"><%= msg %></div>
+          <% }
+        %>
 
-        <input type="hidden" name="origine" value="${sessionScope['scopedTarget.sessionBean'].getOrigine()}" >
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+
+        <p><input type='checkbox' name='remember'/> Remember me on this computer.</p>
 
         <button type="submit">Login</button>
       </div>
