@@ -9,12 +9,12 @@ import lombok.*;
 @Data
 public class TypicalDayPro{
     @Id
-    private String day;
+    private String dayPro;
     private LocalTime startTime;
     private LocalTime endTime;
 
     public TypicalDayPro(String day, LocalTime startTime, LocalTime endTime) {
-        this.day = day;
+        this.dayPro = day;
         this.startTime = startTime;
         this.endTime = endTime;
     }

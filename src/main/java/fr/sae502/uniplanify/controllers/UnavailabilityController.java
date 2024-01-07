@@ -79,7 +79,7 @@ public class UnavailabilityController {
      * de temps de l'indisponibilité
      */
     private List<Rdv> removeRdvsReserves(LocalDate day, LocalTime startTime, LocalTime endTime) {
-        List<Rdv> allRdvInIndispo = rdvRepository.findByCompositeKeyRDVDayAndCompositeKeyRDVTimeBetween(day, startTime, endTime);
+        List<Rdv> allRdvInIndispo = rdvRepository.findByCompositeKeyRDVDayRdvAndCompositeKeyRDVTimeRdvBetween(day, startTime, endTime);
         SenderEmail senderEmail = new SenderEmail();
         for (Rdv rdv : allRdvInIndispo) {
             for (UserAccount user : rdv.getParticipants()) {

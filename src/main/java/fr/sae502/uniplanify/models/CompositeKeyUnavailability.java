@@ -9,15 +9,15 @@ import lombok.Data;
 @Embeddable
 @Data
 public class CompositeKeyUnavailability {
-    private LocalDate day;
+    private LocalDate dayUnavailability;
     private LocalTime startTime;
     private LocalTime endTime;
 
     public CompositeKeyUnavailability() {
     }
 
-    public CompositeKeyUnavailability(LocalDate day, LocalTime startTime, LocalTime endTime) {
-        this.day = day;
+    public CompositeKeyUnavailability(LocalDate dayUnavailability, LocalTime startTime, LocalTime endTime) {
+        this.dayUnavailability = dayUnavailability;
         this.startTime = startTime;
         this.endTime = endTime;
     }

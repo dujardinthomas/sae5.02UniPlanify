@@ -199,8 +199,8 @@ public class Daily {
             }
 
             CompositeKeyRDV cleRDV = new CompositeKeyRDV();
-            cleRDV.setTime(iterableTime);
-            cleRDV.setDay(selectedDate);
+            cleRDV.setTimeRdv(iterableTime);
+            cleRDV.setDayRdv(selectedDate);
             //ON AJOUTE SOIT LE RDV SOIT UN RDV VIDE
             Rdv rdvActuelle = rdvRepository.findById(cleRDV).orElse(new Rdv(cleRDV));
 

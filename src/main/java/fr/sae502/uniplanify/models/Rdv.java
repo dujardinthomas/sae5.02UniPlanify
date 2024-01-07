@@ -32,7 +32,7 @@ public class Rdv {
     @ManyToMany
     @JoinTable(name = "rdv_participant",
             // joinColumns = @JoinColumn(name = "rdv_day", referencedColumnName = "day"),
-            uniqueConstraints = @UniqueConstraint(columnNames = { "participant_id", "rdv_day", "rdv_time" }))
+            uniqueConstraints = @UniqueConstraint(columnNames = { "participant_id", "rdv_day_rdv", "rdv_time_rdv" }))
     private List<UserAccount> participant;
 
     public Rdv() {
@@ -96,7 +96,7 @@ public class Rdv {
             return this.getTimeToStringHorloge();
         }
 
-        LocalDateTime dateTime = getLocalDate().atTime(this.compositeKeyRDV.getTime());
+        LocalDateTime dateTime = getLocalDate().atTime(this.compositeKeyRDV.getTimeRdv());
         String href = "<a href=\"rdv/reserve?"
                 + "year=" + dateTime.getYear()
                 + "&month=" + dateTime.getMonthValue()
@@ -119,19 +119,19 @@ public class Rdv {
     }
 
     public int getYear() {
-        return this.compositeKeyRDV.getDay().getYear();
+        return this.compositeKeyRDV.getDayRdv().getYear();
     }
 
     public int getMonth() {
-        return this.compositeKeyRDV.getDay().getMonthValue();
+        return this.compositeKeyRDV.getDayRdv().getMonthValue();
     }
 
     public int getDay() {
-        return this.compositeKeyRDV.getDay().getDayOfMonth();
+        return this.compositeKeyRDV.getDayRdv().getDayOfMonth();
     }
 
     public LocalDate getLocalDate() {
-        return this.compositeKeyRDV.getDay();
+        return this.compositeKeyRDV.getDayRdv();
     }
 
     public String dateToString() {
@@ -139,15 +139,15 @@ public class Rdv {
     }
 
     public int getHours() {
-        return this.compositeKeyRDV.getTime().getHour();
+        return this.compositeKeyRDV.getTimeRdv().getHour();
     }
 
     public int getMinutes() {
-        return this.compositeKeyRDV.getTime().getMinute();
+        return this.compositeKeyRDV.getTimeRdv().getMinute();
     }
 
     public LocalTime getLocalTime() {
-        return this.compositeKeyRDV.getTime();
+        return this.compositeKeyRDV.getTimeRdv();
     }
 
     public String getTimeToStringHorloge() {

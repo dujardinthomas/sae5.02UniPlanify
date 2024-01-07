@@ -76,7 +76,7 @@ public class Monthly {
         Iterable<TypicalDayPro> typicalDayIterablePro = typicalDayProRepository.findAll();
         List<String> typicalDayListPro = new ArrayList<>();
         for (TypicalDayPro day : typicalDayIterablePro) {
-            typicalDayListPro.add(day.getDay());
+            typicalDayListPro.add(day.getDayPro());
             // System.out.println(day.getDay());
         }
 

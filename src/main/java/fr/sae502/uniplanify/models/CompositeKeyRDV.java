@@ -10,15 +10,15 @@ import lombok.Data;
 @Embeddable
 @Data
 public class CompositeKeyRDV implements Serializable{
-    private LocalDate day;
-    private LocalTime time;
+    private LocalDate dayRdv;
+    private LocalTime timeRdv;
 
     public CompositeKeyRDV() {
     }
 
-    public CompositeKeyRDV(LocalDate day, LocalTime time) {
-        this.day = day;
-        this.time = time;
+    public CompositeKeyRDV(LocalDate dayRdv, LocalTime timeRdv) {
+        this.dayRdv = dayRdv;
+        this.timeRdv = timeRdv;
     }
 
     

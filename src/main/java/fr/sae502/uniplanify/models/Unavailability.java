@@ -17,7 +17,7 @@ public class Unavailability {
     private String motif;
 
     public LocalDate getLocalDate() {
-        return compositeKeyUnavailability.getDay();
+        return compositeKeyUnavailability.getDayUnavailability();
     }
 
     public LocalTime getStartLocalTime() {

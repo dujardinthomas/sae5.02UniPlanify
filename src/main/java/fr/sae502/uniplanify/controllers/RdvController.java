@@ -196,8 +196,8 @@ public class RdvController {
         String commentaire = "reservé le " + jjMMyy;
 
         CompositeKeyRDV cleRDV = new CompositeKeyRDV();
-        cleRDV.setTime(heureDuRdv);
-        cleRDV.setDay(dateDuRdv);
+        cleRDV.setTimeRdv(heureDuRdv);
+        cleRDV.setDayRdv(dateDuRdv);
         Rdv rdvExistant = rdvRepository.findById(cleRDV).orElse(new Rdv());
 
         ConstraintPro constraint = constraintRepository.findAll().iterator().next();
@@ -256,7 +256,7 @@ public class RdvController {
         }
 
         // 3.On verifie si le rdv chevauche le precedent
-        Rdv previousRDV = rdvRepository.findFirstByCompositeKeyRDVDayAndCompositeKeyRDVTimeBeforeOrderByCompositeKeyRDVDayDescCompositeKeyRDVTimeDesc(dateDuRdv, heureDuRdv);
+        Rdv previousRDV = rdvRepository.findFirstByCompositeKeyRDVDayRdvAndCompositeKeyRDVTimeRdvBeforeOrderByCompositeKeyRDVDayRdvDescCompositeKeyRDVTimeRdvDesc(dateDuRdv, heureDuRdv);
         System.out.println("previousRDV : " + previousRDV);
         int dureeRDV = constraintRepository.findAll().iterator().next().getDureeDefaultMinutes();
         if (previousRDV != null && previousRDV.getLocalTime().plusMinutes(dureeRDV).isAfter(heureDuRdv)
@@ -281,8 +281,8 @@ public class RdvController {
 
         //5. On verifie qu'il n'a pas déja été ajouté bizzare car l'erreur ne se catch plus !!!
         CompositeKeyRDV cleRDV = new CompositeKeyRDV();
-        cleRDV.setTime(heureDuRdv);
-        cleRDV.setDay(dateDuRdv);
+        cleRDV.setTimeRdv(heureDuRdv);
+        cleRDV.setDayRdv(dateDuRdv);
         Rdv rdvExistant = rdvRepository.findById(cleRDV).orElse(null);
         if(rdvExistant != null) {
             if(rdvExistant.getParticipants().contains(user)) {

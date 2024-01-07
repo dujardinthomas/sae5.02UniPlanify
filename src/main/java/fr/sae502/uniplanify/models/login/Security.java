@@ -34,7 +34,7 @@ public class Security {
                         .requestMatchers(mvc.pattern("/rdv/**")).authenticated()
                         .requestMatchers(mvc.pattern("/my/**")).authenticated()
 
-                        //.requestMatchers(mvc.pattern("/h2-console/**")).permitAll()
+                        .requestMatchers(mvc.pattern("/h2-console/**")).permitAll()
                         .anyRequest().permitAll())
 
                         .formLogin(form -> form
