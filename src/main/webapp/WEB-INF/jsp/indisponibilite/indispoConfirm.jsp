@@ -29,7 +29,7 @@
     </header>
 
     <% Unavailability indispo = (Unavailability)request.getAttribute("indispo"); %>
-    <% List<Rdv> rdvHasRemoveList = (List<Rdv>)request.getAttribute("hasDeleteList"); %>
+    <% List<Rdv> rdvHasRemoveList = (List<Rdv>)request.getAttribute("hasDeleteList");%>
     <% UserAccount user = (UserAccount)request.getAttribute("user"); %>
 
 
@@ -38,10 +38,10 @@
         ${indispo.getLocalDate()} de ${indispo.getStartLocalTime()} à ${indispo.getEndLocalTime()} heures à été crée !</h1>
 
         <% if(rdvHasRemoveList != null){ %>
-            <h2>Les rendez-vous suivants ont été supprimés car ils se trouvaient dans votre indisponibilité :</h2>
+            <h2>Les <%= rdvHasRemoveList.size() %> rendez-vous suivants ont été supprimés car ils se trouvaient dans votre indisponibilité :</h2>
             <ul>
                 <% for(Rdv rdv : rdvHasRemoveList){ %>
-                    <li>${rdv}</li>
+                    <li>Le <%= rdv.dateToString() %> : <%= rdv.getRdvPourLePro() %></li>
                 <% } %>
             </ul>
         <% } %>

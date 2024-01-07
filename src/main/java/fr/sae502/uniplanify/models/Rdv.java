@@ -157,6 +157,13 @@ public class Rdv {
     public List<UserAccount> getParticipants() {
         return this.participant;
     }
+
+    public int getNbParticipants() {
+        if (this.participant == null) {
+            return 0;
+        }
+        return this.participant.size();
+    }
     
 
     public boolean isEmpty() {
