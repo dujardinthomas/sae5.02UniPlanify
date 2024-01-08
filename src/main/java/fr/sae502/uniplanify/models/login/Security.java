@@ -33,7 +33,7 @@ public class Security {
                         .requestMatchers(mvc.pattern("/perso/**")).hasRole("USER")
                         .requestMatchers(mvc.pattern("/rdv/**")).authenticated()
                         .requestMatchers(mvc.pattern("/my/**")).authenticated()
-
+                        .requestMatchers(mvc.pattern("/img/profil/**")).permitAll() //voir pour n'autoriser qu'à l'user
                         .requestMatchers(mvc.pattern("/h2-console/**")).permitAll()
                         .anyRequest().permitAll())
 
