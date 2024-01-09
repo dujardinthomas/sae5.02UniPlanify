@@ -54,31 +54,40 @@ public class ProController {
         user = utilisateurRepository.findByEmail(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("rdvs", (List<Rdv>) rdvRepository.findAll());
-        model.addAttribute("listIndispo", (List<Unavailability>) unavailabilityRepository.findAll());
+        try {
+            model.addAttribute("listIndispo", (List<Unavailability>) unavailabilityRepository.findAll());
 
-        LocalDate currentDate = LocalDate.now();
-        int dayDebut = currentDate.getDayOfMonth();
-        int monthDebut = currentDate.getMonthValue();
-        int yearDebut = currentDate.getYear();
+            LocalDate currentDate = LocalDate.now();
+            int dayDebut = currentDate.getDayOfMonth();
+            int monthDebut = currentDate.getMonthValue();
+            int yearDebut = currentDate.getYear();
 
-        int dayFin = currentDate.plusDays(6).getDayOfMonth();
-        int monthFin = currentDate.plusDays(6).getMonthValue();
-        int yearFin = currentDate.plusDays(6).getYear();
+            int dayFin = currentDate.plusDays(6).getDayOfMonth();
+            int monthFin = currentDate.plusDays(6).getMonthValue();
+            int yearFin = currentDate.plusDays(6).getYear();
 
-        LocalDate startDate = LocalDate.of(yearDebut, monthDebut, dayDebut);
-        LocalDate endDate = LocalDate.of(yearFin, monthFin, dayFin);
+            LocalDate startDate = LocalDate.of(yearDebut, monthDebut, dayDebut);
+            LocalDate endDate = LocalDate.of(yearFin, monthFin, dayFin);
+            
+            Weekly semaine = new Weekly(startDate,
+                    endDate,
+                    constraintProRepository,
+                    typicalDayProRepository,
+                    unavailabilityRepository,
+                    rdvRepository);
+            model.addAttribute("semaine", semaine);
+
+            Monthly monthly = new Monthly(startDate.getYear(), startDate.getMonthValue(), 
+            constraintProRepository, typicalDayProRepository, unavailabilityRepository, rdvRepository);
+            model.addAttribute("calendrier", monthly);
+        } catch (Exception e) {
+            //si rien n'est initialisé, on redirige vers la page d'initialisation
+            System.out.println("pas d'initialisation");
+            return "redirect:/pro/initialisation";
+        }
         
-        Weekly semaine = new Weekly(startDate,
-                endDate,
-                constraintProRepository,
-                typicalDayProRepository,
-                unavailabilityRepository,
-                rdvRepository);
-        model.addAttribute("semaine", semaine);
 
-        Monthly monthly = new Monthly(startDate.getYear(), startDate.getMonthValue(), 
-        constraintProRepository, typicalDayProRepository, unavailabilityRepository, rdvRepository);
-        model.addAttribute("calendrier", monthly);
+        
 
         return "pro";
     }

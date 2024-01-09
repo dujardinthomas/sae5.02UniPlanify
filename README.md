@@ -1,19 +1,23 @@
-# SAE-N5_DUJARDIN_Thomas_UniPlanify : Gestionnaire de planning
+# SAE-N5_DUJARDIN_Thomas_UniPlanify : Gestionnaire de planning 
 
 Thomas Dujardin
-Début : 14/09/2023
-Fin : 08/01/2024
+- Début : 14/09/2023
+- Fin : 08/01/2024
 
-## Démarrer le projet Maven
-1) télécharger le projet
+## Bien démarrer
+1) télécharger le projet Maven.
+2) ***mvn -v*** pour vérifier la présence de maven sinon l'installer : https://maven.apache.org/download.cgi
+3) ***mvn clean package*** pour compiler le projet : cela va créer le dossier *target/*.
+5) ***mvn spring-boot:run*** pour démarrer le serveur.
 
-2) Vérifier si maven est installé sur votre machine par ***mvn -v***, sinon l'extraire (https://maven.apache.org/download.cgi), puis créer la variable systeme ***M2_HOME*** pointant sur la racine du dossier maven et ajouter dans votre path ***%M2_HOME%\bin***
+## Technos utilisées
 
-4) Compiler le projet avec ***mvn clean package*** : cela va créer le dossier target
+JEE + framework spring mvc web relié à une base de données h2 en mémoire et création des tables via JPA.
+C'est un ensemble de controller java respectant des endpoints qui fabriquent des modèles pour les envoyer sur des vues en JSP.
+Le style des JSP est fait en CSS.
 
-5) Lancer le serveur avec ***mvn spring-boot:run***
 
-## Objectif : 
+## Objectif
 A la manière de prendreunrendezvous, de Doctolib ou de nombreux sites de prise de rendez-vous mis en place
 durant la crise COVID-19, l’objectif de ce projet consiste à réaliser un site internet de gestion de rendez-vous multi-
 utilisateurs. Le site doit permettre d’une part de montrer aux utilisateurs les créneaux libres, d’autre part de permettre
@@ -28,7 +32,7 @@ de créer plusieurs plannings. Si on souhaite faire deux plannings avec des cont
 la piscine, l’autre pour le médecin), on créera 2 sites WEB en changeant à l’initialisation leurs paramètres.
 Ce projet se fait en binôme ou seul.
 
-### Répartitions
+## Répartitions
 Rdv hebdomadaire : le jeudi 13h30
 1 semaine sur 2
 
@@ -39,19 +43,18 @@ Rdv hebdomadaire : le jeudi 13h30
     5sem : 48) Spring MVC
     6sem : 50) MAIL + SECURITÉ + RENDU 
 
-## Mise en forme : 
-
-- 2 roles : user et pro (admin)
+[Voir le suivi semaine par semaine ici ](suiviHebdoSAE-N5.md)
 
 
-## Cas d'utilisation :
+## Analyse du projet
+
+### Cas d'utilisation :
 
 - En tant que User je dois pouvoir :
-    - voir un calendrier sur un mois avec les crenaux libres et non disponible
-    - prendre un rdv : pouvoir reserver un creneau sur la plage disponible
+    - voir un calendrier sur un mois avec les crénaux libres et non disponible
+    - prendre un rdv : pouvoir reserver un créneau sur la plage disponible
     - modifier un rdv
     - supprimer un rdv
-
 
 - En tant que Pro je dois pouvoir :
     - créer mon calendrier et y definir des paramètres généraux comme la durée d'un rdv et le nombre de personne acceptés
@@ -60,8 +63,7 @@ Rdv hebdomadaire : le jeudi 13h30
     - supprimer disponibilité : fermer la prise de rdv et annuler ceux déja reservé
 
 
-
-## Ma démarche : 
+### Ma démarche : 
 1) Est ce que le pro doit indiquer ses disponibilités (crée a chaque fois des dispo) ou ses non disponibilités (crée uniquement ses empechements)
 
 -> j'opte pour qu'il indique ses non dispo car il y aura moins de ligne dans la table il sera rarement absent
@@ -75,53 +77,30 @@ Mettre par defaut disponible, le pro va indiquer ses indisponibilité, si prise 
 
 j'ai opté pour finalement qu'il indique la journée concerné et l'heure de début + l'heure de fin c'est trop compliqué sinon !
 
+### MCD :
 
+```
+_________________                    _______________
+| Utilisateurs  |                    | Rendez-vous |
+|---------------|                    |-------------|
+|    #idC       |--0,n Reserve 1,n---|   #jour     |
+|_______________|                    |   #heure    |
+                                     |_____________|
 
-### MCD
-
-
-Légende :
-    #CléPrimaire
-    [CléEtrangère]
-
-
-Table : 
-
-    Utilisateurs
-        #idC
-        nomC
-        prenomC
-        mailC
-        password
-        pro
-    
-    0,n
-    Reserve
-    1,n
-
-    Rendez-vous
-        #jour
-        #heure
-        duree
-        nbPersonneMax
-        etat
-
-   
     Indisponibilités
         #debutJour
         #debutHeure
-        #finJour
         #finHeure
-
 
     SemaineType
         #jourSemaine
-        heureDebut
-        heureFin
 
+    Contraintes
+        #duree_default_minutes
 
+```
 
-### MLD
+### MLD :
 
     typical_day_pro(#day, start_time, end_time);
 
@@ -136,91 +115,89 @@ Table :
     rdv_participant(#rdv_day, #rdv_time, #participant_id);
 
     
-    
-
-
 Many-to-many (rdvClient) : Possibilité de prendre un rdv avec autant de personne que l'on veut (limite de nbPersonneMax en java)
 
 on identifie un rdv avec son jour et son heure (difficile de mettre un num car faut pas 2 fois le même crénau)
 on definie une semaine type du pro par défaut (ouvert tout les lundi de 8h à 18h)
 
 
-### Mise en pratique
+## Première initialisation du calendrier (base de données vide)
+Lors du déploiement du projet, un calendrier est installé.
+La base de données actuellement utilisé est une base h2 en mémoire (pour les tests). Elle peut être changé sans aucun problème, les tables se créent au démarrage de l'application grâce à JPA.
 
-#### Init : 
-new calendrier(durée, nbPersonneMax, semaineType);
-A chaque insert de rdv, insert durée et nbPersonneMax
+L'admin pour sa 1ère fois accède à son espace professionnel, crée son compte (il sera exceptionnellement de type pro car aucun compte existe), se reconnecte et est automatiquement redirigé pour renseigner ses contraintes : 
+- sa semaine type (les jours ouverts à la prise de rdv), 
+- la durée de chaque rdv,
+- le nombre de personne. 
 
-L'admin pour sa 1ère fois accède à Pro/initialisation pour renseigner sa semaine type, la durée de rdv et le nombre de personne. Lors du traitement, la base de données sera crée !
-
-Le 1er utilisateur crée est automatiquement de type pro ! les autres sont à ajoutés via le SGBD.
-
-
-#### Fonctionnement :
-Quand user selectionne une journée : 
-    - affiche en vert les créneaux dispo  (select * from semaineType where jourSemaine = now())
-    - en rouge les créneaux indispo (si select debutHeure from Indispo where debutJour = now())
-    - en gris les rdv reservés (si select * from rendez-vous where jour = now())
-
-    
-Quand pro selectionne sa journée : 
-    - Lister tous les rdv du jour (select * from Rendez-vous where jour=now())
-
-Si client reserve sur periode libre, = clique sur du vert, insert into reservations.
-Si il reserve sur période non libre (pro qui a mis une indispo) = impossible de cliquer sur du rouge verifie 
-
-Voir pour la vérif si il peut reserver, tester à l'affichage de la page (et ensuite en js...) ou a chaque tentative de rdv...
-
-Mis en place un code couleur dans la vue (html, en valeur arbitraires) pour savoir la disponibilité restante sur un rdv + sur la journée (ensemble des rdv / nbRdv). vert (=0%) < vert clair (<50%) < jaune (<70%) < orange (100%) < rouge (=100%)
+Une fois cela fait, le calendrier est opérationnel.
 
 
-quand prise de rdv,
-1) insert rdv avec date choisit
-2) insert rdvclient avec idC et date choisit
+## Fonctionnement
+
+La prise d'un rdv est très simple :
+
+Pour un utilisateur non connecté : 
+1) L'utilisateur choisit un créneau selon sa vue préféré (mensuelle puis journalière ou directement hebdomadaire).
+2) Le site lui demande de s'identifier. S'il n'a pas de compte, il peut en créer un en cliquant sur le lien inscription.
+3) Il renseigne alors ses informations puis valide.
+4) Il est réinvité à se connecter.
+5) Si le rdv respecte les règles, il est enregistré et apparaît dans son espace personnel. Il reçoit la confirmation sur son adresse mail.
+
+Pour un utilisateur connecté : 
+1) L'utilisateur choisit un créneau selon sa vue préféré (mensuelle puis journalière ou directement hebdomadaire).
+2) Si le rdv respecte les règles, alors il est enregistré et apparaît dans son espace personnel. Il reçoit la confirmation sur son adresse mail.
+
+## Les fonctionnalités
+
+### La réservation :
+Les créneaux de rdv sont consultables au mois, à la semaine ou au jour.
+
+Chaque rdv est représenté par un objet associé à une couleur spécifique (valeur arbitraires) en fonction de son taux de remplissage. Ce taux est également attribué à chaque journée (représentant la moyenne des pourcentages de remplissage des rendez-vous sur cette journée) :
+
+- vert si le taux est à 0% : c'est à dire que le rdv est disponible,
+- vert clair si le taux est inférieur à 50%,
+- jaune si le taux est inférieur à 70%,
+- orange si le taux est inférieur à 100%,
+- rouge si le taux est égal à 100%  : c'est à dire que le rdv est complet.
 
 
-#### Indisponibilités :
-Pour les indisponibilités, quand le pro déclare une indispo (par une date de début, une heure de début, une date de fin et une heure de fin) il faut que tout les rdv déja réservés soit supprimés (ou annuler pour garder trace , a voir ...). 
-=> Faire requete sql des rdv pendant l'indispo. on obtient une liste et on supprime cette liste de la bdd.
+### L'espace personnel :
+L'utilisateur a la possibilité d'accéder à son espace personnel où il peut trouver :
 
-Pour les rdv à venir, supprimer les propositions qui sont dans la plage.
+- Tous ses rdv auxquels il participe (passés et à venir). Il peut les supprimer si besoin. Cependant, si plusieurs personnes sont impliquées dans le rendez-vous, sa suppression ne concerne que lui ; les autres participants restent enregistrés.
 
-On propose pas l'horaire 
-Si(
-(jourProposé >= jourDebutIndispo) &&
-(jourProposé <= jourFinIndispo))
-
-et si( 
-(horaireProposé >= heureDebutIndispo)
-(horaireProposé <= heureFinIndispo)) 
-
-On commence par regarder la journée et si est dedans on regarde l'heure pour eviter des calculs inutiles !
-
-requete sql des propositions de rdv pendant l'indispo. on obtient une liste et on skip quand timeNow
-soit on crée une liste du jour avec tout les rdv a ne pas mettre
-soit on crée une liste d'indispo correspondant avec la date actuel
+- Un lien permettant de modifier son profil (nom, prénom, mail, mot de passe et sa photo de profil).
 
 
-### Les vues
+### L'espace professionnel :
+Le professionnel possède également son propre espace, où il peut :
+- Consulter son planning ; ses rdv sur le mois, la semaine (ensemble de 7 jours du lundi au dimanche) ainsi que l'historique complet des rdv passés.
+- Accéder à un lien permettant de modifier son profil similaire à celui de l'utilisateur.
 
-Un créneau de rdv est représenté par une case avec un code couleur :
-- vert : disponible personne a réservé
-- jaune/orange : encore de la place
-- rouge : plein
+- Ajouter des périodes d'indisponibilités en choisissant une date de début, une heure de début et une heure de fin. Il peut également y ajouter un motif.
 
-#### Jour
-Affiche le jour : tout les creneaux de rdv sur la journée possible.
+- Redéfinir les contraintes des rendez-vous (durée, nombre maximum de personnes par rendez-vous), l'adresse du lieu (récupéré depuis la page /contact) et les heures de travail, en définissant les horaires de début et de fin. Les créneaux proposés s'alignent sur ces contraintes.
 
-#### Hebdomadaire
-Affiche la semaine démarrant a la date de consultation jusqu'a j+7 (du mercredi au mardi par exemple)
-Ce n'est rien d'autre qu'une liste de 7 jours !
 
-#### Mensuel
-Affiche le mois complet : une case par jour.
-Grisé si le jour est dans le passé ou fermé 
+### Les indisponibilités :
+Le professionnelle a la possibilité de déclarer des périodes d'indisponibilités. Elles sont représentés par une date de début, une heure de début, une heure de fin et un motif.
+
+Lorsqu'une indisponibilité est ajoutée :
+- Il n'est plus possible de réserver sur cette plage horaire.
+- Les crénaux disponibles sont supprimés.
+- Les rdvs déjà réservés pendant cette période sont alors supprimés et les participants en sont informés par e-mail. En d'autres termes, l'indisponibilité prime sur les rendez-vous existants.
 
 
 
+## Points difficiles
 
-## Suivi du projet 
-[suiviHebdoSAE-N5.md](suiviHebdoSAE-N5.md)
+Le projet a connu 3 grandes transitions : d'abord le passage de Tomcat à un projet Maven avec le plugin Cargo, suivi de la suppression des DAO et leur remplacement par JPA (nécessitant des annotations précises), puis enfin une transition significative vers Spring (passage des Servlets à des Contrôleurs), avec un ajout continu de dépendances.
+
+Chacune de ces transitions a demandé des ajustements minutieux dans une configuration existante, ce qui n'était pas toujours simple. Malgré ces changements majeurs, je n'ai pas rencontré d'autres difficultés notables.
+
+Malgré les réécritures du projet, cela m'a plu car j'ai pu observer le fonctionnement et la puissance de ces technologies.
+
+## Améliorations potentielles
+
+L'amélioration du front de l'espace personnel aurait pu être une piste, mais la priorité a été accordée au développement du backend.
