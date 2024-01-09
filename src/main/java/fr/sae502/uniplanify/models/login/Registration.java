@@ -3,6 +3,7 @@ package fr.sae502.uniplanify.models.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,16 @@ public class Registration {
             @RequestParam String email,
             @RequestParam String password,
             @RequestParam(required = false, defaultValue = "login") String origine) {
+
+        if(nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            System.out.println("champs vides");
+            return "redirect:/inscription?msg=champs vides";
+        }
+
+        if(userAccountRepository.findByEmail(email) != null)  {
+            System.out.println("email déjà utilisé");
+            return "redirect:/inscription?msg=email déjà utilisé";
+        }
 
         String authority = "ROLE_USER";
         if(!userAccountRepository.findById(1).isPresent()) {

@@ -25,9 +25,14 @@
     </header>
 
     <h1><a href="inscription">Inscription</a></h1>
-
+    
         <form action="inscription" method="post">
             <div class="container">
+            <% String msg = request.getParameter("msg"); 
+                if(msg != null) { %>
+                    <div class="erreur"><%= msg %></div>
+                <% }
+            %>
                 <label for="uname"><b>Nom</b></label>
                 <input type="text" placeholder="Enter votre nom" name="nom" required>
 
