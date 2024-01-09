@@ -48,7 +48,7 @@ public class RdvController {
     @Autowired
     private UnavailabilityRepository unavailabilityRepository;
 
-    @Autowired 
+    @Autowired
     private TypicalDayProRepository workdayTypeProRepository;
 
     @Autowired
@@ -79,8 +79,6 @@ public class RdvController {
                 new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0))));
         return "rdv/confirmSuppressionRdvParticipant";
     }
-
-
 
     @PostMapping("/suppressionRdv")
     public String confirmSuppressionRDV(@RequestParam(value = "year", required = false) int year,
@@ -141,19 +139,19 @@ public class RdvController {
 
                 SenderEmail senderEmail = new SenderEmail();
                 senderEmail.sendEmail(sender, user.getEmail(), "Confirmation de votre annulation de votre rendez-vous",
-                                    "Votre rendez-vous du " + rdvExistant.dateToString() + " à "
-                                            + rdvExistant.getHours() + " heures " + rdvExistant.getMinutes()
-                                            + " a été correctement annulé par votre part pour la raison suivante : " + raison);
+                        "Votre rendez-vous du " + rdvExistant.dateToString() + " à "
+                                + rdvExistant.getHours() + " heures " + rdvExistant.getMinutes()
+                                + " a été correctement annulé par votre part pour la raison suivante : " + raison);
                 rdvExistant.removeParticipant(user, raison, constraintRepository);
-                if(rdvExistant.getParticipants().isEmpty()) {
+                if (rdvExistant.getParticipants().isEmpty()) {
                     rdvRepository.delete(rdvExistant);
                 } else {
                     rdvRepository.save(rdvExistant);
                 }
-                
+
                 Rdv rdvModfie = rdvRepository
-                    .findById(new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0)))
-                    .orElse(null);
+                        .findById(new CompositeKeyRDV(LocalDate.of(year, month, day), LocalTime.of(hours, minutes, 0)))
+                        .orElse(null);
                 System.out.println("Rdv supprimé : " + rdvModfie);
 
             } catch (Exception e) {
@@ -185,7 +183,7 @@ public class RdvController {
                 .iterator().next();
 
         if (!rdvPossibleStatus.getKey()) {
-            //IMPOSSIBLE DE PRENDRE RDV
+            // IMPOSSIBLE DE PRENDRE RDV
             model.addAttribute("status", rdvPossibleStatus.getValue());
             model.addAttribute("rdv", new Rdv(new CompositeKeyRDV(dateDuRdv, heureDuRdv)));
             return "rdv/reservation";
@@ -204,7 +202,7 @@ public class RdvController {
         int nbPersonneMax = constraint.getNbPersonneMaxDefault();
 
         String etat = "";
-
+        String statusRDVMail = "";
         if (!rdvExistant.isEmpty()) {
             // rdv a déja été reservé mais peut etre qu'on peut ajouter des gens
             if (rdvExistant.getParticipants().size() < nbPersonneMax) {
@@ -213,6 +211,7 @@ public class RdvController {
                     rdvExistant.addParticipant(user, user.getNom() + " ajouté le " + jjMMyy, constraintRepository);
 
                     etat = "add";
+                    statusRDVMail = "Confirmation de votre ajout au rendez-vous";
                 } catch (Exception e) {
                     etat = "error";
                 }
@@ -223,6 +222,17 @@ public class RdvController {
             rdvExistant.setCompositeKeyRDV(cleRDV);
             rdvExistant.addParticipant(user, commentaire, constraintRepository);
             etat = "created";
+            statusRDVMail = "Confirmation de votre rendez-vous";
+        }
+
+        //ENVOIE CONFIRMATION PAR MAIL
+        if (etat.equals("add") || etat.equals("created")) {
+            SenderEmail senderEmail = new SenderEmail();
+            System.out.println("envoie du mail à " + user.getEmail() + " : "
+                    + senderEmail.sendEmail(sender, user.getEmail(), statusRDVMail,
+                            "Votre rendez-vous du " + rdvExistant.dateToString() + " à "
+                                    + rdvExistant.getHours() + " heures " + rdvExistant.getMinutes()
+                                    + " a été enregistré avec succès"));
         }
 
         rdvRepository.save(rdvExistant);
@@ -232,9 +242,12 @@ public class RdvController {
     }
 
     /**
-     * Teste si le rdv peut etre reservé, si dans le futur et dans les heures d'ouvertures, si pas de chevauchement
+     * Teste si le rdv peut etre reservé, si dans le futur et dans les heures
+     * d'ouvertures, si pas de chevauchement
      * avec un autre rdv et pas sur une indispo du pro
-     * @return Map avec une seule clé boolean et un string pour l'explication (pour le html)
+     * 
+     * @return Map avec une seule clé boolean et un string pour l'explication (pour
+     *         le html)
      */
     private Map<Boolean, String> getBooleanRdvPossible(LocalDate dateDuRdv, LocalTime heureDuRdv) {
         Map<Boolean, String> statut = new HashMap<>();
@@ -248,15 +261,18 @@ public class RdvController {
         }
 
         // 2.On verifie si le rdv est dans les horaires d'ouverture
-        String dayStringNumberMonthYear = dateDuRdv.format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH));
+        String dayStringNumberMonthYear = dateDuRdv
+                .format(DateTimeFormatter.ofPattern("EEEE d MMMM yyyy", Locale.FRENCH));
         TypicalDayPro typicalDayPro = workdayTypeProRepository.findById((dayStringNumberMonthYear.split(" ")[0])).get();
-        if(heureDuRdv.isBefore(typicalDayPro.getStartTime()) || heureDuRdv.isAfter(typicalDayPro.getEndTime())) {
+        if (heureDuRdv.isBefore(typicalDayPro.getStartTime()) || heureDuRdv.isAfter(typicalDayPro.getEndTime())) {
             statut.put(false, "hors horaires");
             return statut;
         }
 
         // 3.On verifie si le rdv chevauche le precedent
-        Rdv previousRDV = rdvRepository.findFirstByCompositeKeyRDVDayRdvAndCompositeKeyRDVTimeRdvBeforeOrderByCompositeKeyRDVDayRdvDescCompositeKeyRDVTimeRdvDesc(dateDuRdv, heureDuRdv);
+        Rdv previousRDV = rdvRepository
+                .findFirstByCompositeKeyRDVDayRdvAndCompositeKeyRDVTimeRdvBeforeOrderByCompositeKeyRDVDayRdvDescCompositeKeyRDVTimeRdvDesc(
+                        dateDuRdv, heureDuRdv);
         System.out.println("previousRDV : " + previousRDV);
         int dureeRDV = constraintRepository.findAll().iterator().next().getDureeDefaultMinutes();
         if (previousRDV != null && previousRDV.getLocalTime().plusMinutes(dureeRDV).isAfter(heureDuRdv)
@@ -273,26 +289,27 @@ public class RdvController {
         for (Unavailability indisponibilite : indispos) {
             System.out.println(indisponibilite);
         }
-        if(indispos.size() != 0){
+        if (indispos.size() != 0) {
             statut.put(false, "indispo");
             System.out.println("ya une indispo !");
             return statut;
         }
 
-        //5. On verifie qu'il n'a pas déja été ajouté bizzare car l'erreur ne se catch plus !!!
+        // 5. On verifie qu'il n'a pas déja été ajouté bizzare car l'erreur ne se catch
+        // plus !!!
         CompositeKeyRDV cleRDV = new CompositeKeyRDV();
         cleRDV.setTimeRdv(heureDuRdv);
         cleRDV.setDayRdv(dateDuRdv);
         Rdv rdvExistant = rdvRepository.findById(cleRDV).orElse(null);
-        if(rdvExistant != null) {
-            if(rdvExistant.getParticipants().contains(user)) {
+        if (rdvExistant != null) {
+            if (rdvExistant.getParticipants().contains(user)) {
                 statut.put(false, "doublon");
                 System.out.println("deja ajouté");
                 return statut;
             }
         }
 
-        //TOUTES LES VERIF ETANT FAITES ON AUTORISE LA CREATION DU RDV
+        // TOUTES LES VERIF ETANT FAITES ON AUTORISE LA CREATION DU RDV
         statut.put(true, "ok");
         return statut;
     }

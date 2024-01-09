@@ -19,10 +19,7 @@ public class UserAccount {
     private String password;
     private String urlphoto;
 
-    // @Column(name = "pro", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-    // private boolean pro;
-
-    //colone qui indique le statut : ROLE_ADMIN ou ROLE_USER
+    //colone spring security qui indique le statut : ROLE_ADMIN ou ROLE_USER
     private String authority;
 
     @Column(name = "enabled", nullable = false, columnDefinition = "BOOLEAN DEFAULT true")

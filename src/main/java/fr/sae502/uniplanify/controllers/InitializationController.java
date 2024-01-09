@@ -78,11 +78,16 @@ public class InitializationController {
                 System.out.println("Jour travaillé : " + joursTravailles[i] + " de " + debut + " a " + fin);
 
                 joursWork[i] = joursTravailles[i];
-                heuresStartWork[i][0] = Integer.parseInt(debut.split(":")[0].toString());
-                heuresStartWork[i][1] = Integer.parseInt(debut.split(":")[1].toString());
+                try {
+                    heuresStartWork[i][0] = Integer.parseInt(debut.split(":")[0].toString());
+                    heuresStartWork[i][1] = Integer.parseInt(debut.split(":")[1].toString());
 
-                heuresEndWork[i][0] = Integer.parseInt(fin.split(":")[0].toString());
-                heuresEndWork[i][1] = Integer.parseInt(fin.split(":")[1].toString());
+                    heuresEndWork[i][0] = Integer.parseInt(fin.split(":")[0].toString());
+                    heuresEndWork[i][1] = Integer.parseInt(fin.split(":")[1].toString());
+                } catch (Exception e) {
+                    System.out.println("il manque des horaires pour le jour " + joursTravailles[i]);
+                    return "redirect:/pro/initialisation?error="+joursTravailles[i];
+                }
 
             }
 

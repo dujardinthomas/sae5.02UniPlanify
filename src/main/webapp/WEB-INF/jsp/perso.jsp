@@ -28,7 +28,7 @@
         </nav>
     </header>
 
-    <h1>Bienvenue Mr ${user.getPrenom()} !</h1>
+    <h1>Bienvenue ${user.getPrenom()} !</h1>
     <h2>Voici vos rendez-vous à venir :</h2>
 
        <table border="1">

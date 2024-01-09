@@ -103,31 +103,6 @@
         </tr>
     </table>
 
-    <!-- <script>
-        let cells = document.querySelectorAll('[id^="jourPOURJS"]');
-        cells.forEach(element => {
-            let params = element.href.split('?')[1].split('&');
-            let paramObj = {};
-            params.forEach(function(param) {
-                let [key, value] = param.split('=');
-                paramObj[key] = decodeURIComponent(value);
-            });
-
-            let year = parseInt(paramObj['year']);
-            let month = parseInt(paramObj['month']);
-            let day = parseInt(paramObj['day']);
-
-            let date = new Date(year, month, day);
-            let now = new Date();
-
-            if (year < now.getFullYear() || (year === now.getFullYear() && month < now.getMonth() + 1) || (year === now.getFullYear() && month === now.getMonth() + 1 && day < now.getDate())) {
-                element.parentElement.parentElement.classList.add("passed");
-            }
-        });
-    </script> -->
-        
-
-
     <div class="settingsCalendar">
         <a href="?year=${previousYear}&month=${previousMonth}">Mois précedent</a>
         <a href="/">Aujourd'hui</a>

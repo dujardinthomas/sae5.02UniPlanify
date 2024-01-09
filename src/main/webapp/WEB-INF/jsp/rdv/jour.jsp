@@ -45,7 +45,8 @@
     } else {
         
         try {
-            for (Rdv rdvNow : today.getRdvs()) { %>
+            for (Rdv rdvNow : today.getRdvs()) { 
+                 if(rdvNow.isOuvert() == true) { %>
                 <tr>
                     <td>
                     <%
@@ -76,7 +77,8 @@
                        </div> 
                     </td>
                 </tr>
-            <% } %>
+            <% }
+            } %>
         <% 
         } catch (Exception e) { %>
             <p>Une erreur s'est produite lors de la récupération de la journée</p>

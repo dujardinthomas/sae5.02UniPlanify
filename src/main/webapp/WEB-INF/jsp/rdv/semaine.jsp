@@ -62,7 +62,8 @@
             <h3><%= jour.getTitle() %></h3>
             <p><%= jour.getFillPercentage() %>%</p>
             <ul class="rdv-list">
-                <% for (Rdv rdvNow : jour.getRdvs()) { %>
+                <% for (Rdv rdvNow : jour.getRdvs()) {
+                    if(rdvNow.isOuvert() == true) { %>
 
                     <%
                     double pourcentage = rdvNow.getFillPercentage();
@@ -85,7 +86,8 @@
                     <li style="<%= couleur %>">
                             <%= rdvNow.urlToStringTakeRdv("code:heureDuRdv") %>
                     </li>
-            <%  } %> 
+            <%  }
+            } %> 
             </ul>
         </div>
 <%  } %>

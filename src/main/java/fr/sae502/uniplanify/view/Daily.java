@@ -204,8 +204,19 @@ public class Daily {
             //ON AJOUTE SOIT LE RDV SOIT UN RDV VIDE
             Rdv rdvActuelle = rdvRepository.findById(cleRDV).orElse(new Rdv(cleRDV));
 
+            //on le definit a ouvert pour qu'il soit affiché
+            rdvActuelle.setOuvert(true);
+
+             //si le rdv est dans le passé on le propose pas
+            if(iterableTime.isBefore(LocalTime.now()) && selectedDate.isEqual(LocalDate.now())) {
+                System.out.println("le rdv est dans le passé on le ferme");
+                rdvActuelle.setOuvert(false);
+                //iterableTime = iterableTime.plusMinutes(dureeRDV);
+            }
+
             iterableTime = iterableTime.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
             listRdvDay.add(rdvActuelle);
+            //System.out.println("ajout d'un rdv à la liste : " + rdvActuelle);
         }
         // System.out.println("il y a : " + listRdvDay.size() + " rdvs sur la journée du " + this.date);
         if(listRdvDay.size() == 0) {

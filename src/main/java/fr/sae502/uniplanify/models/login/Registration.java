@@ -1,5 +1,9 @@
 package fr.sae502.uniplanify.models.login;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,16 +31,16 @@ public class Registration {
             @RequestParam String prenom,
             @RequestParam String email,
             @RequestParam String password,
-            @RequestParam(required = false, defaultValue = "login") String origine) {
+            @RequestParam(required = false, defaultValue = "login") String origine) throws UnsupportedEncodingException {
 
         if(nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || password.isEmpty()) {
             System.out.println("champs vides");
-            return "redirect:/inscription?msg=champs vides";
+            return "redirect:/inscription?msg=" + URLEncoder.encode("champs vides !", StandardCharsets.UTF_8.toString());
         }
 
         if(userAccountRepository.findByEmail(email) != null)  {
             System.out.println("email déjà utilisé");
-            return "redirect:/inscription?msg=email déjà utilisé";
+            return "redirect:/inscription?msg=" + URLEncoder.encode("email déja utilisé !", StandardCharsets.UTF_8.toString());
         }
 
         String authority = "ROLE_USER";

@@ -1,10 +1,11 @@
-# SAE-N5_DUJARDIN_Thomas_UniPlanify : Gestionnaire de planning 
+# SAE-N5_DUJARDIN_Thomas_UniPlanify : Gestionnaire de planning Générique 
 
 Thomas Dujardin
 - Début : 14/09/2023
 - Fin : 08/01/2024
 
 ## Bien démarrer
+
 1) télécharger le projet Maven.
 2) ***mvn -v*** pour vérifier la présence de maven sinon l'installer : https://maven.apache.org/download.cgi
 3) ***mvn clean package*** pour compiler le projet : cela va créer le dossier *target/*.
@@ -12,12 +13,13 @@ Thomas Dujardin
 
 ## Technos utilisées
 
-JEE + framework spring mvc web relié à une base de données h2 en mémoire et création des tables via JPA.
-C'est un ensemble de controller java respectant des endpoints qui fabriquent des modèles pour les envoyer sur des vues en JSP.
+JEE + framework Spring MVC Web relié à une base de données h2 en mémoire et création des tables via JPA.
+C'est un ensemble de contrôler java respectant des endpoints qui fabriquent des modèles pour les envoyer sur des vues en JSP.
 Le style des JSP est fait en CSS.
 
 
 ## Objectif
+
 A la manière de prendreunrendezvous, de Doctolib ou de nombreux sites de prise de rendez-vous mis en place
 durant la crise COVID-19, l’objectif de ce projet consiste à réaliser un site internet de gestion de rendez-vous multi-
 utilisateurs. Le site doit permettre d’une part de montrer aux utilisateurs les créneaux libres, d’autre part de permettre
@@ -33,6 +35,7 @@ la piscine, l’autre pour le médecin), on créera 2 sites WEB en changeant à 
 Ce projet se fait en binôme ou seul.
 
 ## Répartitions
+
 Rdv hebdomadaire : le jeudi 13h30
 1 semaine sur 2
 
@@ -63,7 +66,8 @@ Rdv hebdomadaire : le jeudi 13h30
     - supprimer disponibilité : fermer la prise de rdv et annuler ceux déja reservé
 
 
-### Ma démarche : 
+### Ma démarche :
+
 1) Est ce que le pro doit indiquer ses disponibilités (crée a chaque fois des dispo) ou ses non disponibilités (crée uniquement ses empechements)
 
 -> j'opte pour qu'il indique ses non dispo car il y aura moins de ligne dans la table il sera rarement absent
@@ -122,6 +126,7 @@ on definie une semaine type du pro par défaut (ouvert tout les lundi de 8h à 1
 
 
 ## Première initialisation du calendrier (base de données vide)
+
 Lors du déploiement du projet, un calendrier est installé.
 La base de données actuellement utilisé est une base h2 en mémoire (pour les tests). Elle peut être changé sans aucun problème, les tables se créent au démarrage de l'application grâce à JPA.
 
@@ -131,6 +136,7 @@ L'admin pour sa 1ère fois accède à son espace professionnel, crée son compte
 - le nombre de personne. 
 
 Une fois cela fait, le calendrier est opérationnel.
+Il peut modifier ses contraintes à tout moment, cependant seuls les nouveaux rdv tiendront compte des mises à jour.
 
 
 ## Fonctionnement
@@ -148,9 +154,11 @@ Pour un utilisateur connecté :
 1) L'utilisateur choisit un créneau selon sa vue préféré (mensuelle puis journalière ou directement hebdomadaire).
 2) Si le rdv respecte les règles, alors il est enregistré et apparaît dans son espace personnel. Il reçoit la confirmation sur son adresse mail.
 
+
 ## Les fonctionnalités
 
 ### La réservation :
+
 Les créneaux de rdv sont consultables au mois, à la semaine ou au jour.
 
 Chaque rdv est représenté par un objet associé à une couleur spécifique (valeur arbitraires) en fonction de son taux de remplissage. Ce taux est également attribué à chaque journée (représentant la moyenne des pourcentages de remplissage des rendez-vous sur cette journée) :
@@ -161,8 +169,11 @@ Chaque rdv est représenté par un objet associé à une couleur spécifique (va
 - orange si le taux est inférieur à 100%,
 - rouge si le taux est égal à 100%  : c'est à dire que le rdv est complet.
 
+Pour plus de visibilité, je me suis assuré d'afficher uniquement à la reservation les rdv dont l'heure de début n'est pas encore passé. En d'autres termes, tous les rdv affichés au client sont réservables. (attribut ouvert dans l'objet rdv)
+
 
 ### L'espace personnel :
+
 L'utilisateur a la possibilité d'accéder à son espace personnel où il peut trouver :
 
 - Tous ses rdv auxquels il participe (passés et à venir). Il peut les supprimer si besoin. Cependant, si plusieurs personnes sont impliquées dans le rendez-vous, sa suppression ne concerne que lui ; les autres participants restent enregistrés.
@@ -171,8 +182,10 @@ L'utilisateur a la possibilité d'accéder à son espace personnel où il peut t
 
 
 ### L'espace professionnel :
+
 Le professionnel possède également son propre espace, où il peut :
-- Consulter son planning ; ses rdv sur le mois, la semaine (ensemble de 7 jours du lundi au dimanche) ainsi que l'historique complet des rdv passés.
+- Consulter son planning ; ses rdv sur le mois, la semaine (j à j+7) ainsi que l'historique complet des rdv passés. Il peut supprimer des rdv si besoins. Dans ce cas un email de confirmation est envoyé à chaque participant de son annulation.
+
 - Accéder à un lien permettant de modifier son profil similaire à celui de l'utilisateur.
 
 - Ajouter des périodes d'indisponibilités en choisissant une date de début, une heure de début et une heure de fin. Il peut également y ajouter un motif.
@@ -181,13 +194,13 @@ Le professionnel possède également son propre espace, où il peut :
 
 
 ### Les indisponibilités :
+
 Le professionnelle a la possibilité de déclarer des périodes d'indisponibilités. Elles sont représentés par une date de début, une heure de début, une heure de fin et un motif.
 
 Lorsqu'une indisponibilité est ajoutée :
 - Il n'est plus possible de réserver sur cette plage horaire.
 - Les crénaux disponibles sont supprimés.
 - Les rdvs déjà réservés pendant cette période sont alors supprimés et les participants en sont informés par e-mail. En d'autres termes, l'indisponibilité prime sur les rendez-vous existants.
-
 
 
 ## Points difficiles
@@ -198,6 +211,7 @@ Chacune de ces transitions a demandé des ajustements minutieux dans une configu
 
 Malgré les réécritures du projet, cela m'a plu car j'ai pu observer le fonctionnement et la puissance de ces technologies.
 
+
 ## Améliorations potentielles
 
-L'amélioration du front de l'espace personnel aurait pu être une piste, mais la priorité a été accordée au développement du backend.
+L'amélioration du front de l'espace personnel aurait pu être une piste, mais la priorité a été accordée au développement du back-end.

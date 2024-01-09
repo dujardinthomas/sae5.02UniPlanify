@@ -28,6 +28,7 @@ public class Rdv {
     private String state; // "DISPONIBLE POUR LE MOMENT" ou "ENCORE X PLACES DISPONIBLES SUR Y POUR LE MOMENT" ou "COMPLET" 
     private String comment; // "X est parti" ou "X a rejoint le rdv"
     private double fillPercentage; // Pourcentage de remplissage du rdv
+    private boolean ouvert; // Si le rdv est ouvert ou non a la reservation
 
     @ManyToMany
     @JoinTable(name = "rdv_participant",
@@ -43,6 +44,7 @@ public class Rdv {
         this.compositeKeyRDV = compositeKeyRDV;
         setState("DISPONIBLE POUR LE MOMENT");
         setFillPercentage(0);
+        this.ouvert = true;
     }
 
     public void addParticipant(UserAccount user, String commentaire, ConstraintProRepository constraintProRepository) {
@@ -172,5 +174,9 @@ public class Rdv {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public boolean isOuvert() {
+        return this.ouvert;
     }
 }
