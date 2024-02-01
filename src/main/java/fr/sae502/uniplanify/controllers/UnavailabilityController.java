@@ -85,7 +85,12 @@ public class UnavailabilityController {
             for (UserAccount user : rdv.getParticipants()) {
                 System.out.println("mail envoyé à " + user.getEmail() + " : "
                         + senderEmail.sendEmail(sender, user.getEmail(), "Rdv supprimé",
-                                "Votre rdv " + rdv + " a été supprimé car il est dans une indisponibilité"));
+                        "Bonjour " + user.getPrenom() + ", \n\nvotre  rendez-vous du " + rdv.dateToString() + " à "
+                                    + rdv.getHours() + " heures " + rdv.getMinutes() + " a été supprimé car il est dans une indisponibilité \\n" + //
+                                            "\\n" + //
+                                            "Cordialement,\\n" + //
+                                            "\\n" + //
+                                            "L'équipe Uniplanify"));
             }
             rdvRepository.delete(rdv);
             System.out.println("Rdv supprimé : " + rdv);

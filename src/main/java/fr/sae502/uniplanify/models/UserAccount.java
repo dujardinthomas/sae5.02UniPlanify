@@ -18,6 +18,7 @@ public class UserAccount {
     private String email;
     private String password;
     private String urlphoto;
+    private String token;
 
     //colone spring security qui indique le statut : ROLE_ADMIN ou ROLE_USER
     private String authority;

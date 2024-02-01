@@ -1,0 +1,23 @@
+.logincontainer{
+    position: relative;
+}
+
+.logincontainer input{
+    color: #565656;
+    background: none;
+    padding: 0.625rem;
+    border: 2px solid #030104;
+}
+
+.logincontainer label{
+    position: absolute;
+    top: 0;
+    left: 0;
+    translate: 0.625rem 0.625rem;
+    color: #030104;
+    background-color: #efe4f7;
+    padding-inline: 0.25rem;
+    border: 2px solid transparent;
+    pointer-events: none;
+    transition: translate 250ms, background-color 250ms, border-color 250ms;
+}

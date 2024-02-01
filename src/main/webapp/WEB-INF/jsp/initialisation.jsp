@@ -31,18 +31,18 @@
 
         <h1>Définition du lieu</h1>
         <ul>
-            <li>Nom du lieu : <input type="text" name="nom" id="nom" value="${contraintes.getNom()}"></li>
-            <li>Description du lieu : <input type="text" name="description" id="description" value="${contraintes.getDescription()}"></li>
-            <li>Adresse du lieu : <input type="text" name="adresse" id="adresse" value="${contraintes.getAdresse()}"></li>
-            <li>Telephone du lieu : <input type="text" name="telephone" id="telephone" value="${contraintes.getTelephone()}"></li>
-            <li>Email du lieu : <input type="text" name="email" id="email" value="${contraintes.getEmail()}"></li>
+            <li>Nom du lieu : <input type="text" name="nom" id="nom" value="${contraintes.getNom()}" required></li>
+            <li>Description du lieu : <input type="text" name="description" id="description" required value="${contraintes.getDescription()}"></li>
+            <li>Adresse du lieu : <input type="text" name="adresse" id="adresse" required value="${contraintes.getAdresse()}"></li>
+            <li>Telephone du lieu : <input type="text" name="telephone" id="telephone" required value="${contraintes.getTelephone()}"></li>
+            <li>Email du lieu : <input type="text" name="email" id="email" required value="${contraintes.getEmail()}"></li>
         </ul>
 
 
         <h1>Sélection des contraintes de RDV</h1>
         <ul>
-            <li>Durée d'un rdv : <input type="number" name="dureeDefaut" id="dureeDefaut" value="${contraintes.getDureeDefaultMinutes()}"></li>
-            <li>Nombre de personne maximum dans un rdv : <input type="number" name="nbPersonneMax" id="nbPersonneMax" value="${contraintes.getNbPersonneMaxDefault()}"></li>
+            <li>Durée d'un rdv : <input type="number" name="dureeDefaut" required id="dureeDefaut" value="${contraintes.getDureeDefaultMinutes()}"></li>
+            <li>Nombre de personne maximum dans un rdv : <input type="number" required name="nbPersonneMax" id="nbPersonneMax" value="${contraintes.getNbPersonneMaxDefault()}"></li>
         </ul>
 
         <h1>Sélection des jours travaillés</h1>
@@ -53,6 +53,9 @@
         %>
 
         <% List<TypicalDayPro> joursTravailles = (List<TypicalDayPro>) request.getAttribute("journeetypepro");
+        if (joursTravailles == null) {
+            joursTravailles = new ArrayList<TypicalDayPro>();
+        }
     
         boolean lundiChecked = false;
         Object debut_lundi = "";

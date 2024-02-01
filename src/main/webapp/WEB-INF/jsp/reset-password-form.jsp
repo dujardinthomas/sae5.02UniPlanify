@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - UniPlanify</title>
+    <title>Reinitialiser mon mot de passe - UniPlanify</title>
     <link rel="icon" href="../img/logo.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
 
@@ -27,7 +27,7 @@
 
  <h1><a href="login">Login</a></h1>
 
-    <form class="form-signin" method="post" action="/login">
+    <form class="form-signin" method="post" action="reset-password-form">
       <div class="container">
 
         <% String msg = request.getParameter("msg"); 
@@ -36,16 +36,13 @@
           <% }
         %>
 
-        <label for="username" class="sr-only">Username</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="email" class="sr-only">Username</label>
+        <input type="text" id="email" name="email" class="form-control" placeholder="Adresse mail" required autofocus>
 
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 
-        <p><input type='checkbox' name='remember'/> Remember me on this computer.</p>
-        <p><a href="reset-password-form">Forgot password?</a></p>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-        <button type="submit">Login</button>
+        <button type="submit">Demander un nouveau mot de passe</button>
       </div>
 
     </form>

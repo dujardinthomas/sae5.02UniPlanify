@@ -10,5 +10,7 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, Integ
     // obtient un user par son email
     @Query("SELECT u FROM UserAccount u WHERE u.email =:email")
     UserAccount findByEmail(@Param("email") String email);
+
+    UserAccount findByToken(String token);
     
 }

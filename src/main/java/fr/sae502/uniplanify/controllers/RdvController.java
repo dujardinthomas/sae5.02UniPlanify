@@ -101,9 +101,13 @@ public class RdvController {
                 for (UserAccount participant : rdvExistantASuppr.getParticipants()) {
                     System.out.println("envoie du mail à " + participant.getEmail() + " : "
                             + senderEmail.sendEmail(sender, participant.getEmail(), "Annulation de votre rendez-vous",
-                                    "Votre rendez-vous du " + rdvExistantASuppr.dateToString() + " à "
+                                    "Bonjour " + participant.getPrenom() + ", \n\nvotre rendez-vous du " + rdvExistantASuppr.dateToString() + " à "
                                             + rdvExistantASuppr.getHours() + " heures " + rdvExistantASuppr.getMinutes()
-                                            + " a été annulé pour la raison suivante : " + raison));
+                                            + " a été annulé pour la raison suivante : <strong>" + raison + "</strong> \\n" + //
+                                                    "\\n" + //
+                                                    "Cordialement,\\n" + //
+                                                    "\\n" + //
+                                                    "L'équipe Uniplanify"));
                 }
 
                 rdvRepository.delete(rdvExistantASuppr);
@@ -139,9 +143,13 @@ public class RdvController {
 
                 SenderEmail senderEmail = new SenderEmail();
                 senderEmail.sendEmail(sender, user.getEmail(), "Confirmation de votre annulation de votre rendez-vous",
-                        "Votre rendez-vous du " + rdvExistant.dateToString() + " à "
+                "Bonjour " + user.getPrenom() + ", \n\nvotre  rendez-vous du " + rdvExistant.dateToString() + " à "
                                 + rdvExistant.getHours() + " heures " + rdvExistant.getMinutes()
-                                + " a été correctement annulé par votre part pour la raison suivante : " + raison);
+                                + " a été correctement annulé par votre part pour la raison suivante : <strong>" + raison + "</strong>\\n" + //
+                                        "\\n" + //
+                                        "Cordialement,\\n" + //
+                                        "\\n" + //
+                                        "L'équipe Uniplanify");
                 rdvExistant.removeParticipant(user, raison, constraintRepository);
                 if (rdvExistant.getParticipants().isEmpty()) {
                     rdvRepository.delete(rdvExistant);
@@ -230,9 +238,13 @@ public class RdvController {
             SenderEmail senderEmail = new SenderEmail();
             System.out.println("envoie du mail à " + user.getEmail() + " : "
                     + senderEmail.sendEmail(sender, user.getEmail(), statusRDVMail,
-                            "Votre rendez-vous du " + rdvExistant.dateToString() + " à "
+                    "Bonjour " + user.getPrenom() + ", \n\nvotre  rendez-vous du " + rdvExistant.dateToString() + " à "
                                     + rdvExistant.getHours() + " heures " + rdvExistant.getMinutes()
-                                    + " a été enregistré avec succès"));
+                                    + " a été enregistré avec succès \\n" + //
+                                            "\\n" + //
+                                            "Cordialement,\\n" + //
+                                            "\\n" + //
+                                            "L'équipe Uniplanify"));
         }
 
         rdvRepository.save(rdvExistant);

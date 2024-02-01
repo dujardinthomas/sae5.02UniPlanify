@@ -1,25 +1,29 @@
-package fr.sae502.uniplanify.models.login;
+package fr.sae502.uniplanify.controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.sae502.uniplanify.models.UserAccount;
 import fr.sae502.uniplanify.models.repository.UserAccountRepository;
+import fr.sae502.uniplanify.models.utils.SenderEmail;
 
 @Controller
-public class Registration {
+public class RegistrationController {
 
     @Autowired
     private UserAccountRepository userAccountRepository;
+
+    @Autowired
+    private JavaMailSender sender;
 
     @GetMapping("/inscription")
     public String registration() {
@@ -55,6 +59,12 @@ public class Registration {
         UserAccount user = new UserAccount(nom, prenom, email, hashedPassword, "../img/profils/default.jpg", authority, true);
         userAccountRepository.save(user);
         System.out.println("Utilisateur " + user + " : enregistré");
+
+        SenderEmail senderEmail = new SenderEmail();
+        senderEmail.sendEmail(sender, user.getEmail(), "Bienvenue sur Uniplanify !", 
+            "Bonjour "+prenom+",\n\nBienvenue sur Uniplanify !\n\nVous pouvez dès à présent vous connecter à votre espace personnel et prendre rdv chez nous !\n\nCordialement,\n\nL'équipe Uniplanify");
+
+
         System.out.println("on redirige sur "+origine);
         return "redirect:/"+origine;
     }
