@@ -5,6 +5,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ public class RegistrationController {
 
     @Autowired
     private JavaMailSender sender;
+
+    @Value("classpath:static/email-template/welcome.html")
+    private Resource emailBienvenue;
 
     @GetMapping("/inscription")
     public String registration() {
@@ -61,9 +66,10 @@ public class RegistrationController {
         System.out.println("Utilisateur " + user + " : enregistré");
 
         SenderEmail senderEmail = new SenderEmail();
-        senderEmail.sendEmail(sender, user.getEmail(), "Bienvenue sur Uniplanify !", 
-            "Bonjour "+prenom+",\n\nBienvenue sur Uniplanify !\n\nVous pouvez dès à présent vous connecter à votre espace personnel et prendre rdv chez nous !\n\nCordialement,\n\nL'équipe Uniplanify");
-
+        senderEmail.sendEmail(sender, user.getEmail(), "Bienvenue chez Uniplanify !",
+            senderEmail.readEmailTemplate(emailBienvenue)
+                .replace("{nom}", user.getNom())
+                .replace("{prenom}", user.getPrenom()));
 
         System.out.println("on redirige sur "+origine);
         return "redirect:/"+origine;

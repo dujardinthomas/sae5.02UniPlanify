@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de votre rendez-vous</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .header,
+        .footer {
+            background-color: #f8f8f8;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            margin: 20px 0;
+        }
+
+        .content strong {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Confirmation de votre rendez-vous</h1>
+        </div>
+        <div class="content">
+            <p>Bonjour {prenom},</p>
+            <p>Votre rendez-vous du {date} à {heure} heures {minutes} a été enregistré !</p>
+            <p>Cordialement,</p>
+            <p>L'équipe Uniplanify</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Uniplanify. Tous droits réservés.</p>
+        </div>
+    </div>
+</body>
+</html>

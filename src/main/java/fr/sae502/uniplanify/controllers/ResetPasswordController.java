@@ -1,6 +1,8 @@
 package fr.sae502.uniplanify.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,15 @@ public class ResetPasswordController {
 
     private UserAccount userAccount;
 
+    @Value("${url.server}")
+    private String urlServer;
+
+    @Value("classpath:static/email-template/passwordChanged.html")
+    private Resource emailPasswordChanged;
+
+    @Value("classpath:static/email-template/passwordReset.html")
+    private Resource emailPasswordReset;
+
     @GetMapping("/reset-password-form")
     public String resetPassword() {
         return "reset-password-form";
@@ -40,14 +51,17 @@ public class ResetPasswordController {
             userAccountRepository.save(userAccount);
 
             SenderEmail senderEmail = new SenderEmail();
+            System.out.println("urlServer : ");
+            System.out.println(senderEmail.urlServer);
             senderEmail.sendEmail(sender, userAccount.getEmail(), "Reinitialiser votre mot de passe Uniplanify !", 
-            "Bonjour "+userAccount.getPrenom()+",\n\nVous oublié votre mot de passe ? Vous pouvez le reinitialiser ici : " + 
-            "http://localhost:8080/reset-password?token=" + token + "\n\nSi vous n'êtes pas à l'origine de cette demande, veuillez ignorer ce mail.\n " +
-            "\n\nCordialement,\n\nL'équipe Uniplanify");
-
+                senderEmail.readEmailTemplate(emailPasswordReset)
+                .replace("{prenom}", userAccount.getPrenom())
+                .replace("{lien}", urlServer + "/reset-password?token=" + token)
+            );
 
             model.addAttribute("msg", "Un email vous a été envoyé");
         } catch (Exception e) {
+            System.out.println("Erreur lors de l'envoie du mail : " + e.getMessage());
             model.addAttribute("msg", "Email inconnu");
         }
         return "redirect:/login?msg=" + model.getAttribute("msg");
@@ -72,7 +86,9 @@ public class ResetPasswordController {
 
             SenderEmail senderEmail = new SenderEmail();
             senderEmail.sendEmail(sender, userAccount.getEmail(), "Votre mot de passe a été modifié !",
-            "Bonjour "+userAccount.getPrenom()+",\n\nVotre mot de passe a été modifié avec succès !\n\nCordialement,\n\nL'équipe Uniplanify");
+                senderEmail.readEmailTemplate(emailPasswordReset)
+                    .replace("{prenom}", userAccount.getPrenom())
+            );
 
             model.addAttribute("msg", "Mot de passe modifié");
         } catch (Exception e) {
