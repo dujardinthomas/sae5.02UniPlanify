@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.sae502.uniplanify.models.repository.ConstraintProRepository;
-import fr.sae502.uniplanify.models.repository.RdvRepository;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.UniqueConstraint;

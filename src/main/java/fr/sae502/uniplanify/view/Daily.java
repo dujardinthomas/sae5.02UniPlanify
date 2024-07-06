@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import fr.sae502.uniplanify.models.CompositeKeyRDV;
 import fr.sae502.uniplanify.models.CompositeKeyUnavailability;
 import fr.sae502.uniplanify.models.ConstraintPro;
