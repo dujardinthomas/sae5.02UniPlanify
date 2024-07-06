@@ -150,15 +150,12 @@ public class RdvController {
 
                 SenderEmail senderEmail = new SenderEmail();
                 senderEmail.sendEmail(sender, user.getEmail(), "Confirmation de votre annulation de votre rendez-vous",
-                        "methode bizzare a creuser : rdv du " + rdvExistant.dateToString()
-                                + " à "
-                                + rdvExistant.getHours() + " heures " + rdvExistant.getMinutes()
-                                + " a été correctement annulé par votre part pour la raison suivante : <strong>"
-                                + raison + "</strong>\\n" + //
-                                "\\n" + //
-                                "Cordialement,\\n" + //
-                                "\\n" + //
-                                "L'équipe Uniplanify");
+                    senderEmail.readEmailTemplate(emailRdvCanceled)
+                        .replace("{prenom}", user.getPrenom())
+                        .replace("{date}", rdvExistant.dateToString())
+                        .replace("{heure}", String.valueOf(rdvExistant.getHours()))
+                        .replace("{minutes}", String.valueOf(rdvExistant.getMinutes()))
+                        .replace("{raison}", raison));
                 rdvExistant.removeParticipant(user, raison, constraintRepository);
                 if (rdvExistant.getParticipants().isEmpty()) {
                     rdvRepository.delete(rdvExistant);
