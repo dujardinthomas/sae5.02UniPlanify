@@ -86,7 +86,7 @@ public class ResetPasswordController {
 
             SenderEmail senderEmail = new SenderEmail();
             senderEmail.sendEmail(sender, userAccount.getEmail(), "Votre mot de passe a été modifié !",
-                senderEmail.readEmailTemplate(emailPasswordReset)
+                senderEmail.readEmailTemplate(emailPasswordChanged)
                     .replace("{prenom}", userAccount.getPrenom())
             );
 
