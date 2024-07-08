@@ -107,14 +107,15 @@ public class RdvController {
                 SenderEmail senderEmail = new SenderEmail();
                 for (UserAccount participant : rdvExistantASuppr.getParticipants()) {
                     System.out.println("envoie du mail à " + participant.getEmail() + " : "
-                            +
-                            senderEmail.sendEmail(sender, participant.getEmail(), "Annulation de votre rendez-vous",
+                        + senderEmail.sendEmail(sender, participant.getEmail(), "Annulation de votre rendez-vous",
                             senderEmail.readEmailTemplate(emailRdvCanceled)
-                                            .replace("{prenom}", participant.getPrenom())
-                                            .replace("{date}", rdvExistantASuppr.dateToString())
-                                            .replace("{heure}", String.valueOf(rdvExistantASuppr.getHours()))
-                                            .replace("{minutes}", String.valueOf(rdvExistantASuppr.getMinutes()))
-                                            .replace("{raison}", raison)));
+                                .replace("{prenom}", participant.getPrenom())
+                                .replace("{date}", rdvExistantASuppr.dateToString())
+                                .replace("{heure}", String.valueOf(rdvExistantASuppr.getHours()))
+                                .replace("{minutes}", String.valueOf(rdvExistantASuppr.getMinutes()))
+                                .replace("{raison}", raison)
+                        )
+                    );
                 }
 
                 rdvRepository.delete(rdvExistantASuppr);

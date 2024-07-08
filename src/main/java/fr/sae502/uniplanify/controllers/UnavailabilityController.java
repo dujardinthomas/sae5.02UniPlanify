@@ -6,6 +6,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,9 @@ public class UnavailabilityController {
     @Autowired
     private UserAccountRepository utilisateurRepository;
 
+    @Value("classpath:static/email-template/rdvCanceled.html")
+    private Resource emailRdvCanceled;
+
     private UserAccount user;
 
     @GetMapping("/indisponibilite")
@@ -65,7 +70,7 @@ public class UnavailabilityController {
             model.addAttribute("indispo", null);
         }
 
-        List<Rdv> hasDelete = removeRdvsReserves(jour, debutheure, finheure);
+        List<Rdv> hasDelete = removeRdvsReserves(jour, debutheure, finheure, motif);
         model.addAttribute("hasDeleteList", hasDelete);
 
         user = utilisateurRepository.findByEmail(principal.getName());
@@ -78,19 +83,21 @@ public class UnavailabilityController {
      * supprimer les rdv deja existant dans la base de donnée qui sont dans la plage
      * de temps de l'indisponibilité
      */
-    private List<Rdv> removeRdvsReserves(LocalDate day, LocalTime startTime, LocalTime endTime) {
+    private List<Rdv> removeRdvsReserves(LocalDate day, LocalTime startTime, LocalTime endTime, String motif) {
         List<Rdv> allRdvInIndispo = rdvRepository.findByCompositeKeyRDVDayRdvAndCompositeKeyRDVTimeRdvBetween(day, startTime, endTime);
         SenderEmail senderEmail = new SenderEmail();
         for (Rdv rdv : allRdvInIndispo) {
             for (UserAccount user : rdv.getParticipants()) {
-                System.out.println("mail envoyé à " + user.getEmail() + " : "
-                        + senderEmail.sendEmail(sender, user.getEmail(), "Rdv supprimé",
-                        "Bonjour " + user.getPrenom() + ", \n\nvotre  rendez-vous du " + rdv.dateToString() + " à "
-                                    + rdv.getHours() + " heures " + rdv.getMinutes() + " a été supprimé car il est dans une indisponibilité \\n" + //
-                                            "\\n" + //
-                                            "Cordialement,\\n" + //
-                                            "\\n" + //
-                                            "L'équipe Uniplanify"));
+                System.out.println("envoie du mail à " + user.getEmail() + " : "
+                    + senderEmail.sendEmail(sender, user.getEmail(), "Annulation de votre rendez-vous",
+                        senderEmail.readEmailTemplate(emailRdvCanceled)
+                            .replace("{prenom}", user.getPrenom())
+                            .replace("{date}", rdv.dateToString())
+                            .replace("{heure}", String.valueOf(rdv.getHours()))
+                            .replace("{minutes}", String.valueOf(rdv.getMinutes()))
+                            .replace("{raison}", motif)
+                    )
+                );
             }
             rdvRepository.delete(rdv);
             System.out.println("Rdv supprimé : " + rdv);
