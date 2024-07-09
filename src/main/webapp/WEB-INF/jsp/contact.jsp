@@ -45,7 +45,8 @@
 
             <div class="colonne-droite">
                 <!-- <div id="map"></div> -->
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d40492.58593492475!2d3.0468978!3d50.631080600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c2d579b3256e11%3A0x40af13e81646360!2sLille!5e0!3m2!1sfr!2sfr!4v1704478041038!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCrmqimuE6f1RPknysSnXLIDezs4dCxI5Y&q=${contrainte.getAdresse()}"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
 
