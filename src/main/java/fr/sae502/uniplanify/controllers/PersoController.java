@@ -38,7 +38,7 @@ public class PersoController {
         System.out.println("l'user est ::: " + user);
        
         model.addAttribute("user", user);
-        List<Rdv> rdvs = rdvRepository.findByParticipantId(user.getId());
+        List<Rdv> rdvs = rdvRepository.findByParticipantIdOrderByCompositeKeyRDVDayRdvDescCompositeKeyRDVTimeRdvDesc(user.getId());
         model.addAttribute("rdvs", rdvs);
         
         return "perso";

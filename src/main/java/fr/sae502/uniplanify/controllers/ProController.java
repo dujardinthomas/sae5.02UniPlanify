@@ -53,7 +53,7 @@ public class ProController {
     public String espacePro(Principal principal, Model model) {
         user = utilisateurRepository.findByEmail(principal.getName());
         model.addAttribute("user", user);
-        model.addAttribute("rdvs", (List<Rdv>) rdvRepository.findAll());
+        model.addAttribute("rdvs", (List<Rdv>) rdvRepository.findAllByOrderByCompositeKeyRDVDayRdvDescCompositeKeyRDVTimeRdvDesc());
         try {
             model.addAttribute("listIndispo", (List<Unavailability>) unavailabilityRepository.findAll());
 

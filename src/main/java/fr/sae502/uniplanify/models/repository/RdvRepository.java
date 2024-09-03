@@ -11,8 +11,11 @@ import fr.sae502.uniplanify.models.Rdv;
 
 public interface RdvRepository extends CrudRepository<Rdv, CompositeKeyRDV> {
 
-       // obtient les rdv d'un client
-       List<Rdv> findByParticipantId(int clientId);
+       // obtient les rdv d'un client décroissant
+       List<Rdv> findByParticipantIdOrderByCompositeKeyRDVDayRdvDescCompositeKeyRDVTimeRdvDesc(int clientId);
+
+       //obtenir tout les rdv par ordre decroissant
+       List<Rdv> findAllByOrderByCompositeKeyRDVDayRdvDescCompositeKeyRDVTimeRdvDesc();
 
        // obtient les rdv sur une période donnée a savoir un jour donné et une heure de début et de fin
        List<Rdv> findByCompositeKeyRDVDayRdvAndCompositeKeyRDVTimeRdvBetween(LocalDate day, LocalTime startTime, LocalTime endTime);

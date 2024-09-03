@@ -11,6 +11,15 @@
             </li>
             <%-- <li><a href="/week">Semaine</a></li> --%>
             <li><a href="../contact">Contact</a></li>
+        <% 
+        // Vérifier si la page actuelle est celle où vous souhaitez afficher le bouton de déconnexion
+        String currentPage = request.getRequestURI();
+        if (currentPage.endsWith("pro.jsp") || currentPage.endsWith("perso.jsp")) { 
+        %>
+            <li><a href="logout">Deconnexion</a></li>
+        <% 
+        } 
+            %>
         </ul>
     </nav>
 </header>
