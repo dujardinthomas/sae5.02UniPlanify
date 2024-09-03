@@ -16,18 +16,7 @@
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../my">Mon espace</a></li>
-                <li><a href="/">Calendrier</a></li>
-                <li><a href="/week">Semaine</a></li>
-                <li><a href="../contact">Contact</a></li>
-                <li><a href="../logout">Deconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
+<%@ include file="/WEB-INF/jsp/template/menu.jsp" %>
 
 <h2> Vous souhaitez vraiment supprimer ce rdv 
 du ${rdv.getLocalDate()} à ${rdv.getLocalTime()} ? </h2>
@@ -52,3 +41,4 @@ du ${rdv.getLocalDate()} à ${rdv.getLocalTime()} ? </h2>
 
 </form>
 
+<%@ include file="/WEB-INF/jsp/template/footer.jsp" %>

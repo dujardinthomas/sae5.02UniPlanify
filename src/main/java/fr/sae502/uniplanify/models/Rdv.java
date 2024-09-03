@@ -110,7 +110,7 @@ public class Rdv {
 
     public String getRdvPourLePro(){
         StringBuilder sb = new StringBuilder();
-        sb.append(getTimeToStringHorloge() + " - " + getParticipants().size() + " participants : ");
+        sb.append(getTimeToStringHorloge() + " (" + getParticipants().size() + ") \n ");
         for (UserAccount user : getParticipants()) {
             sb.append(user.getPrenom() + " " + user.getNom() + ", ");
         }

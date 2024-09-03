@@ -19,18 +19,10 @@
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../my">Mon espace</a></li>
-                <li><a href="/">Calendrier</a></li>
-                <li><a href="/week">Semaine</a></li>
-                <li><a href="../contact">Contact</a></li>
-                <li><a href="../logout">Deconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
+<%@ include file="/WEB-INF/jsp/template/menu.jsp" %>
+
+    <h2>Bienvenue chez UniPlanify, prenez rendez-vous en 2 clics !</h2>
+
 
     <% Weekly semaine = (Weekly) request.getAttribute("semaine"); 
     %>
@@ -60,7 +52,7 @@
     <% for (Daily jour : semaine.getJours()) { %>
         <div class="day">
             <h3><%= jour.getTitle() %></h3>
-            <p><%= jour.getFillPercentage() %>%</p>
+            <%-- <p><%= jour.getFillPercentage() %>%</p> --%>
             <ul class="rdv-list">
                 <% for (Rdv rdvNow : jour.getRdvs()) {
                     if(rdvNow.isOuvert() == true) { %>
@@ -73,9 +65,9 @@
                     } else if (pourcentage < 50) {
                         couleur = "background-color: #ADFF2F"; //vert clair
                     } else if (pourcentage < 70) {
-                        couleur = "background-color: #FFFF00"; //jaune
+                        couleur = "background-color: #ff9600"; //orange clair
                     } else if (pourcentage < 100) {
-                        couleur = "background-color: #ff9100"; //orange
+                        couleur = "background-color: #ff6700"; //orange foncé
                     } else if (pourcentage == 100) {
                         couleur = "background-color: #FF0000"; //rouge
                     } else{
@@ -83,9 +75,11 @@
                     }
                     %>
                     
+                   <button class="creneau">
                     <li style="<%= couleur %>">
                             <%= rdvNow.urlToStringTakeRdv("code:heureDuRdv") %>
                     </li>
+                    </button>
             <%  }
             } %> 
             </ul>
@@ -96,4 +90,6 @@
 </div>
 
 </body>
+
+<%@ include file="/WEB-INF/jsp/template/footer.jsp" %>
 </html>

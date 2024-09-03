@@ -53,7 +53,7 @@ public class Monthly {
         this.firstDayOfMonth = LocalDate.of(year, month, 1);
         this.daysInMonth = firstDayOfMonth.lengthOfMonth();
         this.startDayOfWeek = firstDayOfMonth.getDayOfWeek().getValue();
-        this.monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.getDefault());
+        this.monthName = Month.of(month).getDisplayName(TextStyle.FULL, Locale.FRENCH);
 
 
         this.typicalDayProRepository = typicalDayProRepository;

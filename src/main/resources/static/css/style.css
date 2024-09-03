@@ -1,13 +1,14 @@
 body {
-    margin: 10;
-    padding: 10;
-    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f5f5f5;
 }
 
-
 nav {
-    background-color: #333;
+    background-color: #007BFF;
     padding: 10px;
+    text-align: center;
 }
 
 nav ul {
@@ -18,7 +19,7 @@ nav ul {
 
 nav ul li {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 nav ul li img {
@@ -30,69 +31,122 @@ nav ul li img {
 nav ul li a {
     color: #fff;
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 nav ul li a:hover {
-    background-color: #555;
+    background-color: #0056b3;
 }
 
-.erreur{
+/* Messages d'erreur */
+.erreur {
     color: red;
     font-weight: bold;
     margin-top: 10px;
     text-align: center;
 }
 
+/* Tableau du calendrier */
 .calendar {
     width: 100%;
     border-collapse: collapse;
 }
 
 td {
-    border: 1px solid #ccc;
-    padding: 0px;
+    border: 1px solid #ddd;
+    padding: 10px;
     text-align: center;
+    transition: background-color 0.3s;
 }
 
-.cellule{
-    background-color: rgb(100, 255, 100);
-    padding: 10px;
+.cellule {
+    background-color: #28a745;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
 }
 
-.celluleClose{
-    background-color: #696969;
-    padding: 10px;
+.celluleClose {
+    background-color: #6c757d;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
 }
 
-/* Style spécifique pour les jours passés avec !important */
-.cellule.passed{
-    background-color: gray !important;
+/* Style pour les jours passés */
+.cellule.passed {
+    background-color: #ccc !important;
+    color: #666;
     pointer-events: none !important;
-  }
+}
 
 .dayNumber {
     padding: 10px;
     font-weight: bold;
 }
 
-.event {
-    /* Personnalisez le style de votre texte centré ici */
-    padding: 2px;
+/* Conteneur de la vue semaine */
+.week-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
 }
 
-
-.settingsCalendar{
-
-    background-color: #333;
-    width: 90%;
+.day {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    width: 200px;
     text-align: center;
-    padding: 10px;
-
+    font-size: 14px;
+    background-color: #fff;
+    transition: box-shadow 0.3s, transform 0.3s;
 }
 
+.day:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
 
+/* Liste des rendez-vous */
+.rdv-list {
+    padding: 0;
+    margin-top: 15px;
+    list-style: none;
+}
 
+.rdv-list li {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    font-size: 12px;
+    color: #333;
+}
+
+/* Effet sur les créneaux */
+.creneau:hover {
+    background-color: #0056b3;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Section de paramètres du calendrier */
+.settingsCalendar {
+    background-color: #007BFF;
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+/* Pied de page */
 footer {
     position: fixed;
     bottom: 0;
@@ -100,56 +154,61 @@ footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 10px 0;
+    padding: 15px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
-
-body {
-    font-family: Tahoma, Arial, sans-serif;
-    background-color: lavender;
+/* Formulaires */
+form {
+    border: 3px solid #f1f1f1;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px;
 }
 
+.container {
+    padding: 36px;
+}
+
+input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
+    border-color: #007BFF;
+}
+
+/* Table et en-têtes */
 th {
     color: white;
-    background-color: darkgray;
-    padding: 5px;
+    background-color: #343a40;
+    padding: 10px;
+    text-align: center;
 }
 
 table,
 tr {
-    border: solid black 2px;
+    border: solid #ddd 2px;
     border-collapse: collapse;
     text-align: center;
 }
 
-tr:nth-child(2n+1) {
-    background-color: lightgray;
+tr:nth-child(odd) {
+    background-color: #f8f9fa;
 }
 
 tr:hover {
-    background-color: lightgreen;
+    background-color: #d4edda;
 }
 
-
-
-
-form {
-  border: 3px solid #f1f1f1;
-}
-
-.container {
-  padding: 36px;
-}
-
-input[type=text], input[type=password], input[type=email] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
 
 /* CI DESSOUS VUE SEMAINE */
 .troiscolonnes {
@@ -205,3 +264,28 @@ input[type=text], input[type=password], input[type=email] {
     height: 20px; /* Réduire la hauteur des rendez-vous */
 }
 
+
+.creneau:hover{
+    background-color:#333;
+}
+
+.nav-menu ul {
+    list-style-type: none;
+  }
+  .submenu {
+    display: none;
+    padding-left: 20px;
+  }
+  .nav-menu li:hover > .submenu {
+    display: block;
+  }
+  
+
+
+h2{
+    text-align: center;
+}
+
+section:nth-child(even) {
+    background-color: rgba(230, 230, 230, 0.363);
+}

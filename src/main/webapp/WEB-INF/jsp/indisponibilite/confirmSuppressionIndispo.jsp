@@ -15,17 +15,7 @@
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../my">Mon espace</a></li>
-                <li><a href="/">Calendrier</a></li>
-                <li><a href="../contact">Contact</a></li>
-                <li><a href="../logout">Deconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
+<%@ include file="/WEB-INF/jsp/template/menu.jsp" %>
 
 <h2> Vous souhaitez vraiment supprimer cette indisponibilité 
 du ${indispo.getLocalDate()} de ${indispo.getStartLocalTime()} à ${indispo.getEndLocalTime()} ?</h2>
@@ -40,3 +30,4 @@ du ${indispo.getLocalDate()} de ${indispo.getStartLocalTime()} à ${indispo.getE
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
 </form>
+<%@ include file="/WEB-INF/jsp/template/footer.jsp" %>

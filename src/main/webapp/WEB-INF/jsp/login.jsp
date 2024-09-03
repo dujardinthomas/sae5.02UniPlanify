@@ -11,20 +11,9 @@
 </head>
 <body>
 
-  <header>
-        <nav>
-            <ul>
-                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="my">Mon espace</a></li>
-                <li><a href="/">Calendrier</a></li>
-                <li><a href="contact">Contact</a></li>
-                <li><a href="logout">Deconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
+<%@ include file="/WEB-INF/jsp/template/menu.jsp" %>
 
-
-
+<h2>J'ai déjà un compte UniPlanify : </h2>
  <h1><a href="login">Login</a></h1>
 
     <form class="form-signin" method="post" action="/login">
@@ -42,41 +31,17 @@
         <label for="password" class="sr-only">Password</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 
-        <p><input type='checkbox' name='remember'/> Remember me on this computer.</p>
-        <p><a href="reset-password-form">Forgot password?</a></p>
+        <p><input type='checkbox' name='remember'/>Ne plus avoir à me connecter</p>
 
         <button type="submit">Login</button>
+
+        <p><a href="reset-password-form">J'ai oublié mon mot de passe !</a></p>
       </div>
 
     </form>
 
+<h2>Nouveau sur UniPlanify ?</h2>
     <h1><a href="inscription">Inscription</a></h1>
 </body>
+<%@ include file="/WEB-INF/jsp/template/footer.jsp" %>
 </html>    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-</body>
-</html>

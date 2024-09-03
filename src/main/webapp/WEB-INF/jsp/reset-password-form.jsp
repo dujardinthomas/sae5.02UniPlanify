@@ -11,19 +11,7 @@
 </head>
 <body>
 
-  <header>
-        <nav>
-            <ul>
-                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="my">Mon espace</a></li>
-                <li><a href="/">Calendrier</a></li>
-                <li><a href="contact">Contact</a></li>
-                <li><a href="logout">Deconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
-
-
+<%@ include file="/WEB-INF/jsp/template/menu.jsp" %>
 
  <h1><a href="login">Login</a></h1>
 
@@ -49,31 +37,5 @@
 
     <h1><a href="inscription">Inscription</a></h1>
 </body>
+<%@ include file="/WEB-INF/jsp/template/footer.jsp" %>
 </html>    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-</body>
-</html>

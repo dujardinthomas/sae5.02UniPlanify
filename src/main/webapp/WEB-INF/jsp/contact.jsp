@@ -14,41 +14,32 @@
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="my">Mon espace</a></li>
-                <li><a href="/">Calendrier</a></li>
-                <li><a href="/week">Semaine</a></li>
-                <li><a href="../contact">Contact</a></li>
-                <li><a href="../logout">Deconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
-
+<%@ include file="/WEB-INF/jsp/template/menu.jsp" %>
     
-        <h1>Contactez ${contrainte.getNom()}</h1>
+<section>
+    <h1>Contactez ${contrainte.getNom()}</h1>
+    <p>${contrainte.getDescription()}</p>
+</section>
 
-        <p>${contrainte.getDescription()}</p>
-
+<section>
         <h2>A propos des rendez-vous</h2>
-        Nos rendez-vous ont une durée de ${contrainte.getDureeDefaultMinutes()} minutes. ${contrainte.getNbPersonneMaxDefault()} personne peut participer au même rendez-vous.
+        ⌛Nos rendez-vous ont une durée de ${contrainte.getDureeDefaultMinutes()} minutes. 👥${contrainte.getNbPersonneMaxDefault()} personnes peuvent participer au même rendez-vous.
+</section>
 
+<section>
         <div class="colonne">
             <div class="colonne-gauche">
                 <h2>Informations de contact</h2>
-                <p><strong>Adresse :</strong> ${contrainte.getAdresse()}</p>
-                <p><strong>Téléphone :</strong> ${contrainte.getTelephone()}</p>
-                <p><strong>Email :</strong> <a href="mailto:${contrainte.getEmail()}">${contrainte.getEmail()}</a></p>
-            </div>
-
-            <div class="colonne-droite">
-                <!-- <div id="map"></div> -->
-                <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCrmqimuE6f1RPknysSnXLIDezs4dCxI5Y&q=${contrainte.getAdresse()}"
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <p><strong> 📍 Adresse :</strong> ${contrainte.getAdresse()}</p>
+                <p><strong>📞Téléphone :</strong> ${contrainte.getTelephone()}</p>
+                <p><strong>📧Email :</strong> <a href="mailto:${contrainte.getEmail()}">${contrainte.getEmail()}</a></p>
             </div>
         </div>
+</section>
+
+    <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCrmqimuE6f1RPknysSnXLIDezs4dCxI5Y&q=${contrainte.getAdresse()}"
+        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        
 
     <script>
         function initMap() {
@@ -83,4 +74,5 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGa7Q5bHfSJTcG7kXng7qBxkcnc8JAC1k&callback=initMap">
 </script>
 </body>
+<%@ include file="/WEB-INF/jsp/template/footer.jsp" %>
 </html>
