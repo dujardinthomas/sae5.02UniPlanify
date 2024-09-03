@@ -28,7 +28,7 @@ public class WeekController {
     @Autowired
     private ConstraintProRepository constraintRepository;
 
-    @RequestMapping(value = "/week")
+    @RequestMapping(value = "/")
     @Transactional
     public String semaine(@RequestParam(defaultValue = "0") int dayDebut,
             @RequestParam(defaultValue = "0") int monthDebut,

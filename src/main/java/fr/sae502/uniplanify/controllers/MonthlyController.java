@@ -28,7 +28,7 @@ public class MonthlyController {
     @Autowired
     private ConstraintProRepository constraintProRepository;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/monthly")
     @Transactional
     public String calendrier(@RequestParam(defaultValue = "0") int year, 
                                     @RequestParam(defaultValue = "0") int month, Model model) {
