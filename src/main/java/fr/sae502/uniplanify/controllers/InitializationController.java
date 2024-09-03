@@ -52,12 +52,14 @@ public class InitializationController {
             @RequestParam(value = "adresse") String adresse,
             @RequestParam(value = "jour_travaille[]", required = false) String[] joursTravailles,
             @RequestParam(value = "dureeDefaut") int dureeDefaut,
-            @RequestParam(value = "nbPersonneMax") int nbPersonneMax) {
+            @RequestParam(value = "nbPersonneMax") int nbPersonneMax,
+            @RequestParam(value = "start-lunch") LocalTime startLunch,
+            @RequestParam(value = "end-lunch") LocalTime endLunch) {
 
         constraintRepository.deleteAll();
 
         constraintRepository
-                .save(new ConstraintPro(dureeDefaut, nbPersonneMax, nom, description, email, telephone, adresse));
+                .save(new ConstraintPro(dureeDefaut, nbPersonneMax, nom, description, email, telephone, adresse, startLunch, endLunch));
         System.out.println("contraintes enregistrées : " + dureeDefaut + " min par rdv avec " + nbPersonneMax
                 + " personnes maxi/rdv");
 

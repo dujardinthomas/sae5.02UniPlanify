@@ -142,6 +142,9 @@ public class Daily {
         ConstraintPro contrainte = constraintRepository.findAll().iterator().next();
         int dureeRDV = contrainte.getDureeDefaultMinutes();
 
+        LocalTime startLunch = contrainte.getStartLunch();
+        LocalTime endLunch = contrainte.getEndLunch();
+
         String dayStringNumberMonthYear = selectedDate.format(formatter);
         TypicalDayPro dayTime = null;
         try {
@@ -190,30 +193,42 @@ public class Daily {
                 }
             }
 
+            //verif tant que dans la pause du midi, on incremente
+            while(
+                iterableTime.equals(startLunch) 
+                || (iterableTime.isAfter(startLunch) && iterableTime.isBefore(endLunch))
+                || (iterableTime.plusMinutes(dureeRDV).isAfter(startLunch) && iterableTime.isBefore(endLunch))
+            ){
+                System.out.println("on est ds la pause du midi : " + iterableTime);
+                iterableTime = iterableTime.plusMinutes(dureeRDV);
+            }
+            
+
             if ((iterableTime.isAfter(endTimeDay)) || iterableTime.equals(endTimeDay)) {
                 System.out.println("fin de la journée");
                 break;
             }
 
-            CompositeKeyRDV cleRDV = new CompositeKeyRDV();
-            cleRDV.setTimeRdv(iterableTime);
-            cleRDV.setDayRdv(selectedDate);
-            //ON AJOUTE SOIT LE RDV SOIT UN RDV VIDE
-            Rdv rdvActuelle = rdvRepository.findById(cleRDV).orElse(new Rdv(cleRDV));
+                CompositeKeyRDV cleRDV = new CompositeKeyRDV();
+                cleRDV.setTimeRdv(iterableTime);
+                cleRDV.setDayRdv(selectedDate);
+                //ON AJOUTE SOIT LE RDV SOIT UN RDV VIDE
+                Rdv rdvActuelle = rdvRepository.findById(cleRDV).orElse(new Rdv(cleRDV));
 
-            //on le definit a ouvert pour qu'il soit affiché
-            rdvActuelle.setOuvert(true);
+                //on le definit a ouvert pour qu'il soit affiché
+                rdvActuelle.setOuvert(true);
 
-             //si le rdv est dans le passé on le propose pas
-            if(iterableTime.isBefore(LocalTime.now()) && selectedDate.isEqual(LocalDate.now())) {
-                System.out.println("le rdv est dans le passé on le ferme");
-                rdvActuelle.setOuvert(false);
-                //iterableTime = iterableTime.plusMinutes(dureeRDV);
-            }
+                //si le rdv est dans le passé on le propose pas
+                if(iterableTime.isBefore(LocalTime.now()) && selectedDate.isEqual(LocalDate.now())) {
+                    System.out.println("le rdv est dans le passé on le ferme");
+                    rdvActuelle.setOuvert(false);
+                    //iterableTime = iterableTime.plusMinutes(dureeRDV);
+                }
 
-            iterableTime = iterableTime.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
-            listRdvDay.add(rdvActuelle);
-            //System.out.println("ajout d'un rdv à la liste : " + rdvActuelle);
+                iterableTime = iterableTime.plusMinutes(dureeRDV); // Incrément de la duree de rdv fixé par le pro
+                listRdvDay.add(rdvActuelle);
+                //System.out.println("ajout d'un rdv à la liste : " + rdvActuelle);
+            // }
         }
         // System.out.println("il y a : " + listRdvDay.size() + " rdvs sur la journée du " + this.date);
         if(listRdvDay.size() == 0) {

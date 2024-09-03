@@ -1,5 +1,7 @@
 package fr.sae502.uniplanify.models;
 
+import java.time.LocalTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -25,11 +27,17 @@ public class ConstraintPro {
     @Column
     private String adresse;
 
+    @Column(name = "start_lunch")
+    private LocalTime startLunch;
+    
+    @Column(name = "end_lunch")
+    private LocalTime endLunch;
+
     public ConstraintPro() {
     }
 
     public ConstraintPro(int dureeDefaultMinutes, int nbPersonneMaxDefault, String nom, String description, String email,
-            String telephone, String adresse) {
+            String telephone, String adresse, LocalTime startLunch, LocalTime endLunch) {
         this.dureeDefaultMinutes = dureeDefaultMinutes;
         this.nbPersonneMaxDefault = nbPersonneMaxDefault;
         this.nom = nom;
@@ -37,6 +45,8 @@ public class ConstraintPro {
         this.email = email;
         this.telephone = telephone;
         this.adresse = adresse;
+        this.startLunch = startLunch;
+        this.endLunch = endLunch;
     }
 
     public int getDureeDefaultMinutes() {
@@ -44,6 +54,14 @@ public class ConstraintPro {
     }
     public int getNbPersonneMaxDefault() {
         return nbPersonneMaxDefault;
+    }
+
+    public LocalTime getStartLunch(){
+        return startLunch;
+    }
+
+    public LocalTime getEndLunch(){
+        return endLunch;
     }
     
     
