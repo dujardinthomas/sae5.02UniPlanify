@@ -13,18 +13,7 @@
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><div class="logo"><a href="/"><img src="../img/logo.png" alt="Logo UniPlanify"></a></div></li>
-                <li><a href="../my">Mon espace</a></li>
-                <li><a href="/">Calendrier</a></li>
-                <li><a href="/week">Semaine</a></li>
-                <li><a href="../contact">Contact</a></li>
-                <li><a href="../logout">Deconnexion</a></li>
-            </ul>
-        </nav>
-    </header>
+<%@ include file="/WEB-INF/jsp/template/menu.jsp" %>
     
     <form action="init" method="post">
 
@@ -170,9 +159,23 @@
             </tr>
         </table>
 
+
+        <h1>Sélection de la pause du midi</h1> 
+            <table>
+                <tr>
+                    <th>Début du repas</th>
+                    <th>Fin du repas</th>
+                </tr>
+                <tr>
+                    <td><input type="time" name="start-lunch" value="${contraintes.getStartLunch()}"></td>
+                    <td><input type="time" name="end-lunch" value="${contraintes.getEndLunch()}"></td>
+                </tr>
+            </table>
+
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <input type="submit" value="Enregistrer">
     </form>
 
 </body>
+<%@ include file="/WEB-INF/jsp/template/footer.jsp" %>
 </html>
