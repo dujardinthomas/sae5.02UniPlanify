@@ -11,6 +11,7 @@ import java.util.Locale;
 import fr.sae502.uniplanify.models.repository.ConstraintProRepository;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.UniqueConstraint;
@@ -28,7 +29,13 @@ public class Rdv {
     private double fillPercentage; // Pourcentage de remplissage du rdv
     private boolean ouvert; // Si le rdv est ouvert ou non a la reservation
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER) 
+    /*
+        Cette option indique à JPA/Hibernate de charger immédiatement les entités associées (dans ce cas, les UserAccount associés) dès que l'entité Rdv est récupérée de la base de données. Cela évite les problèmes de LazyInitializationException lorsque tu accèdes aux participants en dehors de la session Hibernate.
+        Impact
+         * Performance : L'utilisation de FetchType.EAGER signifie que toutes les entités associées seront chargées en mémoire immédiatement lors de la récupération de l'entité Rdv. Cela peut augmenter la latence pour chaque requête si la collection participant est grande. Il est donc important de s'assurer que cette approche est adaptée à ton cas d'utilisation.
+         * Gestion de la mémoire : Les entités chargées par EAGER peuvent également consommer plus de mémoire, surtout si les collections sont volumineuses.
+    */
     @JoinTable(name = "rdv_participant",
             // joinColumns = @JoinColumn(name = "rdv_day", referencedColumnName = "day"),
             uniqueConstraints = @UniqueConstraint(columnNames = { "participant_id", "rdv_day_rdv", "rdv_time_rdv" }))
